@@ -16,7 +16,7 @@ function App() {
     peer.on("open", peerId => socket.emit("join", peerId));
 
     navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
+      .getUserMedia({ video: true })
       .then((stream) => {
         myVideo.current!.srcObject = stream;
 
