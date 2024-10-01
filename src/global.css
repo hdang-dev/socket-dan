@@ -10,4 +10,7 @@ body {
 #root {
   width: 100%;
   height: 100%;
+  --primary: #8AFFF1;
+  --secondary: #20D91C;
+  --third: #D91C1C;
 }
