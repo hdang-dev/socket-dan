@@ -59,6 +59,7 @@ export default function HomePage() {
   );
 
   useEffect(() => {
+    console.log(userId);
     emitEvent("JOIN_APP");
     onEvent("USER_ID", (userId) => setUserId(userId));
     onEvent("RECEIVE_MESSAGE", (message) => receiveMessage(message));
