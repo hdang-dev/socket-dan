@@ -2,6 +2,8 @@ import { HomePage } from "./pages";
 
 export default function App() {
   return (
-    <HomePage />
+    <div className="w-full h-full overflow-hidden">
+      <HomePage />
+    </div>
   );
 }
