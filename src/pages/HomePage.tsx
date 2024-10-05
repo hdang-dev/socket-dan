@@ -1,15 +1,14 @@
 import earthLogo from "/earth.svg";
 import { ChatBubble } from "../components";
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { emitEvent, onEvent } from "../socket";
 
 export default function HomePage() {
-  const [messages, setMessages] = useState<string[]>(() => [
-    "Hi, welcome to Chat Dan",
-    "You can chat with everyone here anonymously",
-  ]);
+  const [messages, setMessages] = useState<string[]>(() => ["Hi, welcome to Chat Dan", "You can chat with everyone here anonymously"]);
   const [yourMessage, setYourMessage] = useState<string>("");
   const messageViewRef = useRef<HTMLDivElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const [userId, setUserId] = useState<string | null>(null);
 
   const updateYourMessage = (message: string) => {
     setYourMessage(message);
@@ -24,6 +23,7 @@ export default function HomePage() {
       resizeTextAreaHeight();
       scrollToBottom();
       textAreaRef.current!.focus();
+      emitEvent("SEND_MESSAGE", message);
     }
   };
 
@@ -39,8 +39,7 @@ export default function HomePage() {
   const resizeTextAreaHeight = () => {
     if (textAreaRef.current) {
       textAreaRef.current.style.height = "unset";
-      textAreaRef.current.style.height =
-        textAreaRef.current.scrollHeight + "px";
+      textAreaRef.current.style.height = textAreaRef.current.scrollHeight + "px";
     }
   };
 
@@ -51,46 +50,37 @@ export default function HomePage() {
     }
   };
 
+  const receiveMessage = useCallback(
+    (message: string) => {
+      setMessages([...messages, message]);
+      scrollToBottom();
+    },
+    [messages]
+  );
+
+  useEffect(() => {
+    emitEvent("JOIN_APP");
+    onEvent("USER_ID", (userId) => setUserId(userId));
+    onEvent("RECEIVE_MESSAGE", (message) => receiveMessage(message));
+  }, [receiveMessage]);
+
   return (
     <div className="w-full h-full grid place-items-center bg-[var(--primary)] relative">
       {/* Background */}
       <div className="relative w-[80%] max-w-[450px] opacity-80 md:opacity-100">
-        <img
-          className="animate-spin animate-infinite animate-duration-[100s]"
-          src={earthLogo}
-          alt="earth-logo"
-        />
-        <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-white w-max text-5xl md:text-6xl">
-          Chat Dan
-        </span>
+        <img className="animate-spin animate-infinite animate-duration-[100s]" src={earthLogo} alt="earth-logo" />
+        <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-white w-max text-5xl md:text-6xl">Chat Dan</span>
       </div>
 
       {/* Content */}
       <div className="absolute inset-[10px] md:inset-x-[30px] md:bottom-[30px] flex flex-col justify-end items-center gap-[25px] md:gap-[40px]">
         {/* Messages */}
-        <div
-          ref={messageViewRef}
-          className="w-full overflow-y-auto flex flex-col gap-[20px] scrollbar-none">
+        <div ref={messageViewRef} className="w-full overflow-y-auto flex flex-col gap-[20px] scrollbar-none">
           {messages.map((message, index) => {
             if (index % 2 === 0) {
-              return (
-                <ChatBubble
-                  key={index}
-                  text={message}
-                  styleWrapper="place-items-start"
-                  styleBubble="md:max-w-[30%]"
-                />
-              );
+              return <ChatBubble key={index} text={message} styleWrapper="place-items-start" styleBubble="md:max-w-[30%]" />;
             }
-            return (
-              <ChatBubble
-                key={index}
-                text={message}
-                end
-                styleWrapper="place-items-end"
-                styleBubble="md:max-w-[30%]"
-              />
-            );
+            return <ChatBubble key={index} text={message} end styleWrapper="place-items-end" styleBubble="md:max-w-[30%]" />;
           })}
         </div>
 
