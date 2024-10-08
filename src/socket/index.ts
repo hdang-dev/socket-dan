@@ -8,11 +8,13 @@ const socket = io(import.meta.env.VITE_SERVER_URL);
 
 // Declaration
 export function emitEvent(event: "JOIN_APP"): void;
-export function emitEvent(event: "SEND_MESSAGE", message: string): void;
+export function emitEvent(event: "CREATE_ROOM"): void;
+export function emitEvent(event: "SEND_MESSAGE", message: string, roomId?: string): void;
+export function emitEvent(event: "JOIN_ROOM", roomId: string): void;
 
 // Implementation
-export function emitEvent<T>(event: string, param?: T): void {
-  socket.emit(event, param);
+export function emitEvent(event: string, ...params: unknown[]): void {
+  socket.emit(event, params);
 }
 
 // =======================================================================================================
@@ -20,10 +22,13 @@ export function emitEvent<T>(event: string, param?: T): void {
 // =======================================================================================================
 
 // Declaration
-export function onEvent(event: "USER_ID", callback: (userId: string) => void): void;
-export function onEvent(event: "RECEIVE_MESSAGE", callback: (message: string) => void): void;
+export function onEvent(event: "JOIN_APP", listener: (userId: string) => void): void;
+export function onEvent(event: "CREATE_ROOM", listener: (roomId: string) => void): void;
+export function onEvent(event: "USER_ID", listener: (userId: string) => void): void;
+export function onEvent(event: "RECEIVE_MESSAGE", listener: (message: string, userId: string) => void): void;
+export function onEvent(event: "JOIN_ROOM", listener: (userId: string) => void): void;
 
 // Implementation
-export function onEvent<T>(event: string, callback: (value: T) => void): void {
-  socket.on(event, callback);
+export function onEvent(event: string, listener: (...params: string[]) => void): void {
+  socket.on(event, listener);
 }
