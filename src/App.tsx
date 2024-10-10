@@ -4,7 +4,7 @@ import { RoomPage } from "./pages";
 
 const router = createBrowserRouter([
   { path: '/:roomId', element: <RoomPage /> },
-  { path: '/*', element: <RoomPage /> },
+  { path: '/', element: <RoomPage /> },
 ]);
 
 export default function App() {

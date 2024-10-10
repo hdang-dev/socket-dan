@@ -4,7 +4,7 @@ import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { emitEvent, onEvent } from "../socket";
 import { AppContext } from "../context";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { getTime } from "../utils";
+import { checkRoomId, getTime } from "../utils";
 
 interface Message {
     text: string;
@@ -17,6 +17,19 @@ type Action = typeof ACTIONS[number];
 
 export default function RoomPage() {
     const { roomId } = useParams();
+    const navigate = useNavigate();
+    const [valid, setValid] = useState(false);
+
+    if (roomId) {
+        const validation = checkRoomId(roomId, 4);
+        if (validation === 'ok_but_start_with_0') navigate(`/${Number(roomId)}`);
+        if (validation === 'invalid' || validation === 'length_exceed') navigate('/');
+        if (validation === 'valid') setValid(true);
+    } else {
+        navigate('/');
+    }
+
+
     const { yourId, dialogVisible, updateRoomId, updateDialogVisible } = useContext(AppContext);
     const [messages, setMessages] = useState<Message[]>([]);
     const [yourText, setYourText] = useState<string>("");
@@ -26,8 +39,6 @@ export default function RoomPage() {
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
     const [joinedRoomId, setJoinedRoomId] = useState<string>('');
-    const navigate = useNavigate();
-    const location = useLocation();
     // const [roomCount, setRoomCount] = useState(1);
 
     const resizeTextBox = () => {
@@ -54,7 +65,7 @@ export default function RoomPage() {
             textAreaRef.current!.value = "";
             textAreaRef.current!.focus();
             resizeTextBox();
-            emitEvent("SEND_MESSAGE", text, roomId);
+            // emitEvent("SEND_MESSAGE", roomId!);
         }
     };
 
@@ -74,7 +85,7 @@ export default function RoomPage() {
         if (joinedRoomId) {
             emitEvent("JOIN_ROOM", joinedRoomId);
             updateRoomId(joinedRoomId);
-            navigate(`/${joinedRoomId}`);
+            // navigate(`/${joinedRoomId}`);
             updateDialogVisible(false);
         }
     };
@@ -95,10 +106,10 @@ export default function RoomPage() {
     //     onEvent("RECEIVE_MESSAGE", (message) => receiveMessage(message));
     // }, [receiveMessage]);
 
-    // useEffect(() => {
-    //     const roomId = location.pathname === '/' ? undefined : location.pathname.replace('/', '');
-    //     room.setId(roomId);
-    // }, [location]);
+    useEffect(() => {
+        // const roomId = location.pathname === '/' ? undefined : location.pathname.replace('/', '');
+        // room.setId(roomId);
+    }, [location]);
 
     // useEffect(() => {
     //     if (room.id) {
@@ -118,7 +129,7 @@ export default function RoomPage() {
             {/* Background */}
             <div className="relative w-[80%] max-w-[450px] opacity-80 md:opacity-100">
                 <img className="animate-spin animate-infinite animate-duration-[100s]" src={earthLogo} alt="Earth Logo" />
-                <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-white w-max text-5xl md:text-6xl">{roomId ? `Room ${roomId.slice(0, 7)}` : 'Chat Dan'}</span>
+                <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-white w-max text-5xl md:text-6xl">{roomId ? `Room ${roomId}` : 'Chat Dan'}</span>
             </div>
 
             {/* Content */}
