@@ -4,7 +4,7 @@ import Peer, { MediaConnection } from "peerjs";
 
 const socket = io(import.meta.env.VITE_SERVER_URL);
 
-export default function CallPage() {
+export function CallPage() {
   const myVideo = useRef<HTMLVideoElement>(null);
   const friendVideo = useRef<HTMLVideoElement>(null);
   const peer = new Peer();

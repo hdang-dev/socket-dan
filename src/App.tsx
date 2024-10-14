@@ -1,10 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AppProvider from "./context";
-import { RoomPage } from "./pages";
+import { RoomPage } from "./ui/pages";
 
 const router = createBrowserRouter([
-  { path: '/:roomId', element: <RoomPage /> },
-  { path: '/', element: <RoomPage /> },
+  { path: "/:roomId", element: <RoomPage /> },
+  { path: "/", element: <RoomPage /> },
 ]);
 
 export default function App() {
@@ -12,7 +12,7 @@ export default function App() {
     <AppProvider>
       <div className="w-full h-full overflow-hidden">
         <RouterProvider router={router} />
-      </div >
+      </div>
     </AppProvider>
   );
 }
