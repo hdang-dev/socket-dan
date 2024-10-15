@@ -29,6 +29,7 @@ export default function AppProvider({ children }: { children: JSX.Element; }) {
   const updateDialogVisible = (visible: boolean) => setDialogVisible(visible);
 
   useEffect(() => {
+    setYourId('dan');
     onEvent("GET_YOUR_ID", (yourId) => setYourId(yourId));
     emitEvent("JOIN_ROOM", GLOBAL_ROOM);
   }, []);

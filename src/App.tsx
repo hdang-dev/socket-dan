@@ -1,18 +1,19 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AppProvider from "./context";
-import { RoomPage } from "./ui/pages";
+import { GlobalPage, RoomPage } from "./ui/pages";
+import { AppLayout } from "./ui/layouts";
 
 const router = createBrowserRouter([
-  { path: "/:roomId", element: <RoomPage /> },
-  { path: "/", element: <RoomPage /> },
+  { path: "/", element: <GlobalPage /> },
+  { path: "/chat/:roomId", element: <RoomPage /> },
 ]);
 
 export default function App() {
   return (
     <AppProvider>
-      <div className="w-full h-full overflow-hidden">
+      <AppLayout>
         <RouterProvider router={router} />
-      </div>
+      </AppLayout>
     </AppProvider>
   );
 }

@@ -1,10 +1,10 @@
 import { PlanetBackground } from "../backgrounds";
 import { ChatLayout } from "../layouts";
 
-export function RoomPage() {
+export function GlobalPage() {
   return (
-    <PlanetBackground title="Chat Dan">
-      <ChatLayout />
+    <PlanetBackground title="Socket Dan">
+      <ChatLayout initMessages={["Welcome to Socket Dan"]} />
     </PlanetBackground>
   );
 }
