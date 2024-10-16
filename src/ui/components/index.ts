@@ -1,2 +1,2 @@
 export * from "./ChatBubble";
-export * from "./Dialog";
+export * from "./Menu";

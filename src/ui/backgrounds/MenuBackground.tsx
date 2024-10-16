@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { AppContext } from "../../context";
 import earthLogo from "/earth.svg";
 
 interface MenuBackgroundProps {
@@ -5,10 +7,16 @@ interface MenuBackgroundProps {
 }
 
 export function MenuBackground({ children }: MenuBackgroundProps) {
+  const { dialogVisible } = useContext(AppContext);
+
   return (
     <div className="w-full h-full bg-[var(--primary)] relative">
-      <div className="absolute left-[10%] bottom-[-5%] md:left-auto md:right-[-10%] md:bottom-auto md:top-[10%]">
-        <img className="w-screen min-w-[500px] max-w-[1200px] animate-spin animate-infinite animate-duration-[200s] md:animate-duration-[500s] opacity-60" src={earthLogo} alt="Planet" />
+
+      {/* Planet */}
+      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-[2s] ${dialogVisible ? 'top-[45%] left-[50%] translate-x-0 translate-y-0 rotate-180' : ''}`}>
+        <div className="animate-spin animate-infinite animate-duration-[100s]">
+          <img className={`transition-all duration-[2s] w-screen max-w-[600px] ${dialogVisible ? 'scale-[150%] md:scale-[200%]' : ''}`} src={earthLogo} alt="Planet" />
+        </div>
       </div>
 
       {/* Content */}
@@ -18,3 +26,5 @@ export function MenuBackground({ children }: MenuBackgroundProps) {
     </div>
   );
 }
+
+// animate-spin animate-infinite animate-duration-[100s]
