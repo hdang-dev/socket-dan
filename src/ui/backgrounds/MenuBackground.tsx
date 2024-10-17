@@ -3,21 +3,31 @@ import { AppContext } from "../../context";
 import earthLogo from "/earth.svg";
 
 interface MenuBackgroundProps {
+  transitionDuration?: number;
   children: JSX.Element;
 }
 
-export function MenuBackground({ children }: MenuBackgroundProps) {
+export function MenuBackground({ transitionDuration, children }: MenuBackgroundProps) {
   const { dialogVisible } = useContext(AppContext);
 
   return (
     <div className="w-full h-full bg-[var(--primary)] relative">
 
       {/* Planet */}
-      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-[2s] ${dialogVisible ? 'top-[45%] left-[50%] translate-x-0 translate-y-0 rotate-180' : ''}`}>
-        <div className="animate-spin animate-infinite animate-duration-[100s]">
-          <img className={`transition-all duration-[2s] w-screen max-w-[600px] ${dialogVisible ? 'scale-[150%] md:scale-[200%]' : ''}`} src={earthLogo} alt="Planet" />
+      {transitionDuration ? (
+        <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-[${transitionDuration}s] ${dialogVisible ? 'top-[45%] left-[50%] translate-x-0 translate-y-0 rotate-180' : ''}`}>
+          <div className="animate-spin animate-infinite animate-duration-[100s]">
+            <img className={`transition-all duration-[${transitionDuration}s] w-screen max-w-[600px] ${dialogVisible ? 'scale-[150%] md:scale-[200%]' : ''}`} src={earthLogo} alt="Planet" />
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="absolute top-[45%] left-[50%] translate-x-0 translate-y-0">
+          <div className="animate-spin animate-infinite animate-duration-[100s]">
+            <img className="w-screen max-w-[600px] scale-[150%] md:scale-[200%]" src={earthLogo} alt="Planet" />
+          </div>
+        </div>
+
+      )}
 
       {/* Content */}
       <div className="relative w-full h-full">
