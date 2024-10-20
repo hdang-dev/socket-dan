@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AppProvider from "./context";
-import { GlobalPage, RoomPage } from "./ui/pages";
-import { AppLayout } from "./ui/layouts";
+import { GlobalPage, RoomPage } from "./pages";
+import { AppLayout } from "./components";
 
 const router = createBrowserRouter([
   { path: "/", element: <GlobalPage /> },

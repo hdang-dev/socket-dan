@@ -1,5 +1,4 @@
-import { PlanetBackground } from "../backgrounds";
-import { ChatLayout } from "../layouts";
+import { PlanetBackground, ChatLayout } from "../components";
 
 export function GlobalPage() {
   return (
