@@ -1,13 +1,12 @@
 import { ConfirmedInput, Section, SubTitle } from "./SubComponent";
 
 interface DisplayMenuProps {
-  id: string;
   onChangeName: (name: string) => void;
 }
 
-export function DisplayMenu({ id, onChangeName }: DisplayMenuProps) {
+export function DisplayMenu({ onChangeName }: DisplayMenuProps) {
   return (
-    <Section id={id} title="Display">
+    <Section title="Display">
       <>
         <SubTitle text="User Name" />
         <ConfirmedInput placeholder="# Enter your name" value="User #123abc" buttonLabel="Save" checkDifferent onConfirm={(name) => onChangeName(name)} />

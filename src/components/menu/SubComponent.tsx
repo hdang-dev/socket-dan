@@ -1,23 +1,24 @@
 import { useState } from "react";
 
-export const Section = ({ id, title, children, style }: { id: string; title: string; children: JSX.Element; style?: string }) => {
+export const Section = ({ title, children, style }: { title: string; children: JSX.Element; style?: string; }) => {
   return (
-    <section id={id} className={`w-full h-full min-h-full flex flex-col pt-[70px] pb-[40px] px-[20px] md:px-[60px] ${style ?? ""}`}>
+    <section className={`w-full h-full min-h-full flex flex-col py-[60px] px-[20px] md:px-[60px] ${style ?? ""}`}>
       <h1 className="text-lg text-center font-bold md:text-left md:text-2xl">{title}</h1>
       {children}
     </section>
   );
 };
 
-export const SubTitle = ({ text, style }: { text: string; style?: string }) => {
+export const SubTitle = ({ text, style }: { text: string; style?: string; }) => {
   return <h2 className={`[&:not(:first-child)]:mt-[50px] text-center mb-[20px] md:text-left md:text-xl ${style ?? ""}`}>{text}</h2>;
 };
 
-export const RoomCard = ({ name, imageUrl }: { name: string; imageUrl: string }) => {
+export const RoomCard = ({ name, imageUrl }: { name: string; imageUrl: string; }) => {
   return (
-    <div className="cursor-pointer overflow-hidden rounded-[24px] border-[3px] border-white shadow-lg">
+    <div className="cursor-pointer w-[200px] md:w-[250px] aspect-[5/3] overflow-hidden rounded-[24px] border-[3px] border-white shadow-lg">
       <div
-        className={`w-[200px] md:w-[250px] aspect-[5/3] bg-[url('${imageUrl}')] transition-all duration-300 hover:scale-110 active:scale-110 active:text-[var(--secondary)] grid place-items-center`}>
+        style={{ backgroundImage: `url(${imageUrl})` }}
+        className={`w-full h-full transition-all duration-300 hover:scale-110 active:scale-110 active:text-[var(--secondary)] grid place-items-center`}>
         <span className="text-inherit">{name}</span>
       </div>
     </div>
@@ -51,9 +52,8 @@ export const ConfirmedInput = ({
         onChange={(e) => setInput(e.target.value)}
       />
       <button
-        className={`font-bold w-[150px] shadow-lg py-[5px] rounded-[24px] border-[3px] border-white transition-all duration-500 ${
-          input.trim() === "" || (currentValue === input && checkDifferent) ? "opacity-0 translate-y-full md:translate-y-0 md:-translate-x-full pointer-events-none" : ""
-        }`}
+        className={`font-bold w-[150px] shadow-lg py-[5px] rounded-[24px] border-[3px] border-white transition-all duration-500 ${input.trim() === "" || (currentValue === input && checkDifferent) ? "opacity-0 translate-y-full md:translate-y-0 md:-translate-x-full pointer-events-none" : ""
+          }`}
         onClick={() => {
           setCurrentValue(input);
           onConfirm(input);
@@ -62,4 +62,8 @@ export const ConfirmedInput = ({
       </button>
     </div>
   );
+};
+
+export const ControlButton = ({ label }: { label: string; }) => {
+  return <button className="active:text-[var(--secondary)] [&:not(:first-child)]:border-l min-w-[150px]">{label}</button>;
 };

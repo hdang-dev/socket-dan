@@ -1,13 +1,12 @@
 import { Section, SubTitle } from "./SubComponent";
 
 interface InfoMenuProps {
-  id: string;
   roomLink: string;
 }
 
-export function InfoMenu({ id, roomLink }: InfoMenuProps) {
+export function InfoMenu({ roomLink }: InfoMenuProps) {
   return (
-    <Section id={id} title="Information">
+    <Section title="Information">
       <>
         <SubTitle text="Room Link" />
         <div className="flex gap-[20px] items-center">

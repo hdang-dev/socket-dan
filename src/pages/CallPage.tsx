@@ -2,52 +2,52 @@ import { useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import Peer, { MediaConnection } from "peerjs";
 
-const socket = io(import.meta.env.VITE_SERVER_URL);
+// const socket = io(import.meta.env.VITE_SERVER_URL);
 
 export function CallPage() {
   const myVideo = useRef<HTMLVideoElement>(null);
   const friendVideo = useRef<HTMLVideoElement>(null);
   const peer = new Peer();
-  const peers: { [friendId: string]: MediaConnection } = {};
+  const peers: { [friendId: string]: MediaConnection; } = {};
 
-  useEffect(() => {
-    peer.on("open", (peerId) => socket.emit("join", peerId));
+  // useEffect(() => {
+  //   peer.on("open", (peerId) => socket.emit("join", peerId));
 
-    navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
-      myVideo.current!.srcObject = stream;
+  //   navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+  //     myVideo.current!.srcObject = stream;
 
-      peer.on("call", (call) => {
-        console.log("Someone is calling u");
+  //     peer.on("call", (call) => {
+  //       console.log("Someone is calling u");
 
-        call.answer(stream);
-        call.on("stream", (remoteStream) => {
-          console.log("Calllllllllll");
-          friendVideo.current!.srcObject = remoteStream;
-        });
+  //       call.answer(stream);
+  //       call.on("stream", (remoteStream) => {
+  //         console.log("Calllllllllll");
+  //         friendVideo.current!.srcObject = remoteStream;
+  //       });
 
-        call.on("close", () => {
-          console.log("call close 222");
-        });
-      });
+  //       call.on("close", () => {
+  //         console.log("call close 222");
+  //       });
+  //     });
 
-      socket.on("new-user", (friendId) => {
-        console.log("Calling new friend: ", friendId);
-        const call = peer.call(friendId, stream);
+  //     socket.on("new-user", (friendId) => {
+  //       console.log("Calling new friend: ", friendId);
+  //       const call = peer.call(friendId, stream);
 
-        console.log("Calling new friend 2");
+  //       console.log("Calling new friend 2");
 
-        call.on("stream", (remoteStream) => {
-          console.log("Calling new friend 3");
-          friendVideo.current!.srcObject = remoteStream;
-        });
+  //       call.on("stream", (remoteStream) => {
+  //         console.log("Calling new friend 3");
+  //         friendVideo.current!.srcObject = remoteStream;
+  //       });
 
-        call.on("close", () => {
-          console.log("call close");
-        });
-        peers[friendId] = call;
-      });
-    });
-  }, []);
+  //       call.on("close", () => {
+  //         console.log("call close");
+  //       });
+  //       peers[friendId] = call;
+  //     });
+  //   });
+  // }, []);
 
   return (
     <div className="flex flex-col">

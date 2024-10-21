@@ -7,9 +7,6 @@ interface PlanetBackgroundProps {
 }
 
 export function PlanetBackground({ title, type = "center", children }: PlanetBackgroundProps) {
-  const spinDurationBySec = type === "center" ? 100 : 200;
-  console.log(spinDurationBySec);
-
   return (
     <div className="w-full h-full bg-[var(--primary)] relative">
       {/* Planet */}

@@ -1,19 +1,19 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { BrowserRouter, createBrowserRouter, Route, Router, RouterProvider, Routes } from "react-router-dom";
 import AppProvider from "./context";
-import { GlobalPage, RoomPage } from "./pages";
 import { AppLayout } from "./components";
-
-const router = createBrowserRouter([
-  { path: "/", element: <GlobalPage /> },
-  { path: "/chat/:roomId", element: <RoomPage /> },
-]);
+import { GlobalPage, ChatPage } from "./pages";
 
 export default function App() {
   return (
     <AppProvider>
-      <AppLayout>
-        <RouterProvider router={router} />
-      </AppLayout>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<AppLayout />}>
+            <Route index element={<GlobalPage />} />
+            <Route path="chat/:roomId" element={<ChatPage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </AppProvider>
   );
 }

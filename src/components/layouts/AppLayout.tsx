@@ -1,17 +1,14 @@
 import { useContext } from "react";
 import { AppContext } from "../../context";
 import { MainMenu } from "../../components";
+import { Outlet } from "react-router-dom";
 
-interface AppLayoutProps {
-  children: JSX.Element;
-}
-
-export function AppLayout({ children }: AppLayoutProps) {
+export function AppLayout() {
   const { dialogVisible, updateDialogVisible } = useContext(AppContext);
 
   return (
     <div className="w-full h-full overflow-hidden relative bg-[var(--primary)]">
-      <div className={`w-full h-full transition-all duration-[1s]  ${dialogVisible ? "opacity-0 -translate-x-full" : ""}`}>{children}</div>
+      <div className={`w-full h-full transition-all duration-[1s]  ${dialogVisible ? "opacity-0 -translate-x-full" : ""}`}><Outlet /></div>
 
       <div className={`fixed inset-0 transition-all duration-[1s] ${dialogVisible ? "" : "opacity-0 translate-x-full"}`}>
         <MainMenu />

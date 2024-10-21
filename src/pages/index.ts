@@ -1,3 +1,3 @@
 export * from "./GlobalPage";
-export * from "./RoomPage";
+export * from "./ChatPage";
 export * from "./CallPage";

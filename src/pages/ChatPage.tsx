@@ -1,6 +1,6 @@
 import { PlanetBackground, ChatLayout } from "../components";
 
-export function RoomPage() {
+export function ChatPage() {
   return (
     <PlanetBackground title="Chat Dan">
       <ChatLayout />

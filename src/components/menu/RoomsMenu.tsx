@@ -1,15 +1,14 @@
 import { ROOM_LIST } from "./data";
 import { ConfirmedInput, RoomCard, Section, SubTitle } from "./SubComponent";
 
-interface RoomMenuProps {
-  id: string;
+interface RoomsMenuProps {
   onJoinRoom: (link: string) => void;
   onCreateRoom: (name: string) => void;
 }
 
-export function RoomMenu({ id, onJoinRoom, onCreateRoom }: RoomMenuProps) {
+export function RoomsMenu({ onJoinRoom, onCreateRoom }: RoomsMenuProps) {
   return (
-    <Section id={id} title="Rooms">
+    <Section title="Rooms">
       <>
         {/* Join room */}
         <SubTitle text="Join a room" />
@@ -18,10 +17,10 @@ export function RoomMenu({ id, onJoinRoom, onCreateRoom }: RoomMenuProps) {
         {/* Create room */}
         <SubTitle text="Create new room" />
         <div className="flex-1 w-screen overflow-x-auto snap-x snap-mandatory scrollbar-none ml-[-20px] md:ml-[-60px] px-[20px] md:px-[60px]">
-          <div className="h-full min-w-max flex flex-col flex-wrap gap-[20px] ">
+          <div className="h-full w-full md:w-fit min-w-max flex flex-col flex-wrap gap-[20px] items-center">
             {ROOM_LIST.map((room, index) => (
-              <div className="snap-center" onClick={() => onCreateRoom(room.name)}>
-                <RoomCard key={index} name={room.name} imageUrl={room.imageUrl} />
+              <div key={index} className="snap-center" onClick={() => onCreateRoom(room.name)}>
+                <RoomCard name={room.name} imageUrl={room.imageUrl} />
               </div>
             ))}
           </div>
