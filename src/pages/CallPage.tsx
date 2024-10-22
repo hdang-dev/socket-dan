@@ -1,14 +1,14 @@
-import { useEffect, useRef } from "react";
-import { io } from "socket.io-client";
-import Peer, { MediaConnection } from "peerjs";
+import { useRef } from "react";
+// import { io } from "socket.io-client";
+// import Peer, { MediaConnection } from "peerjs";
 
 // const socket = io(import.meta.env.VITE_SERVER_URL);
 
 export function CallPage() {
   const myVideo = useRef<HTMLVideoElement>(null);
   const friendVideo = useRef<HTMLVideoElement>(null);
-  const peer = new Peer();
-  const peers: { [friendId: string]: MediaConnection; } = {};
+  // const peer = new Peer();
+  // const peers: { [friendId: string]: MediaConnection; } = {};
 
   // useEffect(() => {
   //   peer.on("open", (peerId) => socket.emit("join", peerId));
