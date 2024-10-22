@@ -1,4 +1,4 @@
-import { BrowserRouter, createBrowserRouter, Route, Router, RouterProvider, Routes } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AppProvider from "./context";
 import { AppLayout } from "./components";
 import { GlobalPage, ChatPage } from "./pages";

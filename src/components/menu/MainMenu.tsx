@@ -6,6 +6,7 @@ import { DisplayMenu } from "./DisplayMenu";
 import { InfoMenu } from "./InfoMenu";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AppContext } from "../../context";
+import { Button } from "./SubComponent";
 
 
 export function MainMenu() {
@@ -15,6 +16,7 @@ export function MainMenu() {
   const [menuList, setMenuList] = useState<string[]>(() => ['Rooms', 'Display', 'Information']);
   const [menu, setMenu] = useState(menuList[0]);
   const sectionViewRef = useRef<HTMLDivElement>(null);
+  const [roomLink, setRoomLink] = useState<string>(window.location.href);
 
   const changeMenu = (toPrev?: boolean) => {
     const index = menuList.indexOf(menu);
@@ -61,6 +63,7 @@ export function MainMenu() {
     } else {
       setMenuList(['Rooms', 'Display', 'Information']);
     }
+    setRoomLink(window.location.href);
   }, [location]);
 
   useEffect(() => {
@@ -70,29 +73,23 @@ export function MainMenu() {
   return (
     <PlanetBackground type="corner">
       <div ref={sectionViewRef} className={`w-full h-full overflow-y-hidden flex flex-col transition-all duration-500 scroll-smooth`}>
-        {menuList.map((menu, index) => {
-          if (menu === 'Rooms') {
-            return <RoomsMenu key={index} onJoinRoom={(link) => joinRoom(link)} onCreateRoom={(name) => createRoom(name)} />;
-          }
-          if (menu === 'Display') {
-            return <DisplayMenu key={index} onChangeName={(name) => changeName(name)} />;
-          }
-          if (menu === 'Information') {
-            return <InfoMenu key={index} roomLink="http://socket-dan.com" />;
-          }
-        })}
+        <RoomsMenu order={menuList.indexOf('Rooms') + 1} onJoinRoom={(link) => joinRoom(link)} onCreateRoom={(name) => createRoom(name)} />
+        <DisplayMenu order={menuList.indexOf('Display') + 1} onChangeName={(name) => changeName(name)} />
+        <InfoMenu order={menuList.indexOf('Information') + 1} roomLink={roomLink} />
 
         {/* Control buttons */}
-        <div className="fixed left-[20px] bottom-[20px] md:inset-auto md:right-[20px] md:top-[20px]">
-          <button className={`flex gap-[10px] items-center ${menuList.indexOf(menu) === 0 ? 'opacity-0 pointer-events-none' : ''}`} onClick={() => changeMenu(true)}>
-            <ArrowUp /> {menuList[menuList.indexOf(menu) - 1]}
-          </button>
+        <div className={`fixed left-[20px] bottom-[20px] md:left-auto md:right-[20px] md:top-[20px] transition-all duration-300 ${menuList.indexOf(menu) === 0 ? 'opacity-0 translate-y-full md:translate-y-0 md:translate-x-full' : ''}`}>
+          <Button noOutline style="flex gap-[10px] justify-start md:justify-end items-center" onClick={() => changeMenu(true)}>
+            <ArrowUp />
+            <span>{menuList[menuList.indexOf(menu) - 1] || menuList[0]}</span>
+          </Button>
         </div>
 
-        <div className="fixed right-[20px] bottom-[20px]">
-          <button className={`flex gap-[10px] items-center ${menuList.indexOf(menu) === menuList.length - 1 ? 'opacity-0 pointer-events-none' : ''}`} onClick={() => changeMenu()}>
-            <ArrowDown /> {menuList[menuList.indexOf(menu) + 1]}
-          </button>
+        <div className={`fixed right-[20px] bottom-[20px] transition-all duration-300 ${menuList.indexOf(menu) === menuList.length - 1 ? 'opacity-0 translate-y-full md:translate-y-0 md:translate-x-full' : ''}`}>
+          <Button noOutline style="flex gap-[10px] justify-end items-center md:justify-start md:flex-row-reverse" onClick={() => changeMenu()}>
+            <span>{menuList[menuList.indexOf(menu) + 1] || menuList[menuList.length - 1]}</span>
+            <ArrowDown />
+          </Button>
         </div>
       </div>
     </PlanetBackground>

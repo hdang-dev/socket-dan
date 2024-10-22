@@ -1,28 +1,32 @@
-import { Section, SubTitle } from "./SubComponent";
+import { Button, Section, SubTitle, SwipeView } from "./SubComponent";
 
 interface InfoMenuProps {
   roomLink: string;
+  order: number;
 }
 
-export function InfoMenu({ roomLink }: InfoMenuProps) {
+export function InfoMenu({ order, roomLink }: InfoMenuProps) {
   return (
-    <Section title="Information">
-      <>
-        <SubTitle text="Room Link" />
-        <div className="flex gap-[20px] items-center">
-          <span>{roomLink}</span>
-          <button className="w-[150px] p-[5px] border-[3px] border-white rounded-[24px]">Copy</button>
-        </div>
+    <Section order={order}>
+      <SubTitle text="Room Link" />
+      <div className="flex gap-[10px] md:gap-[20px] flex-col md:flex-row items-center">
+        <span className="text-center md:text-start py-[5px] min-w-[300px] italic">{roomLink}</span>
+        <Button>Copy</Button>
+      </div>
 
-        <SubTitle text="Members" />
-        <div className="flex gap-[20px] flex-wrap">
-          <button className="w-[200px] p-[5px] border-[3px] border-white rounded-[24px] bg-amber-300">Adam Aquasthi Lee</button>
-          <button className="w-[200px] p-[5px] border-[3px] border-white rounded-[24px] bg-red-300">Adam Aquasthi Lee</button>
-          <button className="w-[200px] p-[5px] border-[3px] border-white rounded-[24px] bg-violet-300">Adam Aquasthi Lee</button>
-          <button className="w-[200px] p-[5px] border-[3px] border-white rounded-[24px] bg-blue-300">Adam Aquasthi Lee</button>
-          <button className="w-[200px] p-[5px] border-[3px] border-white rounded-[24px] bg-green-300">Adam Aquasthi Lee</button>
-        </div>
-      </>
-    </Section>
+      <SubTitle text="Members" />
+      <SwipeView style="max-h-[350px]">
+        <Button style="bg-amber-300" isText>Adam Aquasthi Lee</Button>
+        <Button style="bg-red-300" isText>Adam Aquasthi Lee</Button>
+        <Button style="bg-violet-300" isText>Adam Aquasthi Lee</Button>
+        <Button style="bg-blue-300" isText>Adam Aquasthi Lee</Button>
+        <Button style="bg-green-300" isText>Adam Aquasthi Lee</Button>
+        <Button style="bg-amber-300" isText>Adam Aquasthi Lee</Button>
+        <Button style="bg-red-300" isText>Adam Aquasthi Lee</Button>
+        <Button style="bg-violet-300" isText>Adam Aquasthi Lee</Button>
+        <Button style="bg-blue-300" isText>Adam Aquasthi Lee</Button>
+        <Button style="bg-green-300" isText>Adam Aquasthi Lee</Button>
+      </SwipeView>
+    </Section >
   );
 }

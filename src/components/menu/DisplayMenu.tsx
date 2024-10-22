@@ -1,24 +1,25 @@
-import { ConfirmedInput, Section, SubTitle } from "./SubComponent";
+import { Button, ConfirmedInput, Section, SubTitle, SwipeView } from "./SubComponent";
 
 interface DisplayMenuProps {
+  order: number,
   onChangeName: (name: string) => void;
 }
 
-export function DisplayMenu({ onChangeName }: DisplayMenuProps) {
+export function DisplayMenu({ order, onChangeName }: DisplayMenuProps) {
   return (
-    <Section title="Display">
-      <>
-        <SubTitle text="User Name" />
-        <ConfirmedInput placeholder="# Enter your name" value="User #123abc" buttonLabel="Save" checkDifferent onConfirm={(name) => onChangeName(name)} />
-        <SubTitle text="Background Color" />
-        <div className="flex gap-[20px] flex-wrap">
-          <button className="w-[150px] border-[3px] border-white rounded-[24px] p-[10px] bg-[var(--primary)]">Primary</button>
-          <button className="w-[150px] border-[3px] border-white rounded-[24px] p-[10px] bg-black text-white">Night</button>
-          <button className="w-[150px] border-[3px] border-white rounded-[24px] p-[10px] bg-violet-500">Galaxy</button>
-          <button className="w-[150px] border-[3px] border-white rounded-[24px] p-[10px] bg-amber-400">Sunset</button>
-          <button className="w-[150px] border-[3px] border-white rounded-[24px] p-[10px] bg-yellow-300">Sunrise</button>
-        </div>
-      </>
+    <Section order={order}>
+      <SubTitle text="Change User Name" />
+      <ConfirmedInput placeholder="# Enter your name" value="User #123abc" buttonLabel="Save" checkDifferent onConfirm={(name) => onChangeName(name)} />
+      <SubTitle text="Background Color" />
+      <SwipeView style="max-h-[350px]">
+        <Button style="bg-[var(--primary)]" >Primary</Button>
+        <Button style="bg-black text-white" >Primary</Button>
+        <Button style="bg-violet-500" >Primary</Button>
+        <Button style="bg-amber-400" >Primary</Button>
+        <Button style="bg-yellow-300" >Primary</Button>
+        <Button style="bg-green-500" >Primary</Button>
+        <Button style="bg-blue-500" >Primary</Button>
+      </SwipeView>
     </Section>
   );
 }
