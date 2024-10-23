@@ -3,7 +3,7 @@ import earthLogo from "/earth.svg";
 interface PlanetBackgroundProps {
   title?: string;
   type?: "center" | "corner";
-  children: JSX.Element;
+  children: React.ReactNode;
 }
 
 export function PlanetBackground({ title, type = "center", children }: PlanetBackgroundProps) {

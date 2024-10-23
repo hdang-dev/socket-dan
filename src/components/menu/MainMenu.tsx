@@ -50,10 +50,7 @@ export function MainMenu() {
 
   useEffect(() => {
     if (sectionViewRef.current) {
-      sectionViewRef.current.scrollTo({
-        top: sectionViewRef.current.clientHeight * menuList.indexOf(menu),
-        behavior: "smooth",
-      });
+      sectionViewRef.current.style.transform = `translateY(calc(-100%*${menuList.indexOf(menu)}))`;
     }
   }, [menu, menuList]);
 
@@ -72,25 +69,27 @@ export function MainMenu() {
 
   return (
     <PlanetBackground type="corner">
-      <div ref={sectionViewRef} className={`w-full h-full overflow-y-hidden flex flex-col transition-all duration-500 scroll-smooth`}>
-        <RoomsMenu order={menuList.indexOf('Rooms') + 1} onJoinRoom={(link) => joinRoom(link)} onCreateRoom={(name) => createRoom(name)} />
-        <DisplayMenu order={menuList.indexOf('Display') + 1} onChangeName={(name) => changeName(name)} />
-        <InfoMenu order={menuList.indexOf('Information') + 1} roomLink={roomLink} />
-
-        {/* Control buttons */}
-        <div className={`fixed left-[20px] bottom-[20px] md:left-auto md:right-[20px] md:top-[20px] transition-all duration-300 ${menuList.indexOf(menu) === 0 ? 'opacity-0 translate-y-full md:translate-y-0 md:translate-x-full' : ''}`}>
-          <Button noOutline style="flex gap-[10px] justify-start md:justify-end items-center" onClick={() => changeMenu(true)}>
-            <ArrowUp />
-            <span>{menuList[menuList.indexOf(menu) - 1] || menuList[0]}</span>
-          </Button>
+      <div className="w-full h-full overflow-y-hidden">
+        <div ref={sectionViewRef} className={`w-full h-full flex flex-col transition-all duration-500`}>
+          <RoomsMenu order={menuList.indexOf('Rooms') + 1} onJoinRoom={(link) => joinRoom(link)} onCreateRoom={(name) => createRoom(name)} />
+          <DisplayMenu order={menuList.indexOf('Display') + 1} onChangeName={(name) => changeName(name)} />
+          <InfoMenu order={menuList.indexOf('Information') + 1} roomLink={roomLink} />
         </div>
+      </div>
 
-        <div className={`fixed right-[20px] bottom-[20px] transition-all duration-300 ${menuList.indexOf(menu) === menuList.length - 1 ? 'opacity-0 translate-y-full md:translate-y-0 md:translate-x-full' : ''}`}>
-          <Button noOutline style="flex gap-[10px] justify-end items-center md:justify-start md:flex-row-reverse" onClick={() => changeMenu()}>
-            <span>{menuList[menuList.indexOf(menu) + 1] || menuList[menuList.length - 1]}</span>
-            <ArrowDown />
-          </Button>
-        </div>
+      {/* Control buttons */}
+      <div className={`fixed left-[20px] bottom-[20px] md:left-auto md:right-[20px] md:top-[20px] transition-all duration-300 ${menuList.indexOf(menu) === 0 ? 'opacity-0 translate-y-full md:translate-y-0 md:translate-x-full' : ''}`}>
+        <Button noOutline style="flex gap-[10px] justify-start md:justify-end items-center" onClick={() => changeMenu(true)}>
+          <ArrowUp />
+          <span>{menuList[menuList.indexOf(menu) - 1] || menuList[0]}</span>
+        </Button>
+      </div>
+
+      <div className={`fixed right-[20px] bottom-[20px] transition-all duration-300 ${menuList.indexOf(menu) === menuList.length - 1 ? 'opacity-0 translate-y-full md:translate-y-0 md:translate-x-full' : ''}`}>
+        <Button noOutline style="flex gap-[10px] justify-end items-center md:justify-start md:flex-row-reverse" onClick={() => changeMenu()}>
+          <span>{menuList[menuList.indexOf(menu) + 1] || menuList[menuList.length - 1]}</span>
+          <ArrowDown />
+        </Button>
       </div>
     </PlanetBackground>
   );

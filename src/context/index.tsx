@@ -24,7 +24,7 @@ const defaultContext: AppContext = {
 
 export const AppContext = createContext<AppContext>(defaultContext);
 
-export default function AppProvider({ children }: { children: JSX.Element; }) {
+export default function AppProvider({ children }: { children: React.ReactNode; }) {
   const [yourId, setYourId] = useState<string | null>(null);
   const [roomId, setRoomId] = useState<string>(GLOBAL_ROOM);
   const [roomName, setRoomName] = useState<string>('Global Room');
