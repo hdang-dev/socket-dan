@@ -1,10 +1,13 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AppContext } from "../../context";
 import { MainMenu } from "../../components";
 import { Outlet } from "react-router-dom";
 
 export function AppLayout() {
   const { dialogVisible, roomName, updateDialogVisible } = useContext(AppContext);
+  useEffect(() => {
+    document.body.style.setProperty('--doc-height', `${window.innerHeight}px`);
+  });
 
   return (
     <div className="w-full h-full overflow-hidden bg-[var(--primary)]">

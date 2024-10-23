@@ -54,7 +54,7 @@ export const ConfirmedInput = ({
         type="text"
         placeholder={placeholder}
         value={input}
-        className="w-full h-full max-w-[600px] bg-transparent border-b border-gray-500 outline-none text-center py-[5px] placeholder:text-gray-500"
+        className="w-full h-full max-w-[600px] bg-transparent border-b border-gray-500 rounded-none outline-none text-center py-[5px] placeholder:text-gray-500"
         onChange={(e) => setInput(e.target.value.trimStart())}
       />
       <Button

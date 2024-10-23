@@ -3,9 +3,11 @@
 @tailwind utilities;
 
 body {
+  --doc-height: 100vh;
   width: 100%;
-  height: 100vh;
+  height: var(--doc-height);
   font-family: Menlo, Monano, Consolas, "Droid Sans Mono", monospace;
+  color: #000000;
 }
 
 #root {
