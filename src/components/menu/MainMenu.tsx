@@ -4,15 +4,12 @@ import { ArrowDown, ArrowUp } from "..";
 import { RoomsMenu } from "./RoomsMenu";
 import { DisplayMenu } from "./DisplayMenu";
 import { InfoMenu } from "./InfoMenu";
-import { useLocation, useNavigate } from "react-router-dom";
-import { AppContext } from "../../context";
+import { useLocation } from "react-router-dom";
 import { Button } from "./SubComponent";
 
 
 export function MainMenu() {
   const location = useLocation();
-  const navigate = useNavigate();
-  const { updateDialogVisible } = useContext(AppContext);
   const [menuList, setMenuList] = useState<string[]>(() => ['Rooms', 'Display', 'Information']);
   const [menu, setMenu] = useState(menuList[0]);
   const sectionViewRef = useRef<HTMLDivElement>(null);
@@ -30,22 +27,6 @@ export function MainMenu() {
 
   const joinRoom = (link: string) => {
     console.log("join link: ", link);
-  };
-
-  const createRoom = (name: string) => {
-    console.log('to room: ', name);
-    switch (name) {
-      case 'Chat Room':
-        navigate('chat/123321');
-        break;
-      default:
-        navigate('/');
-    }
-    updateDialogVisible(false);
-  };
-
-  const changeName = (name: string) => {
-    console.log("name changing: ", name);
   };
 
   useEffect(() => {
@@ -71,8 +52,8 @@ export function MainMenu() {
     <PlanetBackground type="corner">
       <div className="w-full h-full overflow-hidden">
         <div ref={sectionViewRef} className={`w-full h-full flex flex-col transition-all duration-500`}>
-          <RoomsMenu order={menuList.indexOf('Rooms') + 1} onJoinRoom={(link) => joinRoom(link)} onCreateRoom={(name) => createRoom(name)} />
-          <DisplayMenu order={menuList.indexOf('Display') + 1} onChangeName={(name) => changeName(name)} />
+          <RoomsMenu order={menuList.indexOf('Rooms') + 1} onJoinRoom={(link) => joinRoom(link)} />
+          <DisplayMenu order={menuList.indexOf('Display') + 1} />
           <InfoMenu order={menuList.indexOf('Information') + 1} roomLink={roomLink} />
         </div>
       </div>

@@ -24,9 +24,10 @@ export const RoomCard = ({ name, imageUrl }: { name: string; imageUrl: string; }
   );
 };
 
-export const Button = ({ children, noOutline, isText, style, onClick }: { children: React.ReactNode, noOutline?: boolean, isText?: boolean, style?: string, onClick?: () => void; }) => {
+export const Button = ({ children, noOutline, isText, color, style, onClick }: { children: React.ReactNode, noOutline?: boolean, isText?: boolean, color?: string, style?: string, onClick?: () => void; }) => {
   return (
     <button className={`min-w-[150px] py-[5px] rounded-[24px] transition-all duration-100 active:text-[var(--secondary)] ${noOutline ? '' : 'border-[3px] border-white shadow-lg px-[15px]'} ${isText ? 'pointer-events-none' : ''} ${style ?? ''}`}
+      style={{ backgroundColor: color }}
       onClick={() => onClick?.()}>{children}</button>
   );
 };
@@ -73,8 +74,10 @@ export const ConfirmedInput = ({
 export const SwipeView = ({ children, style }: { children: React.ReactNode, style?: string; }) => {
   return (
     <div className={`w-screen overflow-x-auto snap-x snap-mandatory scrollbar-none ml-[-20px] md:ml-[-60px] px-[20px] md:px-[60px] ${style ?? ''}`}>
-      <div className="h-full w-full md:w-fit min-w-max flex flex-col flex-wrap gap-[20px] items-center">
-        {children}
+      <div className="w-full min-w-max h-full flex justify-center md:justify-start">
+        <div className="h-full w-fit flex flex-col flex-wrap gap-[20px] items-center">
+          {children}
+        </div>
       </div>
     </div>
   );

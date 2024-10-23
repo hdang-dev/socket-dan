@@ -1,4 +1,7 @@
+import { useContext, useState } from "react";
 import { Button, Section, SubTitle, SwipeView } from "./SubComponent";
+import { AppContext } from "../../context";
+import { USER_COLOR_PALETTE } from "./data";
 
 interface InfoMenuProps {
   roomLink: string;
@@ -6,9 +9,29 @@ interface InfoMenuProps {
 }
 
 export function InfoMenu({ order, roomLink }: InfoMenuProps) {
+  const { userName } = useContext(AppContext);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [userList, setUserList] = useState<string[]>([
+    'Adam Aquasthi Lee',
+    'Evela Meh',
+    'Huynh Dai Den',
+    'Kaquamim Nuasly',
+    'Nguyen Thi Thu Thuy',
+    'Bui Duc Thai Vi Khang',
+    'Adam Aquasthi Lee',
+    'Evela Meh',
+    'Huynh Dai Den',
+    'Kaquamim Nuasly',
+    'Salala Lee'
+  ]);
+
   const copyLink = () => {
     navigator.clipboard.writeText(roomLink);
   };
+
+  // const addUser = (user: string) => {
+  //   setUserList([...userList, user]);
+  // };
 
   return (
     <Section order={order}>
@@ -20,16 +43,10 @@ export function InfoMenu({ order, roomLink }: InfoMenuProps) {
 
       <SubTitle text="Members" />
       <SwipeView style="max-h-[350px]">
-        <Button style="bg-amber-300" isText>Adam Aquasthi Lee</Button>
-        <Button style="bg-red-300" isText>Adam Aquasthi Lee</Button>
-        <Button style="bg-violet-300" isText>Adam Aquasthi Lee</Button>
-        <Button style="bg-blue-300" isText>Adam Aquasthi Lee</Button>
-        <Button style="bg-green-300" isText>Adam Aquasthi Lee</Button>
-        <Button style="bg-amber-300" isText>Adam Aquasthi Lee</Button>
-        <Button style="bg-red-300" isText>Adam Aquasthi Lee</Button>
-        <Button style="bg-violet-300" isText>Adam Aquasthi Lee</Button>
-        <Button style="bg-blue-300" isText>Adam Aquasthi Lee</Button>
-        <Button style="bg-green-300" isText>Adam Aquasthi Lee</Button>
+        <Button isText style="w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">You ({userName})</Button>
+        {userList.map((user, index) => (
+          <Button key={index} isText style="w-[200px] overflow-hidden text-ellipsis whitespace-nowrap" color={USER_COLOR_PALETTE[index % USER_COLOR_PALETTE.length]} >{user}</Button>
+        ))}
       </SwipeView>
     </Section >
   );
