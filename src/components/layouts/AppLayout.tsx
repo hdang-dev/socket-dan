@@ -6,7 +6,12 @@ import { Outlet } from "react-router-dom";
 export function AppLayout() {
   const { dialogVisible, roomName, updateDialogVisible } = useContext(AppContext);
   useEffect(() => {
-    document.body.style.setProperty('--doc-height', `${window.innerHeight}px`);
+    const calculateDocHeight = () => {
+      document.body.style.setProperty('--doc-height', `${window.innerHeight}px`);
+    };
+
+    calculateDocHeight();
+    window.addEventListener('resize', () => calculateDocHeight());
   });
 
   return (

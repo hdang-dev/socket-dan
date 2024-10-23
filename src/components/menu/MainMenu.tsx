@@ -69,7 +69,7 @@ export function MainMenu() {
 
   return (
     <PlanetBackground type="corner">
-      <div className="w-full h-full overflow-y-hidden">
+      <div className="w-full h-full overflow-hidden">
         <div ref={sectionViewRef} className={`w-full h-full flex flex-col transition-all duration-500`}>
           <RoomsMenu order={menuList.indexOf('Rooms') + 1} onJoinRoom={(link) => joinRoom(link)} onCreateRoom={(name) => createRoom(name)} />
           <DisplayMenu order={menuList.indexOf('Display') + 1} onChangeName={(name) => changeName(name)} />
@@ -78,7 +78,7 @@ export function MainMenu() {
       </div>
 
       {/* Control buttons */}
-      <div className={`fixed left-[20px] bottom-[20px] md:left-auto md:right-[20px] md:top-[20px] transition-all duration-300 ${menuList.indexOf(menu) === 0 ? 'opacity-0 translate-y-full md:translate-y-0 md:translate-x-full' : ''}`}>
+      <div className={`fixed left-[20px] bottom-[20px] md:inset-auto md:right-[20px] md:top-[20px] transition-all duration-300 ${menuList.indexOf(menu) === 0 ? 'opacity-0 translate-y-full md:translate-y-0 md:translate-x-full' : ''}`}>
         <Button noOutline style="flex gap-[10px] justify-start md:justify-end items-center" onClick={() => changeMenu(true)}>
           <ArrowUp />
           <span>{menuList[menuList.indexOf(menu) - 1] || menuList[0]}</span>
