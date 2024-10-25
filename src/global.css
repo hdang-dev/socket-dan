@@ -2,18 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+:root {
   --doc-height: 100vh;
+  --bg-color: #95daff;
+  --text-color: #000000;
+}
+
+body {
   width: 100%;
   height: var(--doc-height);
   font-family: Menlo, Monano, Consolas, "Droid Sans Mono", monospace;
-  color: #000000;
+  color: var(--text-color);
 }
 
 #root {
   width: 100%;
   height: 100%;
-  --primary: #95daff;
-  --secondary: #20d91c;
-  --third: #d91c1c;
 }

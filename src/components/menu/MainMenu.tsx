@@ -13,7 +13,6 @@ export function MainMenu() {
   const [menuList, setMenuList] = useState<string[]>(() => ['Rooms', 'Display', 'Information']);
   const [menu, setMenu] = useState(menuList[0]);
   const sectionViewRef = useRef<HTMLDivElement>(null);
-  const [roomLink, setRoomLink] = useState<string>(window.location.href);
 
   const changeMenu = (toPrev?: boolean) => {
     const index = menuList.indexOf(menu);
@@ -23,10 +22,6 @@ export function MainMenu() {
     if (!toPrev && index < menuList.length - 1) {
       setMenu(menuList[index + 1]);
     };
-  };
-
-  const joinRoom = (link: string) => {
-    console.log("join link: ", link);
   };
 
   useEffect(() => {
@@ -41,7 +36,6 @@ export function MainMenu() {
     } else {
       setMenuList(['Rooms', 'Display', 'Information']);
     }
-    setRoomLink(window.location.href);
   }, [location]);
 
   useEffect(() => {
@@ -52,9 +46,9 @@ export function MainMenu() {
     <PlanetBackground type="corner">
       <div className="w-full h-full overflow-hidden">
         <div ref={sectionViewRef} className={`w-full h-full flex flex-col transition-all duration-500`}>
-          <RoomsMenu order={menuList.indexOf('Rooms') + 1} onJoinRoom={(link) => joinRoom(link)} />
+          <RoomsMenu order={menuList.indexOf('Rooms') + 1} />
           <DisplayMenu order={menuList.indexOf('Display') + 1} />
-          <InfoMenu order={menuList.indexOf('Information') + 1} roomLink={roomLink} />
+          <InfoMenu order={menuList.indexOf('Information') + 1} />
         </div>
       </div>
 

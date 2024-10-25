@@ -1,14 +1,16 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button, Section, SubTitle, SwipeView } from "./SubComponent";
 import { AppContext } from "../../context";
 import { USER_COLOR_PALETTE } from "./data";
+import { useLocation } from "react-router-dom";
 
 interface InfoMenuProps {
-  roomLink: string;
   order: number;
 }
 
-export function InfoMenu({ order, roomLink }: InfoMenuProps) {
+export function InfoMenu({ order }: InfoMenuProps) {
+  const location = useLocation();
+  const [roomLink, setRoomLink] = useState<string>(window.location.href);
   const { userName } = useContext(AppContext);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [userList, setUserList] = useState<string[]>([
@@ -33,6 +35,10 @@ export function InfoMenu({ order, roomLink }: InfoMenuProps) {
   //   setUserList([...userList, user]);
   // };
 
+  useEffect(() => {
+    setRoomLink(window.location.href);
+  }, [location]);
+
   return (
     <Section order={order}>
       <SubTitle text="Room Link" />
@@ -45,7 +51,7 @@ export function InfoMenu({ order, roomLink }: InfoMenuProps) {
       <SwipeView style="max-h-[350px]">
         <Button isText style="w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">You ({userName})</Button>
         {userList.map((user, index) => (
-          <Button key={index} isText style="w-[200px] overflow-hidden text-ellipsis whitespace-nowrap" color={USER_COLOR_PALETTE[index % USER_COLOR_PALETTE.length]} >{user}</Button>
+          <Button key={index} isText style="w-[200px] overflow-hidden text-ellipsis whitespace-nowrap" background={USER_COLOR_PALETTE[index % USER_COLOR_PALETTE.length]} >{user}</Button>
         ))}
       </SwipeView>
     </Section >

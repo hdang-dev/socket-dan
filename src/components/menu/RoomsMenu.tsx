@@ -6,12 +6,14 @@ import { AppContext } from "../../context";
 
 interface RoomsMenuProps {
   order: number;
-  onJoinRoom: (link: string) => void;
 }
 
-export function RoomsMenu({ order, onJoinRoom }: RoomsMenuProps) {
+export function RoomsMenu({ order }: RoomsMenuProps) {
   const navigate = useNavigate();
   const { updateDialogVisible } = useContext(AppContext);
+  const joinRoom = (link: string) => {
+    window.location.href = link;
+  };
   const createRoom = (name: string) => {
     console.log('to room: ', name);
     switch (name) {
@@ -24,11 +26,12 @@ export function RoomsMenu({ order, onJoinRoom }: RoomsMenuProps) {
     updateDialogVisible(false);
   };
 
+
   return (
     <Section order={order}>
       {/* Join room */}
       <SubTitle text="Join A Room" />
-      <ConfirmedInput placeholder="# Enter your link here" value="" buttonLabel="Join" onConfirm={(link) => onJoinRoom(link)} />
+      <ConfirmedInput placeholder="# Enter your link here" value="" buttonLabel="Join" onConfirm={(link) => joinRoom(link)} />
 
       {/* Create room */}
       <SubTitle text="Create New Room" />

@@ -14,20 +14,20 @@ export const SubTitle = ({ text, style }: { text: string; style?: string; }) => 
 
 export const RoomCard = ({ name, imageUrl }: { name: string; imageUrl: string; }) => {
   return (
-    <div className="cursor-pointer w-[200px] md:w-[250px] aspect-[5/3] overflow-hidden rounded-[24px] border-[3px] border-white shadow-lg">
+    <div className="cursor-pointer w-[180px] md:w-[250px] aspect-[5/3] overflow-hidden rounded-[24px] border-[3px] border-white shadow-lg">
       <div
         style={{ backgroundImage: `url(${imageUrl})` }}
-        className={`w-full h-full transition-all duration-300 hover:scale-110 active:scale-110 active:text-[var(--secondary)] grid place-items-center`}>
+        className={`w-full h-full transition-all duration-300 hover:scale-110 active:scale-110 text-white active:text-[var(--bg-color)] grid place-items-center`}>
         <span className="text-inherit">{name}</span>
       </div>
     </div>
   );
 };
 
-export const Button = ({ children, noOutline, isText, color, style, onClick }: { children: React.ReactNode, noOutline?: boolean, isText?: boolean, color?: string, style?: string, onClick?: () => void; }) => {
+export const Button = ({ children, noOutline, isText, background, text, style, onClick }: { children: React.ReactNode, noOutline?: boolean, isText?: boolean, background?: string, text?: string, style?: string, onClick?: () => void; }) => {
   return (
-    <button className={`min-w-[150px] py-[5px] rounded-[24px] transition-all duration-100 active:text-[var(--secondary)] ${noOutline ? '' : 'border-[3px] border-white shadow-lg px-[15px]'} ${isText ? 'pointer-events-none' : ''} ${style ?? ''}`}
-      style={{ backgroundColor: color }}
+    <button className={`min-w-[150px] py-[5px] rounded-[24px] transition-all duration-100 active:text-[var(--bg-color)] ${noOutline ? '' : 'border-[2px] border-white shadow-lg px-[15px]'} ${isText ? 'pointer-events-none' : ''} ${style ?? ''}`}
+      style={{ backgroundColor: background, color: text }}
       onClick={() => onClick?.()}>{children}</button>
   );
 };

@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { AppContext } from "../../context";
-import { BACKGROUND_COLORS } from "./data";
+import { THEME_COLORS } from "./data";
 import { Button, ConfirmedInput, Section, SubTitle, SwipeView } from "./SubComponent";
 
 interface DisplayMenuProps {
@@ -9,19 +9,34 @@ interface DisplayMenuProps {
 
 export function DisplayMenu({ order }: DisplayMenuProps) {
   const { userName, updateUserName } = useContext(AppContext);
+
   const changeName = (name: string) => {
     updateUserName(name);
+  };
+
+  const changeTheme = (background: string, text: string) => {
+    const elesWithTransition = document.querySelectorAll<HTMLElement>('.transition-all');
+    elesWithTransition.forEach(element => {
+      element.classList.add('transition-none');
+    });
+    document.documentElement.style.setProperty('--bg-color', background);
+    document.documentElement.style.setProperty('--text-color', text);
+
+    setTimeout(() => {
+      elesWithTransition.forEach(element => {
+        element.classList.remove('transition-none');
+      });
+    });
   };
 
   return (
     <Section order={order}>
       <SubTitle text="Change User Name" />
       <ConfirmedInput placeholder="# Enter your name" value={userName} buttonLabel="Save" checkDifferent onConfirm={(name) => changeName(name)} />
-      <SubTitle text="Background Color" />
+      <SubTitle text="Theme Color" />
       <SwipeView style="max-h-[350px]">
-        <Button style="bg-[var(--primary)]" >Primary</Button>
-        {BACKGROUND_COLORS.map((color, index) => (
-          <Button key={index} color={color.code} style={color.hasWhiteText ? 'text-white' : ''} >{color.name}</Button>
+        {THEME_COLORS.map(({ name, background, text }, index) => (
+          <Button key={index} background={background} text={text} onClick={() => changeTheme(background, text)} >{name}</Button>
         ))}
       </SwipeView>
     </Section>

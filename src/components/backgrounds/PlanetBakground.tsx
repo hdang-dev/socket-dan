@@ -8,7 +8,7 @@ interface PlanetBackgroundProps {
 
 export function PlanetBackground({ title, type = "center", children }: PlanetBackgroundProps) {
   return (
-    <div className="w-full h-full bg-[var(--primary)] relative">
+    <div className="w-full h-full bg-[var(--bg-color)] relative">
       {/* Planet */}
       <div
         className={`absolute
@@ -16,7 +16,7 @@ export function PlanetBackground({ title, type = "center", children }: PlanetBac
         ${type === "corner" ? "top-[45%] left-[50%]" : ""}
       `}>
         <div className={`animate-spin animate-infinite ${type === "center" ? "animate-duration-[100s]" : "animate-duration-[200s]"}`}>
-          <img className={`w-[calc(100vw*0.9)] max-w-[600px] opacity-60 ${type === "corner" ? "scale-[150%] md:scale-[200%]" : ""}`} src={earthLogo} alt="Planet" />
+          <img className={`w-[calc(100vw*0.9)] max-w-[600px] opacity-80 ${type === "corner" ? "scale-[150%] md:scale-[200%]" : ""}`} src={earthLogo} alt="Planet" />
         </div>
         {title && <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-white w-max text-5xl md:text-6xl">{title}</span>}
       </div>

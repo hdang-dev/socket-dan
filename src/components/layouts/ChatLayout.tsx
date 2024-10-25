@@ -80,7 +80,7 @@ export function ChatLayout({ initMessages }: ChatLayoutProps) {
           onKeyDown={(e) => handleKeyDown(e)}></textarea>
         <button
           disabled={yourText.trim() === "" ? true : false}
-          className={`self-end text-[var(--secondary)] disabled:text-gray-500 font-bold enabled:hover:scale-110 transition-all`}
+          className={`self-end text-[var(--bg-color)] disabled:text-gray-500 font-bold enabled:hover:scale-110 transition-all`}
           onClick={() => sendMessage(yourText)}>
           Send
         </button>
