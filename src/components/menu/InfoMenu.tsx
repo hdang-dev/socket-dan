@@ -13,7 +13,7 @@ export function InfoMenu({ order }: InfoMenuProps) {
   const [roomLink, setRoomLink] = useState<string>(window.location.href);
   const { userName } = useContext(AppContext);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [userList, setUserList] = useState<string[]>([
+  const [userList] = useState<string[]>([
     'Adam Aquasthi Lee',
     'Evela Meh',
     'Huynh Dai Den',

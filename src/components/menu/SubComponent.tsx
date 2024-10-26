@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export const Section = ({ order, children, style }: { order: number, children: React.ReactNode; style?: string; }) => {
+export const Section = ({ order, children, style }: { order: number; children: React.ReactNode; style?: string }) => {
   return (
     <section style={{ order: order }} className={`w-full h-full min-h-full flex flex-col pt-[90px] pb-[70px] px-[20px] md:px-[60px] ${style ?? ""}`}>
       {children}
@@ -8,13 +8,13 @@ export const Section = ({ order, children, style }: { order: number, children: R
   );
 };
 
-export const SubTitle = ({ text, style }: { text: string; style?: string; }) => {
-  return <h2 className={`[&:not(:first-child)]:mt-[60px] text-center mb-[30px] font-bold md:text-left ${style ?? ""}`}>{text}</h2>;
+export const SubTitle = ({ text, style }: { text: string; style?: string }) => {
+  return <h2 className={`[&:not(:first-child)]:mt-[60px] text-center mb-[30px] font-bold md:text-left md:text-lg ${style ?? ""}`}>{text}</h2>;
 };
 
-export const RoomCard = ({ name, imageUrl }: { name: string; imageUrl: string; }) => {
+export const RoomCard = ({ name, imageUrl }: { name: string; imageUrl: string }) => {
   return (
-    <div className="cursor-pointer w-[180px] md:w-[250px] aspect-[5/3] overflow-hidden rounded-[24px] border-[3px] border-white shadow-lg">
+    <div className="cursor-pointer w-[250px] aspect-[5/3] overflow-hidden rounded-[24px] border-[3px] border-white shadow-lg">
       <div
         style={{ backgroundImage: `url(${imageUrl})` }}
         className={`w-full h-full transition-all duration-300 hover:scale-110 active:scale-110 text-white active:text-[var(--bg-color)] grid place-items-center`}>
@@ -24,11 +24,32 @@ export const RoomCard = ({ name, imageUrl }: { name: string; imageUrl: string; }
   );
 };
 
-export const Button = ({ children, noOutline, isText, background, text, style, onClick }: { children: React.ReactNode, noOutline?: boolean, isText?: boolean, background?: string, text?: string, style?: string, onClick?: () => void; }) => {
+export const Button = ({
+  children,
+  noOutline,
+  isText,
+  background,
+  text,
+  style,
+  onClick,
+}: {
+  children: React.ReactNode;
+  noOutline?: boolean;
+  isText?: boolean;
+  background?: string;
+  text?: string;
+  style?: string;
+  onClick?: () => void;
+}) => {
   return (
-    <button className={`min-w-[150px] py-[5px] rounded-[24px] transition-all duration-100 active:text-[var(--bg-color)] ${noOutline ? '' : 'border-[2px] border-white shadow-lg px-[15px]'} ${isText ? 'pointer-events-none' : ''} ${style ?? ''}`}
+    <button
+      className={`min-w-[150px] py-[5px] rounded-[24px] transition-all duration-100 active:text-[var(--bg-color)] ${noOutline ? "" : "border-[2px] border-white shadow-lg px-[15px]"} ${
+        isText ? "pointer-events-none" : ""
+      } ${style ?? ""}`}
       style={{ backgroundColor: background, color: text }}
-      onClick={() => onClick?.()}>{children}</button>
+      onClick={() => onClick?.()}>
+      {children}
+    </button>
   );
 };
 
@@ -55,11 +76,11 @@ export const ConfirmedInput = ({
         type="text"
         placeholder={placeholder}
         value={input}
-        className="w-full h-full max-w-[600px] bg-transparent border-b border-gray-500 rounded-none outline-none text-center py-[5px] placeholder:text-gray-500"
+        className="w-full h-full max-w-[600px] bg-transparent border-b border-[var(--text-color)] rounded-none outline-none text-center py-[5px] placeholder:text-[var(--text-color)] placeholder:italic"
         onChange={(e) => setInput(e.target.value.trimStart())}
       />
       <Button
-        style={`${input.trim() === "" || (currentValue === input.trim() && checkDifferent) ? "opacity-0 translate-y-full md:translate-y-0 md:-translate-x-full pointer-events-none" : ""}`}
+        style={`duration-500 ${input.trim() === "" || (currentValue === input.trim() && checkDifferent) ? "opacity-0 translate-y-full md:translate-y-0 md:-translate-x-full pointer-events-none" : ""}`}
         onClick={() => {
           setCurrentValue(input.trim());
           setInput(input.trim());
@@ -71,13 +92,11 @@ export const ConfirmedInput = ({
   );
 };
 
-export const SwipeView = ({ children, style }: { children: React.ReactNode, style?: string; }) => {
+export const SwipeView = ({ children, style }: { children: React.ReactNode; style?: string }) => {
   return (
-    <div className={`w-screen overflow-x-auto snap-x snap-mandatory scrollbar-none ml-[-20px] md:ml-[-60px] px-[20px] md:px-[60px] ${style ?? ''}`}>
+    <div className={`w-screen overflow-x-auto snap-x snap-mandatory scrollbar-none ml-[-20px] md:ml-[-60px] px-[20px] md:px-[60px] ${style ?? ""}`}>
       <div className="w-full min-w-max h-full flex justify-center md:justify-start">
-        <div className="h-full w-fit flex flex-col flex-wrap gap-[20px] items-center">
-          {children}
-        </div>
+        <div className="h-full w-fit flex flex-col flex-wrap gap-[20px] items-center">{children}</div>
       </div>
     </div>
   );
