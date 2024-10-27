@@ -22,7 +22,7 @@ export function emitEvent(event: string, ...params: any[]): void {
 // =======================================================================================================
 
 // Declaration
-export function onEvent(event: "GET_YOUR_ID", listener: (yourId: string) => void): void;
+export function onEvent(event: "GET_SOCKET_ID", listener: (id: string) => void): void;
 export function onEvent(event: "USER_JOIN", listener: (userId: string) => void): void;
 export function onEvent(event: "USER_LEAVE", listener: (userId: string) => void): void;
 export function onEvent(event: "RECEIVE_MESSAGE", listener: (message: string, senderId: string) => void): void;
@@ -30,4 +30,4 @@ export function onEvent(event: "RECEIVE_MESSAGE", listener: (message: string, se
 // Implementation
 export function onEvent(event: string, listener: (...args: any[]) => void): void {
   socket.on(event, listener);
-};
+}

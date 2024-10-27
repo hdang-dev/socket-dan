@@ -1,12 +1,17 @@
 import { useContext, useEffect } from "react";
 import { PlanetBackground, ChatLayout } from "../components";
-import { AppContext } from "../context";
+import { Context } from "../store";
 
 export function GlobalPage() {
-  const { updateRoomName } = useContext(AppContext);
+  const { dispatch } = useContext(Context);
+
+  // const sendMessage = (message: string) => {};
+
+  // const receiveMessage = (message: string) => {};
+
   useEffect(() => {
-    updateRoomName('Global Room');
-  }, [updateRoomName]);
+    dispatch({ type: "JOIN_ROOM", room: { type: "global", id: "global" } });
+  }, [dispatch]);
 
   return (
     <PlanetBackground title="Socket Dan">

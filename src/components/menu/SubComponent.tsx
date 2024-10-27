@@ -43,9 +43,9 @@ export const Button = ({
 }) => {
   return (
     <button
-      className={`min-w-[150px] py-[5px] rounded-[24px] transition-all duration-100 active:text-[var(--bg-color)] ${noOutline ? "" : "border-[2px] border-white shadow-lg px-[15px]"} ${
-        isText ? "pointer-events-none" : ""
-      } ${style ?? ""}`}
+      className={`min-w-[150px] py-[5px] rounded-[24px] transition-all duration-100 active:text-[var(--bg-color)] ${
+        noOutline ? "" : "border-[2px] border-white shadow-lg px-[15px] bg-[rgb(255,255,255,0.7)] text-black"
+      } ${isText ? "pointer-events-none" : ""} ${style ?? ""}`}
       style={{ backgroundColor: background, color: text }}
       onClick={() => onClick?.()}>
       {children}

@@ -12,13 +12,13 @@ export const ROOM_LIST = [
 ];
 
 export const THEME_COLORS = [
-  { name: 'Sky', background: '#aee3ff', text: '#000000' },
-  { name: 'Sunrise', background: '#ffef62', text: '#000000' },
-  { name: 'Sunset', background: '#ffd992', text: '#000000' },
-  { name: 'Night', background: '#000000', text: '#ffffff' },
-  { name: 'Galaxy', background: '#6611cf', text: '#ffffff' },
-  { name: 'Scarlet', background: '#ff5c5c', text: '#060061' },
-  { name: 'Grass', background: '#63ff92', text: '#000000' },
+  { name: "Sky", background: "#aee3ff", text: "#000000" },
+  { name: "Sunrise", background: "#ffef62", text: "#000000" },
+  { name: "Sunset", background: "#ffd992", text: "#000000" },
+  { name: "Night", background: "#000000", text: "#ffffff" },
+  { name: "Galaxy", background: "#6611cf", text: "#ffffff" },
+  { name: "Scarlet", background: "#ff5c5c", text: "#060061" },
+  { name: "Grass", background: "#63ff92", text: "#000000" },
 ];
 
-export const USER_COLOR_PALETTE = ['#8b5cf6', '#ffcf70', '#22c55e', '#f66f70', '#3dcdcd'];
+// export const USER_COLOR_PALETTE = ['#8b5cf6', '#ffcf70', '#22c55e', '#f66f70', '#3dcdcd'];

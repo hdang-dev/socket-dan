@@ -5,10 +5,14 @@ export const getTime = () => {
   return hours + ":" + minutes;
 };
 
-export const checkRoomId = (roomId: string, maxLength: number): 'valid' | 'ok_but_start_with_0' | 'length_exceed' | 'invalid' => {
-  const validRoomId = Number(roomId);
-  if (isNaN(validRoomId)) return 'invalid';
-  if (validRoomId.toString().length > maxLength) return 'length_exceed';
-  if (roomId.startsWith('0')) return 'ok_but_start_with_0';
-  return 'valid';
+export const generateRoomId = () => {
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const length = 10;
+
+  let id = "";
+  for (let i = 0; i < length; i++) {
+    id += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+
+  return id;
 };

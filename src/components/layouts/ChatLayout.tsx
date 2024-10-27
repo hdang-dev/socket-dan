@@ -1,6 +1,6 @@
 import { ChatBubble } from "../../components";
 import { useContext, useRef, useState } from "react";
-import { AppContext } from "../../context";
+import { Context } from "../../store";
 import { getTime } from "../../utils";
 import type { Message } from "../../interfaces";
 
@@ -9,7 +9,8 @@ interface ChatLayoutProps {
 }
 
 export function ChatLayout({ initMessages }: ChatLayoutProps) {
-  const { yourId } = useContext(AppContext);
+  const { state } = useContext(Context);
+  const { id, name } = state.user;
   const [messages, setMessages] = useState<Message[]>(() => {
     if (initMessages) {
       return initMessages.map((message) => ({ text: message, userId: "System", time: getTime() }));
@@ -38,8 +39,8 @@ export function ChatLayout({ initMessages }: ChatLayoutProps) {
   };
 
   const sendMessage = (text: string) => {
-    if (yourId && text.trim() !== "") {
-      setMessages([...messages, { text, time: getTime(), userId: yourId }]);
+    if (id && text.trim() !== "") {
+      setMessages([...messages, { text, time: getTime(), userId: id }]);
       setYourText("");
       scrollToBottom();
       textAreaRef.current!.value = "";
@@ -64,7 +65,7 @@ export function ChatLayout({ initMessages }: ChatLayoutProps) {
       {/* Messages */}
       <div ref={messageViewRef} className="pt-[30px] w-full overflow-y-auto flex flex-col gap-[10px] scrollbar-none">
         {messages.map(({ text, time, userId }, index) => (
-          <ChatBubble key={index} text={text} time={time} userName={userId.slice(0, 6)} end={userId === yourId} styleBubble="md:max-w-[30%]" />
+          <ChatBubble key={index} text={text} time={time} userName={name} end={userId === id} styleBubble="md:max-w-[30%]" />
         ))}
       </div>
 
@@ -73,14 +74,14 @@ export function ChatLayout({ initMessages }: ChatLayoutProps) {
         <textarea
           ref={textAreaRef}
           rows={1}
-          className="w-full outline-none resize-none bg-transparent max-h-[120px] md:max-h-[80px] pr-[10px] scrollbar-thin"
+          className="w-full outline-none resize-none bg-transparent max-h-[120px] md:max-h-[80px] pr-[10px] scrollbar-thin text-black"
           placeholder="Type your message here"
           value={yourText}
           onChange={(e) => handleChangeText(e.target.value)}
           onKeyDown={(e) => handleKeyDown(e)}></textarea>
         <button
           disabled={yourText.trim() === "" ? true : false}
-          className={`self-end text-[var(--bg-color)] disabled:text-gray-500 font-bold enabled:hover:scale-110 transition-all`}
+          className={`self-end text-[var(--bg-color)] disabled:opacity-50 font-bold enabled:hover:scale-110 transition-all`}
           onClick={() => sendMessage(yourText)}>
           Send
         </button>

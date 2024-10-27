@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Button, Section, SubTitle, SwipeView } from "./SubComponent";
-import { AppContext } from "../../context";
-import { USER_COLOR_PALETTE } from "./data";
+import { Context } from "../../store";
 import { useLocation } from "react-router-dom";
 
 interface InfoMenuProps {
@@ -11,20 +10,20 @@ interface InfoMenuProps {
 export function InfoMenu({ order }: InfoMenuProps) {
   const location = useLocation();
   const [roomLink, setRoomLink] = useState<string>(window.location.href);
-  const { userName } = useContext(AppContext);
+  const { user } = useContext(Context).state;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [userList] = useState<string[]>([
-    'Adam Aquasthi Lee',
-    'Evela Meh',
-    'Huynh Dai Den',
-    'Kaquamim Nuasly',
-    'Nguyen Thi Thu Thuy',
-    'Bui Duc Thai Vi Khang',
-    'Adam Aquasthi Lee',
-    'Evela Meh',
-    'Huynh Dai Den',
-    'Kaquamim Nuasly',
-    'Salala Lee'
+    "Adam Aquasthi Lee",
+    "Evela Meh",
+    "Huynh Dai Den",
+    "Kaquamim Nuasly",
+    "Nguyen Thi Thu Thuy",
+    "Bui Duc Thai Vi Khang",
+    "Adam Aquasthi Lee",
+    "Evela Meh",
+    "Huynh Dai Den",
+    "Kaquamim Nuasly",
+    "Salala Lee",
   ]);
 
   const copyLink = () => {
@@ -49,11 +48,15 @@ export function InfoMenu({ order }: InfoMenuProps) {
 
       <SubTitle text="Members" />
       <SwipeView style="max-h-[350px]">
-        <Button isText style="w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">You ({userName})</Button>
+        <Button isText style="w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">
+          You ({user.name})
+        </Button>
         {userList.map((user, index) => (
-          <Button key={index} isText style="w-[200px] overflow-hidden text-ellipsis whitespace-nowrap" background={USER_COLOR_PALETTE[index % USER_COLOR_PALETTE.length]} >{user}</Button>
+          <Button key={index} isText style="w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">
+            {user}
+          </Button>
         ))}
       </SwipeView>
-    </Section >
+    </Section>
   );
 }

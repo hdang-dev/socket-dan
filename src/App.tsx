@@ -1,9 +1,15 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import AppProvider from "./context";
+import AppProvider, { Context } from "./store";
 import { AppLayout } from "./components";
 import { GlobalPage, ChatPage } from "./pages";
+import { useContext, useEffect } from "react";
+import { onEvent } from "./socket";
 
 export default function App() {
+  const { dispatch } = useContext(Context);
+  useEffect(() => {
+    onEvent("GET_SOCKET_ID", (id) => dispatch({ type: "INIT_USER", user: { name: id, id: id } }));
+  }, []);
   return (
     <AppProvider>
       <BrowserRouter>

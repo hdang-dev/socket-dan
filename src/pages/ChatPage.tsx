@@ -1,12 +1,13 @@
 import { useContext, useEffect } from "react";
 import { PlanetBackground, ChatLayout } from "../components";
-import { AppContext } from "../context";
+import { Context } from "../store";
 
 export function ChatPage() {
-  const { updateRoomName } = useContext(AppContext);
+  const { dispatch } = useContext(Context);
+
   useEffect(() => {
-    updateRoomName('Chat Room');
-  }, [updateRoomName]);
+    dispatch({ type: "JOIN_ROOM", room: { type: "chat", id: "123321test" } });
+  }, [dispatch]);
 
   return (
     <PlanetBackground title="Chat Dan">
