@@ -33,7 +33,7 @@ export function DisplayMenu({ order }: DisplayMenuProps) {
   return (
     <Section order={order}>
       <SubTitle text="Change User Name" />
-      <ConfirmedInput placeholder="# Enter your name" value={user.name} buttonLabel="Save" checkDifferent onConfirm={(name) => changeName(name)} />
+      <ConfirmedInput key={user.name} placeholder="# Enter your name" value={user.name} buttonLabel="Save" checkDifferent onConfirm={(name) => changeName(name)} />
       <SubTitle text="Theme Color" />
       <SwipeView style="max-h-[350px]">
         {THEME_COLORS.map(({ name, background, text }, index) => (

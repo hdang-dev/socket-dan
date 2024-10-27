@@ -1,6 +1,7 @@
 import { useContext, useEffect } from "react";
 import { PlanetBackground, ChatLayout } from "../components";
 import { Context } from "../store";
+import { emitEvent } from "../socket";
 
 export function GlobalPage() {
   const { dispatch } = useContext(Context);
@@ -11,6 +12,8 @@ export function GlobalPage() {
 
   useEffect(() => {
     dispatch({ type: "JOIN_ROOM", room: { type: "global", id: "global" } });
+    emitEvent('JOIN_ROOM', 'global')
+    
   }, [dispatch]);
 
   return (

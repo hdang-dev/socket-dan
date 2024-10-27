@@ -10,7 +10,7 @@ interface ChatLayoutProps {
 
 export function ChatLayout({ initMessages }: ChatLayoutProps) {
   const { state } = useContext(Context);
-  const { id, name } = state.user;
+  const { user } = state;
   const [messages, setMessages] = useState<Message[]>(() => {
     if (initMessages) {
       return initMessages.map((message) => ({ text: message, userId: "System", time: getTime() }));
@@ -39,8 +39,8 @@ export function ChatLayout({ initMessages }: ChatLayoutProps) {
   };
 
   const sendMessage = (text: string) => {
-    if (id && text.trim() !== "") {
-      setMessages([...messages, { text, time: getTime(), userId: id }]);
+    if (user.id && text.trim() !== "") {
+      setMessages([...messages, { text, time: getTime(), userId: user.id }]);
       setYourText("");
       scrollToBottom();
       textAreaRef.current!.value = "";
@@ -60,16 +60,18 @@ export function ChatLayout({ initMessages }: ChatLayoutProps) {
     setYourText(text);
     resizeTextBox();
   };
+
   return (
     <div className="w-full h-full pb-[30px] px-[10px] flex flex-col justify-end items-center gap-[25px] md:gap-[40px]">
       {/* Messages */}
       <div ref={messageViewRef} className="pt-[30px] w-full overflow-y-auto flex flex-col gap-[10px] scrollbar-none">
         {messages.map(({ text, time, userId }, index) => (
-          <ChatBubble key={index} text={text} time={time} userName={name} end={userId === id} styleBubble="md:max-w-[30%]" />
+          <ChatBubble key={index} text={text} time={time} userName={user.name} end={userId === user.id} styleBubble="md:max-w-[30%]" />
         ))}
       </div>
 
       {/* Typing */}
+      {state.room.id}
       <div className="w-full flex rounded-[12px] shadow-inner shadow-slate-400 bg-white py-[8px] px-[12px] gap-[10px] md:max-w-[500px]">
         <textarea
           ref={textAreaRef}

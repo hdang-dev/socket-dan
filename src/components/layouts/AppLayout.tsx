@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react";
 import { Context } from "../../store";
 import { MainMenu } from "../../components";
 import { Outlet } from "react-router-dom";
+import { emitEvent, onEvent } from "../../socket";
 
 export function AppLayout() {
   const { state, dispatch } = useContext(Context);
@@ -19,7 +20,12 @@ export function AppLayout() {
 
     calculateDocHeight();
     window.addEventListener("resize", () => calculateDocHeight());
-  });
+
+    emitEvent("SOCKET_ID");
+    onEvent("SOCKET_ID", (socketId) => {
+      dispatch({ type: "INIT_USER", user: { name: "User #" + socketId.slice(0, 6), id: socketId } });
+    });
+  }, [dispatch]);
 
   return (
     <div className="w-full h-full overflow-hidden bg-[var(--bg-color)]">
