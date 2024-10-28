@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-export const Section = ({ order, children, style }: { order: number; children: React.ReactNode; style?: string }) => {
+export const Section = ({ order, children, style }: { order: number; children: React.ReactNode; style?: string; }) => {
   return (
     <section style={{ order: order }} className={`w-full h-full min-h-full flex flex-col pt-[90px] pb-[70px] px-[20px] md:px-[60px] ${style ?? ""}`}>
       {children}
@@ -8,11 +8,11 @@ export const Section = ({ order, children, style }: { order: number; children: R
   );
 };
 
-export const SubTitle = ({ text, style }: { text: string; style?: string }) => {
+export const SubTitle = ({ text, style }: { text: string; style?: string; }) => {
   return <h2 className={`[&:not(:first-child)]:mt-[60px] text-center mb-[30px] font-bold md:text-left md:text-lg ${style ?? ""}`}>{text}</h2>;
 };
 
-export const RoomCard = ({ name, imageUrl }: { name: string; imageUrl: string }) => {
+export const RoomCard = ({ name, imageUrl }: { name: string; imageUrl: string; }) => {
   return (
     <div className="cursor-pointer w-[250px] aspect-[5/3] overflow-hidden rounded-[24px] border-[3px] border-white shadow-lg">
       <div
@@ -43,9 +43,8 @@ export const Button = ({
 }) => {
   return (
     <button
-      className={`min-w-[150px] py-[5px] rounded-[24px] transition-all duration-100 active:text-[var(--bg-color)] ${
-        noOutline ? "" : "border-[2px] border-white shadow-lg px-[15px] bg-[rgb(255,255,255,0.7)] text-black"
-      } ${isText ? "pointer-events-none" : ""} ${style ?? ""}`}
+      className={`min-w-[150px] py-[5px] rounded-[24px] transition-all duration-100 active:text-[var(--bg-color)] ${noOutline ? "" : "border-[2px] border-white shadow-lg px-[15px] bg-[rgb(255,255,255,0.7)] text-black"
+        } ${isText ? "pointer-events-none" : ""} ${style ?? ""}`}
       style={{ backgroundColor: background, color: text }}
       onClick={() => onClick?.()}>
       {children}
@@ -92,12 +91,21 @@ export const ConfirmedInput = ({
   );
 };
 
-export const SwipeView = ({ children, style }: { children: React.ReactNode; style?: string }) => {
+export const SwipeView = ({ children, style }: { children: React.ReactNode; style?: string; }) => {
+  const itemListRef = useRef<HTMLDivElement>(null);
   return (
-    <div className={`w-screen overflow-x-auto snap-x snap-mandatory scrollbar-none ml-[-20px] md:ml-[-60px] px-[20px] md:px-[60px] ${style ?? ""}`}>
-      <div className="w-full min-w-max h-full flex justify-center md:justify-start">
-        <div className="h-full w-fit flex flex-col flex-wrap gap-[20px] items-center">{children}</div>
-      </div>
+    // <div className={`w-screen overflow-x-auto snap-x snap-mandatory scrollbar-none ml-[-20px] md:ml-[-60px] px-[20px] md:px-[60px] ${style ?? ""}`}>
+    //   <div className="w-full min-w-max h-full flex justify-center md:justify-start">
+    //     {/* <div ref={itemListRef} style={{ width: itemListRef.current?.scrollWidth + 'px' }} className="h-full w-fit flex flex-col flex-wrap gap-[20px] items-center">{children}</div> */}
+    //     <div className="h-full w-fit flex flex-col flex-wrap gap-[20px] items-center">{children}</div>
+    //   </div>
+    // </div>
+
+
+    // grid-auto-flow: column;
+    // grid-template-rows: repeat(auto-fill, 200px)
+    <div className={`border border-black grid  gap-[20px] w-screen overflow-scroll scrollbar-none ml-[-20px] md:ml-[-60px] px-[20px] md:px-[60px] ${style ?? ''}`}>
+      {children}
     </div>
   );
 };

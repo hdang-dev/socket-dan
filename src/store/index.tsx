@@ -7,16 +7,17 @@ const initialState: AppState = {
   room: { type: null, id: "" },
   display: {
     menuButtonName: "",
-    menuVisible: false,
+    // menuVisible: false,
+    menuVisible: true,
   },
 };
 
 export const Context = createContext<AppContext>({
   state: initialState,
-  dispatch: () => {},
+  dispatch: () => { },
 });
 
-export default function AppProvider({ children }: { children: React.ReactNode }) {
+export default function AppProvider({ children }: { children: React.ReactNode; }) {
   const [state, dispatch] = useReducer(appReducer, initialState);
   return <Context.Provider value={{ state, dispatch }}>{children}</Context.Provider>;
 }
