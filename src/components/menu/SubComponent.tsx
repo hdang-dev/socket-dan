@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { isSafariBrownser } from "../../utils";
 
 export const Section = ({ order, children, style }: { order: number; children: React.ReactNode; style?: string; }) => {
   return (
@@ -92,9 +93,16 @@ export const ConfirmedInput = ({
 };
 
 export const SwipeView = ({ children, style }: { children: React.ReactNode; style?: string; }) => {
+  const childrenRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const element = childrenRef.current;
+    if (isSafariBrownser() && element) {
+      element.style.width = element.scrollWidth + 'px';
+    }
+  }, [childrenRef]);
   return (
     <div className={`w-screen overflow-scroll scrollbar-none snap-x snap-mandatory ml-[-20px] md:ml-[-60px] px-[20px] md:px-[60px] ${style ?? ''}`}>
-      <div className="w-max h-full flex flex-col flex-wrap gap-[20px] mx-auto md:mx-0">
+      <div ref={childrenRef} className="w-max h-full flex flex-col flex-wrap gap-[20px] mx-auto md:mx-0">
         {children}
       </div >
     </div>
