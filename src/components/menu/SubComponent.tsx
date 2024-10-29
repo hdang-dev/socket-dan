@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 
 export const Section = ({ order, children, style }: { order: number; children: React.ReactNode; style?: string; }) => {
   return (
@@ -92,20 +92,11 @@ export const ConfirmedInput = ({
 };
 
 export const SwipeView = ({ children, style }: { children: React.ReactNode; style?: string; }) => {
-  const itemListRef = useRef<HTMLDivElement>(null);
   return (
-    // <div className={`w-screen overflow-x-auto snap-x snap-mandatory scrollbar-none ml-[-20px] md:ml-[-60px] px-[20px] md:px-[60px] ${style ?? ""}`}>
-    //   <div className="w-full min-w-max h-full flex justify-center md:justify-start">
-    //     {/* <div ref={itemListRef} style={{ width: itemListRef.current?.scrollWidth + 'px' }} className="h-full w-fit flex flex-col flex-wrap gap-[20px] items-center">{children}</div> */}
-    //     <div className="h-full w-fit flex flex-col flex-wrap gap-[20px] items-center">{children}</div>
-    //   </div>
-    // </div>
-
-
-    // grid-auto-flow: column;
-    // grid-template-rows: repeat(auto-fill, 200px)
-    <div className={`border border-black grid  gap-[20px] w-screen overflow-scroll scrollbar-none ml-[-20px] md:ml-[-60px] px-[20px] md:px-[60px] ${style ?? ''}`}>
-      {children}
+    <div className={`w-screen overflow-scroll scrollbar-none snap-x snap-mandatory ml-[-20px] md:ml-[-60px] px-[20px] md:px-[60px] ${style ?? ''}`}>
+      <div className="w-max h-full flex flex-col flex-wrap gap-[20px] mx-auto md:mx-0">
+        {children}
+      </div >
     </div>
   );
 };

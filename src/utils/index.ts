@@ -16,3 +16,7 @@ export const generateRoomId = () => {
 
   return id;
 };
+
+export const isSafariBrownser = () => {
+  return navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome');
+};
