@@ -1,4 +1,4 @@
-import planet from "../planets/earth.svg";
+import planet from "../planets/a.earth.svg";
 
 interface PlanetBackgroundProps {
   title?: string;
