@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { Context } from "../../store";
+import { Context } from "../context";
 import { THEME_COLORS } from "./data";
-import { Button, ConfirmedInput, Section, SubTitle, SwipeView } from "./SubComponent";
+import { Button, ConfirmedInput, Section, SubTitle, SwipeView } from "./SubComponents";
 
 interface DisplayMenuProps {
   order: number;

@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { ROOM_LIST } from "./data";
-import { ConfirmedInput, RoomCard, Section, SubTitle, SwipeView } from "./SubComponent";
+import { ConfirmedInput, RoomCard, Section, SubTitle, SwipeView } from "./SubComponents";
 import { useContext } from "react";
-import { Context } from "../../store";
+import { Context } from "../context";
 
 interface RoomsMenuProps {
   order: number;

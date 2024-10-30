@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import { Button, Section, SubTitle, SwipeView } from "./SubComponent";
-import { Context } from "../../store";
+import { Button, Section, SubTitle, SwipeView } from "./SubComponents";
+import { Context } from "../context";
 import { useLocation } from "react-router-dom";
 
 interface InfoMenuProps {

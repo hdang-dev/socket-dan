@@ -1,7 +1,7 @@
+import AppProvider from "./context";
+import { AppLayout } from "./layout";
+import { GlobalRoom, ChatRoom } from "./rooms";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import AppProvider from "./store";
-import { AppLayout } from "./components";
-import { GlobalPage, ChatPage } from "./pages";
 
 export default function App() {
   return (
@@ -9,8 +9,8 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<AppLayout />}>
-            <Route index element={<GlobalPage />} />
-            <Route path="chat/:roomId" element={<ChatPage />} />
+            <Route index element={<GlobalRoom />} />
+            <Route path="chat/:roomId" element={<ChatRoom />} />
           </Route>
         </Routes>
       </BrowserRouter>

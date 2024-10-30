@@ -1,15 +1,15 @@
-import { ChatBubble } from "../../components";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Context } from "../../context";
-import { getTime } from "../../utils";
-import type { Message } from "../../interfaces";
+import { Message } from "../../interfaces";
+import { ChatBubble } from "../../components";
+import { generateRoomId, getTime } from "../../utils";
 
 interface ChatLayoutProps {
   initMessages?: string[];
 }
 
-export function ChatLayout({ initMessages }: ChatLayoutProps) {
-  const { state } = useContext(Context);
+export function ChatRoom({ initMessages }: ChatLayoutProps) {
+  const { state, dispatch } = useContext(Context);
   const { user } = state;
   const [messages, setMessages] = useState<Message[]>(() => {
     if (initMessages) {
@@ -60,6 +60,10 @@ export function ChatLayout({ initMessages }: ChatLayoutProps) {
     setYourText(text);
     resizeTextBox();
   };
+
+  useEffect(() => {
+    dispatch({ type: "JOIN_ROOM", room: { type: "chat", id: generateRoomId() } });
+  }, [dispatch]);
 
   return (
     <div className="w-full h-full pb-[10px] px-[10px] flex flex-col justify-end items-center gap-[25px] md:gap-[40px]">

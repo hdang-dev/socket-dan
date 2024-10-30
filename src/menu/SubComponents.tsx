@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import { isSafariBrownser } from "../../utils";
+import { isSafariBrowser } from "../utils";
 
-export const Section = ({ order, children, style }: { order: number; children: React.ReactNode; style?: string; }) => {
+export const Section = ({ order, children, style }: { order: number; children: React.ReactNode; style?: string }) => {
   return (
     <section style={{ order: order }} className={`w-full h-full min-h-full flex flex-col pt-[90px] pb-[70px] px-[20px] md:px-[60px] ${style ?? ""}`}>
       {children}
@@ -9,11 +9,11 @@ export const Section = ({ order, children, style }: { order: number; children: R
   );
 };
 
-export const SubTitle = ({ text, style }: { text: string; style?: string; }) => {
+export const SubTitle = ({ text, style }: { text: string; style?: string }) => {
   return <h2 className={`[&:not(:first-child)]:mt-[60px] text-center mb-[30px] font-bold md:text-left md:text-lg ${style ?? ""}`}>{text}</h2>;
 };
 
-export const RoomCard = ({ name, imageUrl }: { name: string; imageUrl: string; }) => {
+export const RoomCard = ({ name, imageUrl }: { name: string; imageUrl: string }) => {
   return (
     <div className="cursor-pointer w-[250px] aspect-[5/3] overflow-hidden rounded-[24px] border-[3px] border-white shadow-lg">
       <div
@@ -44,8 +44,9 @@ export const Button = ({
 }) => {
   return (
     <button
-      className={`min-w-[150px] py-[5px] rounded-[24px] transition-all duration-100 active:text-[var(--bg-color)] ${noOutline ? "" : "border-[2px] border-white shadow-lg px-[15px] bg-[rgb(255,255,255,0.7)] text-black"
-        } ${isText ? "pointer-events-none" : ""} ${style ?? ""}`}
+      className={`min-w-[150px] py-[5px] rounded-[24px] transition-all duration-100 active:text-[var(--bg-color)] ${
+        noOutline ? "" : "border-[2px] border-white shadow-lg px-[15px] bg-[rgb(255,255,255,0.7)] text-black"
+      } ${isText ? "pointer-events-none" : ""} ${style ?? ""}`}
       style={{ backgroundColor: background, color: text }}
       onClick={() => onClick?.()}>
       {children}
@@ -92,19 +93,19 @@ export const ConfirmedInput = ({
   );
 };
 
-export const SwipeView = ({ children, style }: { children: React.ReactNode; style?: string; }) => {
+export const SwipeView = ({ children, style }: { children: React.ReactNode; style?: string }) => {
   const childrenRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const element = childrenRef.current;
-    if (isSafariBrownser() && element) {
-      element.style.width = element.scrollWidth + 'px';
+    if (isSafariBrowser() && element) {
+      element.style.width = element.scrollWidth + "px";
     }
   }, [childrenRef]);
   return (
-    <div className={`w-screen overflow-scroll scrollbar-none snap-x snap-mandatory ml-[-20px] md:ml-[-60px] px-[20px] md:px-[60px] ${style ?? ''}`}>
+    <div className={`w-screen overflow-scroll scrollbar-none snap-x snap-mandatory ml-[-20px] md:ml-[-60px] px-[20px] md:px-[60px] ${style ?? ""}`}>
       <div ref={childrenRef} className="w-max h-full flex flex-col flex-wrap gap-[20px] mx-auto md:mx-0">
         {children}
-      </div >
+      </div>
     </div>
   );
 };

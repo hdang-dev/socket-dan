@@ -4,7 +4,7 @@ import { useRef } from "react";
 
 // const socket = io(import.meta.env.VITE_SERVER_URL);
 
-export function CallPage() {
+export function CallRoom() {
   const myVideo = useRef<HTMLVideoElement>(null);
   const friendVideo = useRef<HTMLVideoElement>(null);
   // const peer = new Peer();
