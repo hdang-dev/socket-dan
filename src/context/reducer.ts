@@ -6,7 +6,7 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
     case "INIT_USER":
       return {
         ...state,
-        user: action.user,
+        you: action.user,
       };
     case "TOGGLE_MENU":
       return {
@@ -16,14 +16,24 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
           menuVisible: !state.display.menuVisible,
         },
       };
-    case "CHANGE_USER_NAME":
+    case "CHANGE_USER_NAME": {
+      const { you, room } = state;
+      const newYou = { ...you, name: action.name };
       return {
         ...state,
-        user: {
-          ...state.user,
-          name: action.name,
+        you: {
+          ...newYou
         },
+        room: {
+          ...room,
+          users: [
+            ...state.room.users.filter(user => user.id !== state.you.id),
+            { ...newYou }
+          ]
+        }
       };
+    };
+
     case "JOIN_ROOM":
       return {
         ...state,

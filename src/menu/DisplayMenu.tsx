@@ -9,7 +9,7 @@ interface DisplayMenuProps {
 
 export function DisplayMenu({ order }: DisplayMenuProps) {
   const { state, dispatch } = useContext(Context);
-  const { user } = state;
+  const { you } = state;
 
   const changeName = (name: string) => {
     dispatch({ type: "CHANGE_USER_NAME", name });
@@ -33,7 +33,7 @@ export function DisplayMenu({ order }: DisplayMenuProps) {
   return (
     <Section order={order}>
       <SubTitle text="Change User Name" />
-      <ConfirmedInput key={user.name} placeholder="# Enter your name" value={user.name} buttonLabel="Save" checkDifferent onConfirm={(name) => changeName(name)} />
+      <ConfirmedInput key={you.name} placeholder="# Enter your name" value={you.name} buttonLabel="Save" checkDifferent onConfirm={(name) => changeName(name)} />
       <SubTitle text="Theme Color" />
       <SwipeView style="max-h-[350px]">
         {THEME_COLORS.map(({ name, background, text }, index) => (

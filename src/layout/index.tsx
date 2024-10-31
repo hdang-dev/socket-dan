@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Context } from "../context";
 import { Menu } from "../menu";
 import { Outlet } from "react-router-dom";
@@ -13,6 +13,7 @@ export function AppLayout() {
     if (!roomType) return "";
     return roomType[0].toLocaleUpperCase() + roomType.slice(1) + " Room";
   })();
+  const [socketReady, setSocketReady] = useState(false);
 
   useEffect(() => {
     const calculateDocHeight = () => {
@@ -25,15 +26,18 @@ export function AppLayout() {
     emitEvent("SOCKET_ID");
     onEvent("SOCKET_ID", (socketId) => {
       dispatch({ type: "INIT_USER", user: { name: "User #" + socketId.slice(0, 6), id: socketId } });
+      setTimeout(() =>
+        setSocketReady(true)
+        , 1000);
     });
-  }, [dispatch]);
+  }, []);
 
   return (
     <AppBackground>
       {/* Room content */}
       <div className={`w-full h-full transition-all duration-[1s] relative  ${menuVisible ? "opacity-0 -translate-x-full" : ""}`}>
         <RoomBackground>
-          <Outlet />
+          {socketReady && <Outlet />}
         </RoomBackground>
       </div>
 
@@ -45,11 +49,13 @@ export function AppLayout() {
       </div>
 
       {/* Menu button */}
-      <button
-        className={`absolute top-0 left-1/2 -translate-x-1/2 w-[160px] h-[30px] rounded-b-[16px] bg-white shadow-md transition-all duration-100 text-black active:text-[var(--bg-color)] font-bold outline-none`}
-        onClick={() => dispatch({ type: "TOGGLE_MENU" })}>
-        {menuVisible ? "Back to Room" : menuButtonName}
-      </button>
+      {socketReady &&
+        <button
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-[160px] h-[30px] rounded-b-[16px] bg-white shadow-md transition-all duration-100 text-black active:text-[var(--bg-color)] font-bold outline-none"
+          onClick={() => dispatch({ type: "TOGGLE_MENU" })}>
+          {menuVisible ? "Back to Room" : menuButtonName}
+        </button>
+      }
     </AppBackground>
   );
 }

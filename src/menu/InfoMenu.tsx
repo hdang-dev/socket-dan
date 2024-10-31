@@ -10,8 +10,8 @@ interface InfoMenuProps {
 export function InfoMenu({ order }: InfoMenuProps) {
   const location = useLocation();
   const [roomLink, setRoomLink] = useState<string>(window.location.href);
-  const { user } = useContext(Context).state;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { you } = useContext(Context).state;
+
   const [userList] = useState<string[]>([
     "Adam Aquasthi Lee",
     "Evela Meh",
@@ -49,7 +49,7 @@ export function InfoMenu({ order }: InfoMenuProps) {
       <SubTitle text="Members" />
       <SwipeView style="max-h-[350px]">
         <Button isText style="w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">
-          You ({user.name})
+          You ({you.name})
         </Button>
         {userList.map((user, index) => (
           <Button key={index} isText style="w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">

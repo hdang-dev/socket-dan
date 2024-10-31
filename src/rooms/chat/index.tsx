@@ -4,19 +4,14 @@ import { Message } from "../../interfaces";
 import { ChatBubble } from "../../components";
 import { generateRoomId, getTime } from "../../utils";
 
-interface ChatLayoutProps {
-  initMessages?: string[];
+interface ChatRoomProps {
+  isGlobalRoom?: boolean;
 }
 
-export function ChatRoom({ initMessages }: ChatLayoutProps) {
+export function ChatRoom({ isGlobalRoom }: ChatRoomProps) {
   const { state, dispatch } = useContext(Context);
-  const { user } = state;
-  const [messages, setMessages] = useState<Message[]>(() => {
-    if (initMessages) {
-      return initMessages.map((message) => ({ text: message, userName: "System", time: getTime() }));
-    }
-    return [];
-  });
+  const { you, room } = state;
+  const [messages, setMessages] = useState<Message[]>([]);
   const [yourText, setYourText] = useState<string>("");
 
   const messageViewRef = useRef<HTMLDivElement>(null);
@@ -40,7 +35,7 @@ export function ChatRoom({ initMessages }: ChatLayoutProps) {
 
   const sendMessage = (text: string) => {
     if (text.trim() !== "") {
-      setMessages([...messages, { text, time: getTime(), userName: user.name }]);
+      setMessages([...messages, { text, time: getTime(), userId: you.id }]);
       setYourText("");
       scrollToBottom();
       textAreaRef.current!.value = "";
@@ -62,16 +57,25 @@ export function ChatRoom({ initMessages }: ChatLayoutProps) {
   };
 
   useEffect(() => {
-    dispatch({ type: "JOIN_ROOM", room: { type: "chat", id: generateRoomId() } });
-  }, [dispatch]);
+    if (isGlobalRoom) {
+      const systemUser = { name: 'System', id: 'system' };
+      setMessages([{ text: 'Welcome to Socket Dan', userId: "system", time: getTime() }]);
+      dispatch({ type: 'JOIN_ROOM', room: { type: 'global', id: generateRoomId(), users: [systemUser, you] } });
+    } else {
+      dispatch({ type: 'JOIN_ROOM', room: { type: 'chat', id: generateRoomId(), users: [you] } });
+    }
+  }, [you.id]);
 
   return (
-    <div className="w-full h-full pb-[10px] px-[10px] flex flex-col justify-end items-center gap-[25px] md:gap-[40px]">
+    <div className="w-full h-full pb-[40px] px-[10px] flex flex-col justify-end items-center gap-[25px] md:gap-[40px]">
       {/* Messages */}
       <div ref={messageViewRef} className="pt-[30px] w-full overflow-y-auto flex flex-col gap-[10px] scrollbar-none">
-        {messages.map(({ text, time, userName }, index) => (
-          <ChatBubble key={index} text={text} time={time} userName={userName} end={userName === user.id} styleBubble="md:max-w-[30%]" />
-        ))}
+        {messages.map(({ text, time, userId }, index) => {
+          const userName = room.users.filter(user => user.id === userId)[0].name;
+          return (
+            <ChatBubble key={index} text={text} time={time} userName={userName} end={userId === you.id} styleBubble="md:max-w-[30%]" />
+          );
+        })}
       </div>
 
       {/* Typing */}

@@ -6,4 +6,5 @@ export type User = {
 export type Room = {
   type: null | "global" | "chat" | "call";
   id: string;
+  users: User[];
 };

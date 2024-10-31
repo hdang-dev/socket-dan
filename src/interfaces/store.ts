@@ -7,7 +7,7 @@ export type AppContext = {
 };
 
 export type AppState = {
-  user: User;
+  you: User;
   room: Room;
   display: {
     menuVisible: boolean;
