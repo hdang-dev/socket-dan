@@ -3,6 +3,8 @@ import { Context } from "../../context";
 import { Message } from "../../interfaces";
 import { ChatBubble } from "../../components";
 import { generateRoomId, getTime } from "../../utils";
+import { emitMessage, onMessage } from "../../socket/chat-event";
+import { emitEvent, onEvent } from "../../socket";
 
 interface ChatRoomProps {
   isGlobalRoom?: boolean;
@@ -35,12 +37,14 @@ export function ChatRoom({ isGlobalRoom }: ChatRoomProps) {
 
   const sendMessage = (text: string) => {
     if (text.trim() !== "") {
-      setMessages([...messages, { text, time: getTime(), userId: you.id }]);
+      const message: Message = { text, time: getTime(), userId: you.id };
+      setMessages([...messages, message]);
       setYourText("");
       scrollToBottom();
       textAreaRef.current!.value = "";
       textAreaRef.current!.focus();
       resizeTextBox();
+      // emitMessage(message, room.id);
     }
   };
 
@@ -60,11 +64,24 @@ export function ChatRoom({ isGlobalRoom }: ChatRoomProps) {
     if (isGlobalRoom) {
       const systemUser = { name: 'System', id: 'system' };
       setMessages([{ text: 'Welcome to Socket Dan', userId: "system", time: getTime() }]);
-      dispatch({ type: 'JOIN_ROOM', room: { type: 'global', id: generateRoomId(), users: [systemUser, you] } });
+      dispatch({ type: 'JOIN_ROOM', room: { type: 'global', id: window.location.pathname, users: [systemUser, you] } });
     } else {
-      dispatch({ type: 'JOIN_ROOM', room: { type: 'chat', id: generateRoomId(), users: [you] } });
+      dispatch({ type: 'JOIN_ROOM', room: { type: 'chat', id: window.location.pathname, users: [you] } });
     }
-  }, [you.id]);
+
+    // emitEvent('')
+    // onMessage((message) => {
+    //   setMessages([...messages, message]);
+    // });
+
+    emitEvent('JOIN_ROOM', room.id);
+    emitEvent('DATA', 'join', room.id, you);
+    onEvent<{ type: string, user: User; }>('DATA', ({ type, user }) => {
+      if (type === 'join') {
+        console.log('New user : ' + JSON.stringify(user));
+      }
+    });
+  }, []);
 
   return (
     <div className="w-full h-full pb-[40px] px-[10px] flex flex-col justify-end items-center gap-[25px] md:gap-[40px]">

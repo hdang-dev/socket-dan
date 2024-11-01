@@ -8,10 +8,10 @@ import { AppBackground, RoomBackground, MenuBackground } from "./SubComponents";
 export function AppLayout() {
   const { state, dispatch } = useContext(Context);
   const menuVisible = state.display.menuVisible;
-  const roomType = state.room.type;
+  const room = state.room;
   const menuButtonName = (() => {
-    if (!roomType) return "";
-    return roomType[0].toLocaleUpperCase() + roomType.slice(1) + " Room";
+    if (!room.type) return "";
+    return room.type[0].toLocaleUpperCase() + room.type.slice(1) + " Room";
   })();
   const [socketReady, setSocketReady] = useState(false);
 
@@ -26,9 +26,7 @@ export function AppLayout() {
     emitEvent("SOCKET_ID");
     onEvent("SOCKET_ID", (socketId) => {
       dispatch({ type: "INIT_USER", user: { name: "User #" + socketId.slice(0, 6), id: socketId } });
-      setTimeout(() =>
-        setSocketReady(true)
-        , 1000);
+      setSocketReady(true);
     });
   }, []);
 

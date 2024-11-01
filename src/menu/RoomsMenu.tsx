@@ -3,6 +3,7 @@ import { ROOM_LIST } from "./data";
 import { ConfirmedInput, RoomCard, Section, SubTitle, SwipeView } from "./SubComponents";
 import { useContext } from "react";
 import { Context } from "../context";
+import { generateRoomId } from "../utils";
 
 interface RoomsMenuProps {
   order: number;
@@ -18,7 +19,7 @@ export function RoomsMenu({ order }: RoomsMenuProps) {
     console.log("to room: ", name);
     switch (name) {
       case "Chat Room":
-        navigate("chat/123321");
+        navigate(`chat/${generateRoomId()}`);
         break;
       default:
         navigate("/");
