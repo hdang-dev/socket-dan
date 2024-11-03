@@ -4,7 +4,7 @@ export type User = {
 };
 
 export type Room = {
-  type: null | "global" | "chat" | "call";
+  type: string;
   id: string;
   users: User[];
 };

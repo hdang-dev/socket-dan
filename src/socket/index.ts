@@ -1,38 +1,42 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useContext } from "react";
 import { io } from "socket.io-client";
+import { Context } from "../context";
 
-const socket = io(import.meta.env.VITE_SERVER_URL);
+const socket = io(import.meta.env.VITE_SERVER_URL, { autoConnect: false });
 
-// =======================================================================================================
-// Emitting events
-// =======================================================================================================
-
-// Declaration
-export function emitEvent(event: "SOCKET_ID"): void;
-export function emitEvent(event: "JOIN_ROOM", roomId: string): void;
-export function emitEvent(event: "LEAVE_ROOM", roomId: string): void;
-export function emitEvent<T>(event: "DATA", roomId: string, key: string, data: T,): void;
-
-// Implementation
-export function emitEvent(event: string, ...params: any[]): void {
-  socket.emit(event, ...params);
+enum SocketEvent {
+  CONNECT = "CONNECT",
+  DISCONNECT = "DISCONNECT",
+  JOIN_ROOM = "JOIN_ROOM",
+  LEAVE_ROOM = "LEAVE_ROOM",
+  DATA = "DATA",
 }
 
-// =======================================================================================================
-// Received events
-// =======================================================================================================
+export const socketService = {
+  connect(handler: (socketId: string) => void) {
+    socket.connect();
+    socket.on(SocketEvent.CONNECT, handler);
+  },
 
-// Declaration
-export function onEvent(event: "SOCKET_ID", listener: (socketId: string) => void): void;
-export function onEvent<T>(event: "DATA", listener: (data: T) => void): void;
+  userDisconnect(handler: (socketId: string) => void) {
+    socket.on("disconnect", handler);
+  },
 
-// Implementation
-export function onEvent(event: string, key?: string, listener: (...args: any[]) => void): void {
-  socket.on(event, args => {
-    if (event === 'DATA' && key === args[0]) {
-      listener(args);
-    } else {
-      listener(args);
-    }
-  });
-}
+  joinRoom(roomId: string) {
+    socket.emit(SocketEvent.JOIN_ROOM, roomId);
+  },
+
+  leaveRoom(roomId: string) {
+    socket.emit(SocketEvent.LEAVE_ROOM, roomId);
+  },
+
+  sendData<T>(roomId: string, key: string, data: T) {
+    socket.emit(SocketEvent.DATA, roomId, key, data);
+  },
+
+  receiveData<T>(key: string, handler: (data: T) => void) {
+    socket.on(SocketEvent.DATA, (onKey, data) => {
+      if (onKey === key) handler(data);
+    });
+  },
+};
