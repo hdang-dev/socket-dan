@@ -1,35 +1,32 @@
 import { AppAction, AppState } from "../interfaces";
-import { socketService as socket } from "../socket";
 
 export const appReducer = (state: AppState, action: AppAction): AppState => {
+  const { you, room, display } = state;
   const { type } = action;
   switch (type) {
     case "INIT_USER":
       return {
         ...state,
-        you: action.user,
+        you: action.you,
       };
 
     case "TOGGLE_MENU":
       return {
         ...state,
         display: {
-          ...state.display,
-          menuVisible: !state.display.menuVisible,
+          ...display,
+          menuVisible: !display.menuVisible,
         },
       };
 
     case "CHANGE_USER_NAME": {
-      const { you, room } = state;
-      const newYou = { ...you, name: action.name };
+      const newYou = { ...you!, name: action.name };
       return {
         ...state,
-        you: {
-          ...newYou,
-        },
+        you: newYou,
         room: {
-          ...room,
-          users: [...state.room.users.filter((user) => user.id !== state.you.id), { ...newYou }],
+          ...room!,
+          users: [...room!.users.filter((user) => user.id !== you!.id), { ...newYou }],
         },
       };
     }
@@ -44,8 +41,8 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
       return {
         ...state,
         room: {
-          ...state.room,
-          users: [...state.room.users, action.user],
+          ...room!,
+          users: [...room!.users, action.user],
         },
       };
 
@@ -53,8 +50,8 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
       return {
         ...state,
         room: {
-          ...state.room,
-          users: state.room.users.filter((user) => user.id !== action.user.id),
+          ...room!,
+          users: room!.users.filter((user) => user.id !== action.user.id),
         },
       };
 

@@ -1,25 +1,23 @@
-import React, { useContext } from "react";
 import { io } from "socket.io-client";
-import { Context } from "../context";
 
-const socket = io(import.meta.env.VITE_SERVER_URL, { autoConnect: false });
+const socket = io(import.meta.env.VITE_SERVER_URL);
 
 enum SocketEvent {
-  CONNECT = "CONNECT",
-  DISCONNECT = "DISCONNECT",
+  GET_ID = "GET_ID",
+  USER_DISCONNECT = "USER_DISCONNECT",
   JOIN_ROOM = "JOIN_ROOM",
   LEAVE_ROOM = "LEAVE_ROOM",
   DATA = "DATA",
 }
 
 export const socketService = {
-  connect(handler: (socketId: string) => void) {
-    socket.connect();
-    socket.on(SocketEvent.CONNECT, handler);
+  getId(handler: (id: string) => void) {
+    socket.emit(SocketEvent.GET_ID);
+    socket.on(SocketEvent.GET_ID, handler);
   },
 
   userDisconnect(handler: (socketId: string) => void) {
-    socket.on("disconnect", handler);
+    socket.on(SocketEvent.USER_DISCONNECT, handler);
   },
 
   joinRoom(roomId: string) {

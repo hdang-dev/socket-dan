@@ -7,8 +7,8 @@ export type AppContext = {
 };
 
 export type AppState = {
-  you: User;
-  room: Room;
+  you: User | null;
+  room: Room | null;
   display: {
     menuVisible: boolean;
     menuButtonName: string;
@@ -17,7 +17,7 @@ export type AppState = {
 
 type InitUserAction = {
   type: "INIT_USER";
-  user: User;
+  you: User;
 };
 
 type ChangeUserNameAction = {
