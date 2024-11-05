@@ -3,7 +3,7 @@ import { Context } from "../context";
 import { Menu } from "../menu";
 import { Outlet, useLocation } from "react-router-dom";
 import { socketService as socket } from "../socket";
-import { AppBackground, RoomBackground, MenuBackground } from "./SubComponents";
+import { AppBackground } from "./SubComponents";
 import { User } from "../interfaces";
 import { roomTypeToName } from "../utils";
 
@@ -60,15 +60,13 @@ export function AppLayout() {
   return (
     <AppBackground>
       {/* Room content */}
-      <div className={`w-full h-full transition-all duration-[1s] relative  ${display.menuVisible ? "opacity-0 -translate-x-full" : ""}`}>
-        <RoomBackground>{you && <Outlet />}</RoomBackground>
+      <div className={`w-full h-full transition-all duration-[1s] relative  ${display.menuVisible ? "opacity-0 translate-x-full" : ""}`}>
+        {you && <Outlet />}
       </div>
 
       {/* Menu */}
-      <div className={`absolute inset-0 transition-all duration-[1s] ${display.menuVisible ? "" : "opacity-0 translate-x-full"}`}>
-        <MenuBackground>
-          {you && room && <Menu />}
-        </MenuBackground>
+      <div className={`absolute inset-0 transition-all duration-[1s] ${display.menuVisible ? "" : "opacity-0 -translate-y-full"}`}>
+        {you && room && <Menu />}
       </div>
 
       {/* Menu button */}
