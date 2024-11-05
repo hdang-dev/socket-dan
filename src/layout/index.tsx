@@ -9,10 +9,9 @@ import { roomTypeToName } from "../utils";
 
 export function AppLayout() {
   const { state, dispatch } = useContext(Context);
-  const { you, room, display } = state;
+  const { you, room, menuVisible } = state;
   const [prevRoom, setPrevRoom] = useState<string | null>(null);
   const location = useLocation();
-
 
   useEffect(() => {
     const [roomType, roomId] = location.pathname === "/" ? ["global", "global"] : location.pathname.split("/").slice(1);
@@ -37,7 +36,7 @@ export function AppLayout() {
         dispatch({ type: "REMOVE_USER", userId: user.id });
       });
 
-      socket.userDisconnect(userId => {
+      socket.userDisconnect((userId) => {
         dispatch({ type: "REMOVE_USER", userId });
       });
     }
@@ -46,11 +45,11 @@ export function AppLayout() {
   useEffect(() => {
     if (room?.id && you) {
       if (prevRoom) {
-        socket.sendData(prevRoom, 'user-leave', you);
+        socket.sendData(prevRoom, "user-leave", you);
         socket.leaveRoom(prevRoom);
       }
 
-      dispatch({ type: 'ADD_USER', user: you });
+      dispatch({ type: "ADD_USER", user: you });
       socket.joinRoom(room.id);
       socket.sendData(room.id, "new-user", you);
       setPrevRoom(room.id);
@@ -60,21 +59,17 @@ export function AppLayout() {
   return (
     <AppBackground>
       {/* Room content */}
-      <div className={`w-full h-full transition-all duration-[1s] relative  ${display.menuVisible ? "opacity-0 translate-x-full" : ""}`}>
-        {you && <Outlet />}
-      </div>
+      <div className={`w-full h-full transition-all duration-[1s] relative  ${menuVisible ? "opacity-0 -translate-y-full" : ""}`}>{you && <Outlet />}</div>
 
       {/* Menu */}
-      <div className={`absolute inset-0 transition-all duration-[1s] ${display.menuVisible ? "" : "opacity-0 -translate-y-full"}`}>
-        {you && room && <Menu />}
-      </div>
+      <div className={`absolute inset-0 transition-all duration-[1s] ${menuVisible ? "" : "opacity-0 translate-y-full"}`}>{you && room && <Menu />}</div>
 
       {/* Menu button */}
       {you && (
         <button
           className="absolute top-0 left-1/2 -translate-x-1/2 w-[160px] h-[30px] rounded-b-[16px] bg-white shadow-md transition-all duration-100 text-black active:text-[var(--bg-color)] font-bold outline-none"
           onClick={() => dispatch({ type: "TOGGLE_MENU" })}>
-          {display.menuVisible ? "Back to Room" : roomTypeToName(room!.type)}
+          {menuVisible ? "Back to Room" : roomTypeToName(room!.type)}
         </button>
       )}
     </AppBackground>

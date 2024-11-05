@@ -1,7 +1,7 @@
 import { AppAction, AppState } from "../interfaces";
 
 export const appReducer = (state: AppState, action: AppAction): AppState => {
-  const { you, room, display } = state;
+  const { you, room, menuVisible } = state;
   const { type } = action;
   switch (type) {
     case "INIT_USER":
@@ -13,14 +13,11 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
     case "TOGGLE_MENU":
       return {
         ...state,
-        display: {
-          ...display,
-          menuVisible: !display.menuVisible,
-        },
+        menuVisible: !menuVisible,
       };
 
     case "CHANGE_NAME": {
-      const index = room!.users.findIndex(user => user.id === action.user.id);
+      const index = room!.users.findIndex((user) => user.id === action.user.id);
       if (action.user.id === you!.id) {
         return {
           ...state,
@@ -46,8 +43,8 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         room: {
           type: action.roomType,
           id: action.roomId,
-          users: []
-        }
+          users: [],
+        },
       };
 
     case "ADD_USER":

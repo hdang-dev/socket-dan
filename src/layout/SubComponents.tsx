@@ -1,26 +1,26 @@
 import { useContext } from "react";
 import { Context } from "../context";
 
-export function AppBackground({ children }: { children: React.ReactNode; }) {
+export function AppBackground({ children }: { children: React.ReactNode }) {
   const { state } = useContext(Context);
-  const { display } = state;
-  const background = "/backgrounds/background3.svg";
-  const planet = "/planets/c.earth.svg";
+  const { menuVisible, theme } = state;
 
   return (
     <div className="w-full h-full overflow-hidden relative">
       {/* Background */}
-      <div style={{ backgroundImage: `url(${background})` }} className={`w-full h-full bg-no-repeat absolute transition-all duration-[100ms] ${display.menuVisible ? 'top-[45%] left-1/2 scale-[150%] md:scale-[200%]' : 'bg-cover top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'}`}>
-        {/* Planet */}
-        <div className="animate-spin animate-infinite animate-duration-[100s] w-fit h-fit">
-          <img className={`w-[calc(100vw*0.9)] max-w-[600px] transition-all duration-[1s]  ${display.menuVisible ? 'zscale-[150%] zmd:scale-[200%] rotate-180' : ''}`} src={planet} alt="Planet" />
+      <div
+        className={`w-full h-full bg-cover bg-no-repeat transition-all duration-[1s] relative ${menuVisible ? "scale-105 md:scale-110" : ""}`}
+        style={{ backgroundImage: `url(${theme.background})` }}></div>
+
+      {/* Planet */}
+      <div className={`absolute duration-[1s] ${menuVisible ? "top-[45%] left-1/2 scale-[150%] md:scale-[175%]" : "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"}`}>
+        <div className={`animate-spin animate-infinite animate-duration-[100s] w-max h-max`}>
+          <img className={`w-[calc(100vw*0.9)] max-w-[600px] duration-[1s] ${menuVisible ? "rotate-90" : ""}`} src={theme.planet} alt="Planet" />
         </div>
-        {/* Text */}
-        {/* <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-bold text-white opacity-90 tracking-tighter [word-spacing:-10px] w-max text-5xl md:text-6xl">{title}</span> */}
       </div>
 
       {/* Content */}
-      <div className="w-full h-full absolute inset-0">{children}</div>
+      <div className="absolute inset-0">{children}</div>
     </div>
   );
 }

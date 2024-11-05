@@ -9,9 +9,11 @@ export type AppContext = {
 export type AppState = {
   you: User | null;
   room: Room | null;
-  display: {
-    menuVisible: boolean;
-    menuButtonName: string;
+  menuVisible: boolean;
+  theme: {
+    type: "spin" | "shake";
+    background: string;
+    planet: string;
   };
 };
 
