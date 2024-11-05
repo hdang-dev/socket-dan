@@ -10,29 +10,12 @@ interface InfoMenuProps {
 export function InfoMenu({ order }: InfoMenuProps) {
   const location = useLocation();
   const [roomLink, setRoomLink] = useState<string>(window.location.href);
-  const { you } = useContext(Context).state;
-
-  const [userList] = useState<string[]>([
-    "Adam Aquasthi Lee",
-    "Evela Meh",
-    "Huynh Dai Den",
-    "Kaquamim Nuasly",
-    "Nguyen Thi Thu Thuy",
-    "Bui Duc Thai Vi Khang",
-    "Adam Aquasthi Lee",
-    "Evela Meh",
-    "Huynh Dai Den",
-    "Kaquamim Nuasly",
-    "Salala Lee",
-  ]);
+  const { state } = useContext(Context);
+  const { you, room } = state;
 
   const copyLink = () => {
     navigator.clipboard.writeText(roomLink);
   };
-
-  // const addUser = (user: string) => {
-  //   setUserList([...userList, user]);
-  // };
 
   useEffect(() => {
     setRoomLink(window.location.href);
@@ -48,12 +31,9 @@ export function InfoMenu({ order }: InfoMenuProps) {
 
       <SubTitle text="Members" />
       <SwipeView style="max-h-[350px]">
-        <Button isText style="w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">
-          You ({you!.name})
-        </Button>
-        {userList.map((user, index) => (
+        {room!.users.map((user, index) => (
           <Button key={index} isText style="w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">
-            {user}
+            {user.id === you!.id ? `You(${user.name})` : user.name}
           </Button>
         ))}
       </SwipeView>

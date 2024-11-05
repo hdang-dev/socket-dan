@@ -1,5 +1,4 @@
 export const ROOM_LIST = [
-  // { name: "Global Room", imageUrl: "/room.png" },
   { type: "global", imageUrl: "https://img.freepik.com/premium-photo/mountain-lake-with-reflection-trees-mountains-background_583952-93291.jpg" },
   { type: "chat", imageUrl: "https://img.freepik.com/premium-photo/mountain-lake-with-reflection-trees-mountains-background_583952-93292.jpg" },
   { type: "call", imageUrl: "https://img.freepik.com/premium-photo/mountain-lake-with-reflection-trees-mountains-background_583952-93293.jpg" },
@@ -19,6 +18,20 @@ export const THEME_COLORS = [
   { name: "Galaxy", background: "#6611cf", text: "#ffffff" },
   { name: "Scarlet", background: "#ff5c5c", text: "#060061" },
   { name: "Grass", background: "#63ff92", text: "#000000" },
+];
+
+export const USER_NAMES = [
+  "Adam Aquasthi Lee",
+  "Evela Meh",
+  "Huynh Dai Den",
+  "Kaquamim Nuasly",
+  "Nguyen Thi Thu Thuy",
+  "Bui Duc Thai Vi Khang",
+  "Adam Aquasthi Lee",
+  "Evela Meh",
+  "Huynh Dai Den",
+  "Kaquamim Nuasly",
+  "Salala Lee",
 ];
 
 // export const USER_COLOR_PALETTE = ['#8b5cf6', '#ffcf70', '#22c55e', '#f66f70', '#3dcdcd'];

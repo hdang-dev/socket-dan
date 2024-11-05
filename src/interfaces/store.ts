@@ -20,9 +20,9 @@ type InitUserAction = {
   you: User;
 };
 
-type ChangeUserNameAction = {
-  type: "CHANGE_USER_NAME";
-  name: string;
+type ChangeNameAction = {
+  type: "CHANGE_NAME";
+  user: User;
 };
 
 type JoinRoomAction = {
@@ -45,4 +45,4 @@ type RemoveUserAction = {
   userId: string;
 };
 
-export type AppAction = InitUserAction | ChangeUserNameAction | JoinRoomAction | ToggleMenuAction | AddUserAction | RemoveUserAction;
+export type AppAction = InitUserAction | ChangeNameAction | JoinRoomAction | ToggleMenuAction | AddUserAction | RemoveUserAction;

@@ -1,7 +1,9 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Context } from "../context";
 import { THEME_COLORS } from "./data";
 import { Button, ConfirmedInput, Section, SubTitle, SwipeView } from "./SubComponents";
+import { socketService as socket } from "../socket";
+import { User } from "../interfaces";
 
 interface DisplayMenuProps {
   order: number;
@@ -9,10 +11,11 @@ interface DisplayMenuProps {
 
 export function DisplayMenu({ order }: DisplayMenuProps) {
   const { state, dispatch } = useContext(Context);
-  const { you } = state;
+  const { you, room } = state;
 
   const changeName = (name: string) => {
-    dispatch({ type: "CHANGE_USER_NAME", name });
+    dispatch({ type: "CHANGE_NAME", user: { ...you!, name } });
+    socket.sendData(room!.id, 'change-name', { ...you!, name });
   };
 
   const changeTheme = (background: string, text: string) => {
@@ -29,6 +32,12 @@ export function DisplayMenu({ order }: DisplayMenuProps) {
       });
     });
   };
+
+  useEffect(() => {
+    socket.receiveData<User>('change-name', (user) => {
+      dispatch({ type: "CHANGE_NAME", user });
+    });
+  }, []);
 
   return (
     <Section order={order}>

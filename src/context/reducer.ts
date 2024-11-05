@@ -19,14 +19,23 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         },
       };
 
-    case "CHANGE_USER_NAME": {
-      const newYou = { ...you!, name: action.name };
+    case "CHANGE_NAME": {
+      const index = room!.users.findIndex(user => user.id === action.user.id);
+      if (action.user.id === you!.id) {
+        return {
+          ...state,
+          you: action.user,
+          room: {
+            ...room!,
+            users: [...room!.users.slice(0, index), action.user, ...room!.users.slice(index + 1)],
+          },
+        };
+      }
       return {
         ...state,
-        you: newYou,
         room: {
           ...room!,
-          users: [...room!.users.filter((user) => user.id !== you!.id), { ...newYou }],
+          users: [...room!.users.slice(0, index), action.user, ...room!.users.slice(index + 1)],
         },
       };
     }
