@@ -16,7 +16,7 @@ export const socketService = {
     socket.on(SocketEvent.GET_ID, handler);
   },
 
-  userDisconnect(handler: (socketId: string) => void) {
+  userDisconnect(handler: (userId: string) => void) {
     socket.on(SocketEvent.USER_DISCONNECT, handler);
   },
 
@@ -28,8 +28,8 @@ export const socketService = {
     socket.emit(SocketEvent.LEAVE_ROOM, roomId);
   },
 
-  sendData<T>(roomId: string, key: string, data: T) {
-    socket.emit(SocketEvent.DATA, roomId, key, data);
+  sendData<T>(id: string, key: string, data: T) {
+    socket.emit(SocketEvent.DATA, id, key, data);
   },
 
   receiveData<T>(key: string, handler: (data: T) => void) {

@@ -3,7 +3,7 @@ import { ROOM_LIST } from "./data";
 import { ConfirmedInput, RoomCard, Section, SubTitle, SwipeView } from "./SubComponents";
 import { useContext } from "react";
 import { Context } from "../context";
-import { generateRoomId } from "../utils";
+import { generateRoomId, roomTypeToName } from "../utils";
 
 interface RoomsMenuProps {
   order: number;
@@ -11,18 +11,26 @@ interface RoomsMenuProps {
 
 export function RoomsMenu({ order }: RoomsMenuProps) {
   const navigate = useNavigate();
-  const { dispatch } = useContext(Context);
+  const { state, dispatch } = useContext(Context);
+  const { room } = state;
+
   const joinRoom = (link: string) => {
     window.location.href = link;
   };
-  const createRoom = (name: string) => {
-    console.log("to room: ", name);
-    switch (name) {
-      case "Chat Room":
-        navigate(`chat/${generateRoomId()}`);
-        break;
-      default:
-        navigate("/");
+
+  const createRoom = (roomType: string) => {
+    if (roomType === 'global' && room?.type === 'global') {
+      dispatch({ type: "TOGGLE_MENU" });
+      return;
+    }
+
+    if (roomType === 'global') {
+      navigate('/');
+      dispatch({ type: 'JOIN_ROOM', roomType, roomId: 'global' });
+    } else {
+      const roomId = generateRoomId();
+      navigate(`${roomType}/${roomId}`);
+      dispatch({ type: 'JOIN_ROOM', roomType, roomId });
     }
     dispatch({ type: "TOGGLE_MENU" });
   };
@@ -37,8 +45,8 @@ export function RoomsMenu({ order }: RoomsMenuProps) {
       <SubTitle text="Create New Room" />
       <SwipeView style="flex-1">
         {ROOM_LIST.map((room, index) => (
-          <div key={index} className="snap-center" onClick={() => createRoom(room.name)}>
-            <RoomCard name={room.name} imageUrl={room.imageUrl} />
+          <div key={index} className="snap-center" onClick={() => createRoom(room.type)}>
+            <RoomCard name={roomTypeToName(room.type)} imageUrl={room.imageUrl} />
           </div>
         ))}
       </SwipeView>

@@ -2,5 +2,5 @@ import { ChatRoom } from "../chat";
 
 export function GlobalRoom() {
 
-  return <ChatRoom isGlobalRoom={true} />;
+  return <ChatRoom />;
 }

@@ -49,7 +49,7 @@ export function InfoMenu({ order }: InfoMenuProps) {
       <SubTitle text="Members" />
       <SwipeView style="max-h-[350px]">
         <Button isText style="w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">
-          You ({you.name})
+          You ({you!.name})
         </Button>
         {userList.map((user, index) => (
           <Button key={index} isText style="w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">

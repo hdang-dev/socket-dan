@@ -31,10 +31,14 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
       };
     }
 
-    case "CHANGE_ROOM":
+    case "JOIN_ROOM":
       return {
         ...state,
-        room: action.room,
+        room: {
+          type: action.roomType,
+          id: action.roomId,
+          users: []
+        }
       };
 
     case "ADD_USER":
@@ -51,7 +55,7 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         ...state,
         room: {
           ...room!,
-          users: room!.users.filter((user) => user.id !== action.user.id),
+          users: room!.users.filter((user) => user.id !== action.userId),
         },
       };
 

@@ -25,9 +25,10 @@ type ChangeUserNameAction = {
   name: string;
 };
 
-type ChangeRoomAction = {
-  type: "CHANGE_ROOM";
-  room: Room;
+type JoinRoomAction = {
+  type: "JOIN_ROOM";
+  roomType: string;
+  roomId: string;
 };
 
 type ToggleMenuAction = {
@@ -41,7 +42,7 @@ type AddUserAction = {
 
 type RemoveUserAction = {
   type: "REMOVE_USER";
-  user: User;
+  userId: string;
 };
 
-export type AppAction = InitUserAction | ChangeUserNameAction | ChangeRoomAction | ToggleMenuAction | AddUserAction | RemoveUserAction;
+export type AppAction = InitUserAction | ChangeUserNameAction | JoinRoomAction | ToggleMenuAction | AddUserAction | RemoveUserAction;

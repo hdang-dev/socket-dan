@@ -20,3 +20,7 @@ export const generateRoomId = () => {
 export const isSafariBrowser = () => {
   return navigator.userAgent.includes("Safari") && !navigator.userAgent.includes("Chrome");
 };
+
+export const roomTypeToName = (type: string) => {
+  return type[0].toUpperCase() + type.slice(1) + ' Room';
+};

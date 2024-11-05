@@ -1,14 +1,14 @@
 export const ROOM_LIST = [
   // { name: "Global Room", imageUrl: "/room.png" },
-  { name: "Global Room", imageUrl: "https://img.freepik.com/premium-photo/mountain-lake-with-reflection-trees-mountains-background_583952-93291.jpg" },
-  { name: "Chat Room", imageUrl: "https://img.freepik.com/premium-photo/mountain-lake-with-reflection-trees-mountains-background_583952-93292.jpg" },
-  { name: "Call Room", imageUrl: "https://img.freepik.com/premium-photo/mountain-lake-with-reflection-trees-mountains-background_583952-93293.jpg" },
-  { name: "Call Room", imageUrl: "https://img.freepik.com/premium-photo/mountain-lake-with-reflection-trees-mountains-background_583952-93294.jpg" },
-  { name: "Call Room", imageUrl: "https://img.freepik.com/premium-photo/mountain-lake-with-reflection-trees-mountains-background_583952-93295.jpg" },
-  { name: "Call Room", imageUrl: "https://img.freepik.com/premium-photo/mountain-lake-with-reflection-trees-mountains-background_583952-93296.jpg" },
-  { name: "Call Room", imageUrl: "https://img.freepik.com/premium-photo/mountain-lake-with-reflection-trees-mountains-background_583952-93297.jpg" },
-  { name: "Call Room", imageUrl: "https://img.freepik.com/premium-photo/mountain-lake-with-reflection-trees-mountains-background_583952-93298.jpg" },
-  { name: "Call Room", imageUrl: "https://img.freepik.com/premium-photo/mountain-lake-with-reflection-trees-mountains-background_583952-93299.jpg" },
+  { type: "global", imageUrl: "https://img.freepik.com/premium-photo/mountain-lake-with-reflection-trees-mountains-background_583952-93291.jpg" },
+  { type: "chat", imageUrl: "https://img.freepik.com/premium-photo/mountain-lake-with-reflection-trees-mountains-background_583952-93292.jpg" },
+  { type: "call", imageUrl: "https://img.freepik.com/premium-photo/mountain-lake-with-reflection-trees-mountains-background_583952-93293.jpg" },
+  { type: "call", imageUrl: "https://img.freepik.com/premium-photo/mountain-lake-with-reflection-trees-mountains-background_583952-93294.jpg" },
+  { type: "call", imageUrl: "https://img.freepik.com/premium-photo/mountain-lake-with-reflection-trees-mountains-background_583952-93295.jpg" },
+  { type: "call", imageUrl: "https://img.freepik.com/premium-photo/mountain-lake-with-reflection-trees-mountains-background_583952-93296.jpg" },
+  { type: "call", imageUrl: "https://img.freepik.com/premium-photo/mountain-lake-with-reflection-trees-mountains-background_583952-93297.jpg" },
+  { type: "call", imageUrl: "https://img.freepik.com/premium-photo/mountain-lake-with-reflection-trees-mountains-background_583952-93298.jpg" },
+  { type: "call", imageUrl: "https://img.freepik.com/premium-photo/mountain-lake-with-reflection-trees-mountains-background_583952-93299.jpg" },
 ];
 
 export const THEME_COLORS = [
