@@ -68,8 +68,8 @@ export function ChatRoom() {
       {/* Messages */}
       <div ref={messageViewRef} className="pt-[30px] w-full overflow-y-auto flex flex-col gap-[10px] scrollbar-none">
         {messages.map(({ text, time, userId }, index) => {
-          const userName = room!.users.filter((user) => user.id === userId)[0].name;
-          return <ChatBubble key={index} text={text} time={time} userName={userName} end={userId === you!.id} styleBubble="md:max-w-[30%]" />;
+          const user = room!.users.filter((user) => user.id === userId)[0];
+          return <ChatBubble key={index} text={text} time={time} userName={user ? user.name : 'User leaved'} end={userId === you!.id} styleBubble="md:max-w-[30%]" />;
         })}
       </div>
 
