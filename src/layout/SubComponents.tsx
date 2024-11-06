@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Context } from "../context";
 
-export function AppBackground({ children }: { children: React.ReactNode; }) {
+export function AppBackground({ children }: { children: React.ReactNode }) {
   const { state } = useContext(Context);
   const { menuVisible, theme } = state;
 
@@ -14,12 +14,12 @@ export function AppBackground({ children }: { children: React.ReactNode; }) {
 
       {/* Planet */}
       <div className={`absolute transition-all duration-[1s] ${menuVisible ? "top-[45%] left-1/2 scale-[175%]" : "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"}`}>
-        {theme.animation === 'spin' && (
+        {theme.animation === "spin" && (
           <div className={`animate-spin animate-infinite animate-duration-[100s] w-max h-max`}>
             <img className={`w-[calc(100vw*0.9)] max-w-[600px] duration-[1s] ${menuVisible ? "rotate-90" : ""}`} src={theme.planet} alt="Planet" />
           </div>
         )}
-        {theme.animation === 'shake' && (
+        {theme.animation === "shake" && (
           // <div className="animate-[meteorZoom] animate-once animate-duration-[2s] animate-ease-out animate-fill-both">
 
           <div className="origin-bottom-left animate-[meteorBounce] animate-infinite animate-duration-[3s] animate-ease-in ">
@@ -29,7 +29,6 @@ export function AppBackground({ children }: { children: React.ReactNode; }) {
           </div>
           // </div>
         )}
-
       </div>
 
       {/* Content */}

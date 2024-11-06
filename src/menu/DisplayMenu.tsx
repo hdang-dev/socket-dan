@@ -16,9 +16,10 @@ export function DisplayMenu({ order }: DisplayMenuProps) {
 
   const changeName = (name: string) => {
     dispatch({ type: "CHANGE_NAME", user: { ...you!, name } });
-    socket.sendData(room!.id, 'change-name', { ...you!, name });
+    socket.sendData(room!.id, "change-name", { ...you!, name });
   };
-/*
+
+  /*
   const changeTheme = (background: string, text: string) => {
    const elementsWithTransition = document.querySelectorAll<HTMLElement>(".transition-all");
     elementsWithTransition.forEach((element) => {
@@ -36,15 +37,15 @@ export function DisplayMenu({ order }: DisplayMenuProps) {
   */
 
   const changeBackground = (imageUrl: string) => {
-    dispatch({ type: 'CHANGE_BACKGROUND', background: imageUrl });
+    dispatch({ type: "CHANGE_BACKGROUND", background: imageUrl });
   };
 
   const changePlanet = (imageUrl: string, animation: string) => {
-    dispatch({ type: 'CHANGE_PLANET', planet: imageUrl, animation });
+    dispatch({ type: "CHANGE_PLANET", planet: imageUrl, animation });
   };
 
   useEffect(() => {
-    socket.receiveData<User>('change-name', (user) => {
+    socket.receiveData<User>("change-name", (user) => {
       dispatch({ type: "CHANGE_NAME", user });
     });
   }, []);
@@ -62,11 +63,13 @@ export function DisplayMenu({ order }: DisplayMenuProps) {
       <SubTitle text="Planet" />
       <SwipeView>
         {PLANETS.map(({ name, imageUrl, animation }, index) => (
-          <div key={index} className="cursor-pointer w-[250px] aspect-[5/3] overflow-hidden rounded-[24px] border-[3px] border-white shadow-lg p-[10px] relative" onClick={() => changePlanet(imageUrl, animation)}>
-            <img src={imageUrl} className="w-full h-full" alt="Planet" />
-            <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">{name}</span>
+          <div
+            key={index}
+            style={{ backgroundImage: `url(${imageUrl})` }}
+            className="cursor-pointer w-[200px] aspect-square bg-center bg-contain bg-no-repeat grid place-items-center"
+            onClick={() => changePlanet(imageUrl, animation)}>
+            {name}
           </div>
-          // <Card key={index} name={name} imageUrl={imageUrl} onClick={() => changePlanet(imageUrl)} />
         ))}
       </SwipeView>
       {/* <SubTitle text="Theme Color" />
