@@ -18,9 +18,9 @@ export function DisplayMenu({ order }: DisplayMenuProps) {
     dispatch({ type: "CHANGE_NAME", user: { ...you!, name } });
     socket.sendData(room!.id, 'change-name', { ...you!, name });
   };
-
+/*
   const changeTheme = (background: string, text: string) => {
-    const elementsWithTransition = document.querySelectorAll<HTMLElement>(".transition-all");
+   const elementsWithTransition = document.querySelectorAll<HTMLElement>(".transition-all");
     elementsWithTransition.forEach((element) => {
       element.classList.add("transition-none");
     });
@@ -32,7 +32,8 @@ export function DisplayMenu({ order }: DisplayMenuProps) {
         element.classList.remove("transition-none");
       });
     });
-  };
+  }
+  */
 
   const changeBackground = (imageUrl: string) => {
     dispatch({ type: 'CHANGE_BACKGROUND', background: imageUrl });
