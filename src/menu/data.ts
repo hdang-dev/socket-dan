@@ -35,3 +35,19 @@ export const USER_NAMES = [
 ];
 
 // export const USER_COLOR_PALETTE = ['#8b5cf6', '#ffcf70', '#22c55e', '#f66f70', '#3dcdcd'];
+
+export const BACKGROUNDS = [
+  { name: 'Classic', imageUrl: '/backgrounds/background3.svg' },
+  { name: 'Classic2', imageUrl: 'https://img.freepik.com/premium-photo/mountain-lake-with-reflection-trees-mountains-background_583952-93291.jpg' },
+  { name: 'Classic3', imageUrl: 'https://img.freepik.com/premium-photo/mountain-lake-with-reflection-trees-mountains-background_583952-93292.jpg' },
+  { name: 'Classic4', imageUrl: 'https://img.freepik.com/premium-photo/mountain-lake-with-reflection-trees-mountains-background_583952-93293.jpg' },
+  { name: 'Classic5', imageUrl: 'https://img.freepik.com/premium-photo/mountain-lake-with-reflection-trees-mountains-background_583952-93294.jpg' },
+];
+
+export const PLANETS = [
+  { name: 'Earth', animation: 'spin', imageUrl: '/planets/c.earth.svg' },
+  { name: 'Earth2', animation: 'shake', imageUrl: '/planets/a.meteor.svg' },
+  { name: 'Earth3', animation: 'spin', imageUrl: '/planets/earth.svg' },
+  { name: 'Earth4', animation: 'spin', imageUrl: '/planets/earth2.svg' },
+  { name: 'Earth5', animation: 'spin', imageUrl: '/planets/a.earth.svg' },
+];

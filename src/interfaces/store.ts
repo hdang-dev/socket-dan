@@ -11,9 +11,9 @@ export type AppState = {
   room: Room | null;
   menuVisible: boolean;
   theme: {
-    type: "spin" | "shake";
     background: string;
     planet: string;
+    animation: string;
   };
 };
 
@@ -47,4 +47,16 @@ type RemoveUserAction = {
   userId: string;
 };
 
-export type AppAction = InitUserAction | ChangeNameAction | JoinRoomAction | ToggleMenuAction | AddUserAction | RemoveUserAction;
+type ChangeBackground = {
+  type: "CHANGE_BACKGROUND";
+  background: string;
+};
+
+type ChangePlanet = {
+  type: "CHANGE_PLANET";
+  planet: string;
+  animation: string;
+
+};
+
+export type AppAction = InitUserAction | ChangeNameAction | JoinRoomAction | ToggleMenuAction | AddUserAction | RemoveUserAction | ChangeBackground | ChangePlanet;

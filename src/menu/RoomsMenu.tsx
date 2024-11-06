@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { ROOM_LIST } from "./data";
-import { ConfirmedInput, RoomCard, Section, SubTitle, SwipeView } from "./SubComponents";
+import { ConfirmedInput, Section, SubTitle, SwipeView } from "./SubComponents";
 import { useContext } from "react";
 import { Context } from "../context";
 import { generateRoomId, roomTypeToName } from "../utils";
+import { Card } from "../components";
 
 interface RoomsMenuProps {
   order: number;
@@ -46,7 +47,7 @@ export function RoomsMenu({ order }: RoomsMenuProps) {
       <SwipeView style="flex-1">
         {ROOM_LIST.map((room, index) => (
           <div key={index} className="snap-center" onClick={() => createRoom(room.type)}>
-            <RoomCard name={roomTypeToName(room.type)} imageUrl={room.imageUrl} />
+            <Card name={roomTypeToName(room.type)} imageUrl={room.imageUrl} />
           </div>
         ))}
       </SwipeView>

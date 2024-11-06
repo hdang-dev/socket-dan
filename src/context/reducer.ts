@@ -1,7 +1,7 @@
 import { AppAction, AppState } from "../interfaces";
 
 export const appReducer = (state: AppState, action: AppAction): AppState => {
-  const { you, room, menuVisible } = state;
+  const { you, room, menuVisible, theme } = state;
   const { type } = action;
   switch (type) {
     case "INIT_USER":
@@ -63,6 +63,25 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
           ...room!,
           users: room!.users.filter((user) => user.id !== action.userId),
         },
+      };
+
+    case "CHANGE_BACKGROUND":
+      return {
+        ...state,
+        theme: {
+          ...theme,
+          background: action.background
+        }
+      };
+
+    case "CHANGE_PLANET":
+      return {
+        ...state,
+        theme: {
+          ...theme,
+          planet: action.planet,
+          animation: action.animation
+        }
       };
 
     default:

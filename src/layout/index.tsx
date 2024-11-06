@@ -59,10 +59,10 @@ export function AppLayout() {
   return (
     <AppBackground>
       {/* Room content */}
-      <div className={`w-full h-full transition-all duration-[1s] relative  ${menuVisible ? "opacity-0 -translate-y-full" : ""}`}>{you && <Outlet />}</div>
+      <div className={`w-full h-full transition-all duration-[1s] relative  ${menuVisible ? "opacity-0 translate-y-full" : ""}`}>{you && <Outlet />}</div>
 
       {/* Menu */}
-      <div className={`absolute inset-0 transition-all duration-[1s] ${menuVisible ? "" : "opacity-0 translate-y-full"}`}>{you && room && <Menu />}</div>
+      <div className={`absolute inset-0 transition-all duration-[1s] ${menuVisible ? "" : "opacity-0 -translate-y-full"}`}>{you && room && <Menu />}</div>
 
       {/* Menu button */}
       {you && (
