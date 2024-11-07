@@ -10,7 +10,7 @@ export const Section = ({ order, children, style }: { order: number; children: R
 };
 
 export const SubTitle = ({ text, style }: { text: string; style?: string; }) => {
-  return <h2 className={`[&:not(:first-child)]:mt-[60px] text-center mb-[30px] font-bold md:text-left md:text-lg ${style ?? ""}`}>{text}</h2>;
+  return <h2 className={`[&:not(:first-child)]:mt-[60px] text-center mb-[40px] font-bold md:text-left md:text-lg ${style ?? ""}`}>{text}</h2>;
 };
 
 export const RoomCard = ({ name, imageUrl }: { name: string; imageUrl: string; }) => {

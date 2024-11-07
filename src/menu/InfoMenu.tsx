@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import { Button, Section, SubTitle, SwipeView } from "./SubComponents";
+import { Button, ConfirmedInput, Section, SubTitle, SwipeView } from "./SubComponents";
 import { Context } from "../context";
 import { useLocation } from "react-router-dom";
+import { socketService as socket } from "../socket";
 
 interface InfoMenuProps {
   order: number;
@@ -10,8 +11,13 @@ interface InfoMenuProps {
 export function InfoMenu({ order }: InfoMenuProps) {
   const location = useLocation();
   const [roomLink, setRoomLink] = useState<string>(window.location.href);
-  const { state } = useContext(Context);
+  const { state, dispatch } = useContext(Context);
   const { you, room } = state;
+
+  const changeName = (name: string) => {
+    dispatch({ type: "CHANGE_NAME", user: { ...you!, name } });
+    socket.sendData(room!.id, "change-name", { ...you!, name });
+  };
 
   const copyLink = () => {
     navigator.clipboard.writeText(roomLink);
@@ -23,6 +29,9 @@ export function InfoMenu({ order }: InfoMenuProps) {
 
   return (
     <Section order={order}>
+      <SubTitle text="Change User Name" />
+      <ConfirmedInput key={you!.name} placeholder="# Enter your name" value={you!.name} buttonLabel="Save" checkDifferent onConfirm={(name) => changeName(name)} />
+
       <SubTitle text="Room Link" />
       <div className="flex gap-[10px] md:gap-[20px] flex-col md:flex-row items-center">
         <span className="text-center md:text-start italic py-[5px] min-w-[300px] max-w-full whitespace-nowrap overflow-scroll scrollbar-none">{roomLink}</span>

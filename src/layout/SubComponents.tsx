@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Context } from "../context";
 
-export function AppBackground({ children }: { children: React.ReactNode }) {
+export function AppBackground({ children }: { children: React.ReactNode; }) {
   const { state } = useContext(Context);
   const { menuVisible, theme } = state;
 
@@ -20,11 +20,9 @@ export function AppBackground({ children }: { children: React.ReactNode }) {
           </div>
         )}
         {theme.animation === "shake" && (
-          // <div className="animate-[meteorZoom] animate-once animate-duration-[2s] animate-ease-out animate-fill-both">
-
           <div className="origin-bottom-left animate-[meteorBounce] animate-infinite animate-duration-[3s] animate-ease-in ">
             <div className={`origin-bottom-left animate-[meteor] animate-infinite animate-ease-linear animate-duration-[.7s]`}>
-              <img className={`w-[calc(100vw*0.9)] max-w-[600px] duration-[3s] ${menuVisible ? "-rotate-90 -translate-y-[15%] -translate-x-[20%]" : ""}`} src={theme.planet} alt="Planet" />
+              <img className={`w-[calc(100vw*0.9)] max-w-[600px] duration-[1s] origin-center ${menuVisible ? "" : ""}`} src={theme.planet} alt="Planet" />
             </div>
           </div>
           // </div>

@@ -46,9 +46,7 @@ export function RoomsMenu({ order }: RoomsMenuProps) {
       <SubTitle text="Create New Room" />
       <SwipeView style="flex-1">
         {ROOM_LIST.map((room, index) => (
-          <div key={index} className="snap-center" onClick={() => createRoom(room.type)}>
-            <Card name={roomTypeToName(room.type)} imageUrl={room.imageUrl} />
-          </div>
+          <Card key={index} imageUrl={room.imageUrl} onClick={() => createRoom(room.type)}>{roomTypeToName(room.type)}</Card>
         ))}
       </SwipeView>
     </Section>
