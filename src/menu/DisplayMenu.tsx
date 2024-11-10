@@ -7,10 +7,10 @@ import { User } from "../interfaces";
 import { Card } from "../components";
 
 interface DisplayMenuProps {
-  order: number;
+  style?: string;
 }
 
-export function DisplayMenu({ order }: DisplayMenuProps) {
+export function DisplayMenu({ style }: DisplayMenuProps) {
   const { state, dispatch } = useContext(Context);
   const { theme } = state;
 
@@ -46,7 +46,7 @@ export function DisplayMenu({ order }: DisplayMenuProps) {
   }, []);
 
   return (
-    <Section order={order}>
+    <Section style={style}>
       <SubTitle text="Background" />
       <SwipeView>
         {BACKGROUNDS.map(({ name, imageUrl }, index) => (
@@ -59,7 +59,7 @@ export function DisplayMenu({ order }: DisplayMenuProps) {
       <SwipeView>
         {PLANETS.map(({ imageUrl, animation }, index) => (
           <Card key={index} imageUrl={theme.background} onClick={() => changePlanet(imageUrl, animation)}>
-            <div style={{ backgroundImage: `url(${imageUrl})` }} className="w-full h-full bg-center bg-contain bg-no-repeat" ></div>
+            <div style={{ backgroundImage: `url(${imageUrl})` }} className="w-full h-full bg-center bg-contain bg-no-repeat"></div>
           </Card>
         ))}
       </SwipeView>

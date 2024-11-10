@@ -6,11 +6,11 @@ import { Context } from "../context";
 import { generateRoomId, roomTypeToName } from "../utils";
 import { Card } from "../components";
 
-interface RoomsMenuProps {
-  order: number;
+interface RoomMenuProps {
+  style?:string
 }
 
-export function RoomsMenu({ order }: RoomsMenuProps) {
+export function RoomMenu({ style }: RoomMenuProps) {
   const navigate = useNavigate();
   const { state, dispatch } = useContext(Context);
   const { room } = state;
@@ -37,7 +37,7 @@ export function RoomsMenu({ order }: RoomsMenuProps) {
   };
 
   return (
-    <Section order={order}>
+    <Section style={style}>
       {/* Join room */}
       <SubTitle text="Join A Room" />
       <ConfirmedInput placeholder="# Enter your link here" value="" buttonLabel="Join" onConfirm={(link) => joinRoom(link)} />

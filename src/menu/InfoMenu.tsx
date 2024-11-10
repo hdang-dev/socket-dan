@@ -5,10 +5,10 @@ import { useLocation } from "react-router-dom";
 import { socketService as socket } from "../socket";
 
 interface InfoMenuProps {
-  order: number;
+  style?: string;
 }
 
-export function InfoMenu({ order }: InfoMenuProps) {
+export function InfoMenu({ style }: InfoMenuProps) {
   const location = useLocation();
   const [roomLink, setRoomLink] = useState<string>(window.location.href);
   const { state, dispatch } = useContext(Context);
@@ -28,7 +28,7 @@ export function InfoMenu({ order }: InfoMenuProps) {
   }, [location]);
 
   return (
-    <Section order={order}>
+    <Section style={style}>
       <SubTitle text="Change User Name" />
       <ConfirmedInput key={you!.name} placeholder="# Enter your name" value={you!.name} buttonLabel="Save" checkDifferent onConfirm={(name) => changeName(name)} />
 

@@ -20,9 +20,7 @@ body {
   height: 100%;
 }
 
-
 @keyframes meteor {
-
   0%,
   100% {
     transform: rotate(0deg);
@@ -34,7 +32,6 @@ body {
 }
 
 @keyframes meteorBounce {
-
   0%,
   100% {
     transform: translateY(0);
@@ -46,7 +43,6 @@ body {
 }
 
 @keyframes meteorZoom {
-
   0%,
   100% {
     transform: none;
@@ -55,4 +51,22 @@ body {
   20% {
     transform: scale(1.8) translate(-10%, -25%);
   }
+}
+
+@keyframes autoBLur {
+  0% {
+    transform: scale(0);
+  }
+  20%,
+  80% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+.auto-blur {
+  animation: autoBLur ease-in-out both;
+  animation-timeline: view();
 }
