@@ -1,10 +1,8 @@
-import { useContext, useEffect, useRef, useState } from "react";
-import { ArrowDown, ArrowUp, Card } from "../components";
-import { RoomMenu } from "./RoomMenu";
-import { DisplayMenu } from "./DisplayMenu";
-import { InfoMenu } from "./InfoMenu";
+
+import { useContext, useEffect, useState } from "react";
+import { ArrowUp, Button, Card } from "../components";
 import { useLocation } from "react-router-dom";
-import { Button, ConfirmedInput, SubTitle, SwipeView } from "./SubComponents";
+import { MenuSection, ConfirmedInput, Title } from "./SubComponents";
 import { BACKGROUNDS, PLANETS, ROOM_LIST } from "./data";
 import { roomTypeToName } from "../utils";
 import { Context } from "../context";
@@ -12,9 +10,8 @@ import { socketService as socket } from "../socket";
 
 export function Menu() {
   const location = useLocation();
-  const menuList = ["room", "theme", "options"];
-  const [menu, setMenu] = useState("room");
-  const sectionViewRef = useRef<HTMLDivElement>(null);
+  const menuList = ["Information", "Options", "Background", 'Planet'];
+  const [menu, setMenu] = useState(menuList[0]);
   const { state, dispatch } = useContext(Context);
   const { you, room, theme } = state;
 
@@ -28,16 +25,6 @@ export function Menu() {
     socket.sendData(room!.id, "change-name", { ...you!, name });
   };
 
-  const changeMenu = (toPrev?: boolean) => {
-    const index = menuList.indexOf(menu);
-    if (toPrev && index > 0) {
-      // setMenu(menuList[index - 1]);
-    }
-    if (!toPrev && index < menuList.length - 1) {
-      // setMenu(menuList[index + 1]);
-    }
-  };
-
   const changeBackground = (imageUrl: string) => {
     dispatch({ type: "CHANGE_BACKGROUND", background: imageUrl });
   };
@@ -47,125 +34,90 @@ export function Menu() {
   };
 
   return (
-    <div className="flex w-full h-full flex-col">
-      <div className="carousel w-full flex-1">
-        <div className="carousel-item w-full flex flex-col">
-          {/* <SubTitle text="Your Name" />
-          <ConfirmedInput key={you!.name} placeholder="# Enter your name" value={you!.name} buttonLabel="Save" checkDifferent onConfirm={(name) => changeName(name)} /> */}
+    <>
+      <div className="w-full h-full overflow-hidden">
+        <div style={{ transform: `translateX(${-100 * menuList.indexOf(menu)}%)` }} className="w-full h-full flex transition-all duration-500">
 
-          <SubTitle text="Room Link" />
-          <div className="flex flex-col gap-[20px] items-center md:gap-[20px] md:flex-row">
-            <span className="text-center italic shadow-white drop-shadow-xl w-full whitespace-nowrap overflow-scroll scrollbar-none">{roomLink}</span>
-            <button className="min-w-[100px] py-[5px] shadow-inner shadow-white rounded-lg" onClick={() => {}}>
-              Copy
-            </button>
-          </div>
+          {/* Information */}
+          <MenuSection>
+            <Title text="Change Your Name" />
+            <ConfirmedInput key={you!.name} placeholder="# Enter your name" value={you!.name} buttonLabel="Save" checkDifferent onConfirm={(name) => changeName(name)} />
 
-          <SubTitle text="Members" style="mt-[50px]" />
-          <div className="w-full flex-1 overflow-scroll scrollbar-none">
-            <div className="w-full flex flex-wrap justify-center">
-              {room!.users.map((user, index) => (
-                <div key={index} className="w-[250px] p-[5px] text-center overflow-hidden text-ellipsis whitespace-nowrap">
-                  {user.id === you!.id ? `You (${user.name})` : user.name}
-                </div>
+            <Title text="Share Your Room" style="mt-[40px]" />
+            <div className="flex flex-col items-center gap-[20px] md:flex-row md:justify-start">
+              <span className="text-center w-full truncate md:text-left md:w-auto">{roomLink}</span>
+              <Button onClick={() => { }}>Copy</Button>
+            </div>
+
+            <Title text="All Members" style="mt-[40px]" />
+            <div className="flex flex-wrap justify-center gap-[20px] pb-[40px] md:justify-start">
+              {[...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users].map((user, index) => (
+                <Button key={index} style="pointer-events-none w-[250px] whitespace-nowrap overflow-hidden text-ellipsis">{user.id === you!.id ? `You (${user.name})12 21sdffdf 213123` : user.name}</Button>
               ))}
             </div>
-          </div>
-        </div>
+          </MenuSection>
 
-        <div className="carousel-item w-full flex flex-col">
-          <SubTitle text="Background" />
-          <div className="w-full flex-1 overflow-scroll scrollbar-none">
-            <div className="w-full flex flex-wrap justify-center gap-[20px] py-[30px] ">
+          {/* Options */}
+          <MenuSection >
+            <Title text="Join A Room" />
+            <ConfirmedInput placeholder="# Enter your link here" value="" buttonLabel="Join" onConfirm={(link) => joinRoom(link)} />
+
+            <Title text="Create New Room" style="mt-[40px]" />
+            <div className="flex flex-wrap justify-center gap-[20px] pb-[40px] md:justify-start">
+              {ROOM_LIST.map((room, index) => (
+                <Card key={index} imageUrl={room.imageUrl} onClick={() => { }}>
+                  {roomTypeToName(room.type)}
+                </Card>
+              ))}
+            </div>
+          </MenuSection>
+
+          {/* Background */}
+          <MenuSection>
+            <Title text="Join A Room" />
+            <div className="flex flex-wrap justify-center gap-[20px] pb-[40px] md:justify-start">
               {BACKGROUNDS.map(({ name, imageUrl }, index) => (
-                <Card key={index} imageUrl={imageUrl} onClick={() => changeBackground(imageUrl)}>
+                <Card key={index} style="animate-scale " imageUrl={imageUrl} onClick={() => changeBackground(imageUrl)}>
                   {name}
                 </Card>
               ))}
             </div>
-          </div>
-        </div>
+          </MenuSection>
 
-        <div className="carousel-item w-full flex flex-col relative">
-          {/* <SubTitle style="absolute" text="Planet" /> */}
-          <div className="w-full flex-1 overflow-scroll scrollbar-none">
-            <div className="w-full flex flex-wrap justify-center gap-[30px] py-[100px] snap-y snap-mandatory">
+          {/* Planet */}
+          <MenuSection>
+            <Title text="Change Planet" />
+            <div className="flex flex-wrap justify-center gap-[20px] pb-[40px] md:justify-start">
               {PLANETS.map(({ imageUrl, animation }, index) => (
-                <Card key={index} style="auto-blur" imageUrl={theme.background} onClick={() => changePlanet(imageUrl, animation)}>
+                <Card key={index} style="animate-scale" imageUrl={theme.background} onClick={() => changePlanet(imageUrl, animation)}>
                   <div style={{ backgroundImage: `url(${imageUrl})` }} className="w-full h-full bg-center bg-contain bg-no-repeat"></div>
                 </Card>
               ))}
             </div>
-          </div>
-        </div>
+          </MenuSection>
+        </div >
+      </div >
 
-        <div className="carousel-item w-full flex flex-col">
-          {/* Join room */}
-          <SubTitle text="Join A Room" />
-          <ConfirmedInput placeholder="# Enter your link here" value="" buttonLabel="Join" onConfirm={(link) => joinRoom(link)} />
-
-          {/* Create room */}
-          <SubTitle text="Create New Room" />
-          <SwipeView style="flex-1">
-            {ROOM_LIST.map((room, index) => (
-              <Card key={index} imageUrl={room.imageUrl} onClick={() => {}}>
-                {roomTypeToName(room.type)}
-              </Card>
-            ))}
-          </SwipeView>
-        </div>
-      </div>
-
-      <div
-        className={`fixed left-[20px] bottom-[20px] md:inset-auto md:right-[20px] md:top-[20px] transition-all duration-300 ${
-          menuList.indexOf(menu) === 0 ? "opacity-0 translate-y-full md:translate-y-0 md:translate-x-full" : ""
-        }`}>
-        <Button noOutline style="flex gap-[5px] justify-start md:justify-end items-center" onClick={() => setMenu(menuList[menuList.indexOf(menu) - 1])}>
-          <ArrowUp />
-          <span>{menuList[menuList.indexOf(menu) - 1] || menuList[0]}</span>
+      {/* Control Buttons */}
+      <div className="fixed top-0 left-0 p-[5px] -rotate-90" onClick={() => setMenu(menuList[menuList.indexOf(menu) - 1])}><ArrowUp /></div>
+      <div className="fixed top-0 right-0 p-[5px] rotate-90" onClick={() => setMenu(menuList[menuList.indexOf(menu) + 1])}><ArrowUp /></div>
+      {/* <div
+        className={`fixed left-[10px] top-0 md:inset-auto md:right-[20px] md:top-[20px] transition-all duration-300 ${menuList.indexOf(menu) === 0 ? "opacity-0 translate-y-full md:translate-y-0 md:translate-x-full" : ""
+          }`}>
+        <Button style="flex gap-[5px] justify-start md:justify-end items-center" onClick={() => setMenu(menuList[menuList.indexOf(menu) - 1])}>
+          {menuList[menuList.indexOf(menu) - 1] || menuList[0]}
         </Button>
       </div>
 
       <div
-        className={`fixed right-[20px] bottom-[20px] transition-all duration-300 ${
-          menuList.indexOf(menu) === menuList.length - 1 ? "opacity-0 translate-y-full md:translate-y-0 md:translate-x-full" : ""
-        }`}>
-        <Button noOutline style="flex gap-[5px] justify-end items-center md:justify-start md:flex-row-reverse" onClick={() => setMenu(menuList[menuList.indexOf(menu) + 1])}>
-          <span>{menuList[menuList.indexOf(menu) + 1] || menuList[menuList.length - 1]}</span>
-          <ArrowDown />
+        className={`fixed right-[10px] top-0 transition-all duration-300 ${menuList.indexOf(menu) === menuList.length - 1 ? "opacity-0 translate-y-full md:translate-y-0 md:translate-x-full" : ""
+          }`}>
+        <Button style="flex gap-[5px] justify-end items-center md:justify-start md:flex-row-reverse" onClick={() => setMenu(menuList[menuList.indexOf(menu) + 1])}>
+          {menuList[menuList.indexOf(menu) + 1] || menuList[menuList.length - 1]}
+
         </Button>
-      </div>
-    </div>
+      </div> */}
+    </>
   );
 }
 
-{
-  /* <div
-        className={`fixed left-[20px] bottom-[20px] md:inset-auto md:right-[20px] md:top-[20px] transition-all duration-300 ${
-          menuList.indexOf(menu) === 0 ? "opacity-0 translate-y-full md:translate-y-0 md:translate-x-full" : ""
-        }`}>
-        <Button noOutline style="flex gap-[5px] justify-start md:justify-end items-center" onClick={() => changeMenu(true)}>
-          <ArrowUp />
-          <span>{menuList[menuList.indexOf(menu) - 1] || menuList[0]}</span>
-        </Button>
-      </div>
-
-      <div
-        className={`fixed right-[20px] bottom-[20px] transition-all duration-300 ${
-          menuList.indexOf(menu) === menuList.length - 1 ? "opacity-0 translate-y-full md:translate-y-0 md:translate-x-full" : ""
-        }`}>
-        <Button noOutline style="flex gap-[5px] justify-end items-center md:justify-start md:flex-row-reverse" onClick={() => changeMenu()}>
-          <span>{menuList[menuList.indexOf(menu) + 1] || menuList[menuList.length - 1]}</span>
-          <ArrowDown />
-        </Button>
-      </div> */
-  <div style={{ transform: "translateX(-0%)" }} className="hidden border-[3px] h-full flex-1 flex items-stretch transition-all duration-500">
-    <div className="w-[100%] bg-black"></div>
-    <div className="min-w-full"></div>
-    {/* <div className="w-screen h-full bg-blue-100"></div> */}
-    {/* <div className="w-screen bg-green-100"></div> */}
-    {/* <RoomsMenu order={menuList.indexOf("Rooms") + 1} />
-      <DisplayMenu order={menuList.indexOf("Display") + 1} />
-      <InfoMenu order={menuList.indexOf("Information") + 1} /> */}
-  </div>;
-}

@@ -30,7 +30,7 @@ export function AppBackground({ children }: { children: React.ReactNode; }) {
       </div>
 
       {/* Content */}
-      <div className="absolute inset-0">{children}</div>
+      <div className="absolute inset-0 mx-auto max-w-[1200px]">{children}</div>
     </div>
   );
 }

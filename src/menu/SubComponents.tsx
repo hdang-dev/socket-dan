@@ -1,41 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
-import { isSafariBrowser } from "../utils";
+import React, { useState } from "react";
+import { Button } from "../components";
 
-export const Section = ({ children, style }: { children: React.ReactNode; style?: string }) => {
-  return <section className={`w-full h-full flex flex-col px-[20px] ${style ?? ""}`}>{children}</section>;
-};
-
-export const SubTitle = ({ text, style }: { text: string; style?: string }) => {
-  return <h2 className={`mb-[20px] text-lg font-bold text-center md:text-left md:text-lg ${style ?? ""}`}>{text}</h2>;
-};
-
-export const Button = ({
-  children,
-  noOutline,
-  isText,
-  background,
-  text,
-  style,
-  onClick,
-}: {
-  children: React.ReactNode;
-  noOutline?: boolean;
-  isText?: boolean;
-  background?: string;
-  text?: string;
-  style?: string;
-  onClick?: () => void;
-}) => {
-  return (
-    <button
-      className={`py-[5px] px-[10px] transition-all duration-100 text-lg active:text-[var(--bg-color)] ${
-        noOutline ? "" : "min-w-[150px] rounded-[24px] border-[2px] border-white shadow-lg px-[15px] bg-[rgb(255,255,255,0.7)] text-black"
-      } ${isText ? "pointer-events-none" : ""} ${style ?? ""}`}
-      style={{ backgroundColor: background, color: text }}
-      onClick={() => onClick?.()}>
+export const MenuSection = ({ children, style }: { children: React.ReactNode; style?: string; }) => {
+  return <section className={`min-w-full h-full overflow-scroll`}>
+    <div className={`w-full h-full pt-[70px] px-[30px] flex flex-col ${style ?? ""}`}>
       {children}
-    </button>
-  );
+    </div>
+  </section>;
+};
+
+export const Title = ({ text, style }: { text: string; style?: string; }) => {
+  return <h2 className={`mb-[20px] font-bold text-center md:text-left md:text-lg ${style ?? ""}`}>{text}</h2>;
 };
 
 export const ConfirmedInput = ({
@@ -56,14 +31,12 @@ export const ConfirmedInput = ({
   const [input, setInput] = useState(value);
   const [currentValue, setCurrentValue] = useState(value);
   return (
-    <div className={`flex gap-[10px] md:gap-[20px] flex-col px-[20px] items-center md:flex-row ${style ?? ""}`}>
+    <div className={`flex gap-[20px] flex-col items-center md:flex-row ${style ?? ""}`}>
       <input
         type="text"
         placeholder={placeholder}
         value={input}
-        className={`w-full h-full max-w-[500px] bg-transparent border-b border-[var(--text-color)] rounded-none outline-none text-center py-[5px] placeholder:text-[var(--text-color)] placeholder:opacity-50 ${
-          input.trim() === "" || input.trim() !== currentValue ? "border-dashed" : ""
-        }`}
+        className={`w-full h-full max-w-[500px] bg-transparent border-b border-[var(--text-color)] rounded-none outline-none text-center py-[5px] placeholder:text-[var(--text-color)] placeholder:opacity-50`}
         onChange={(e) => setInput(e.target.value.trimStart())}
       />
       <Button
@@ -79,7 +52,7 @@ export const ConfirmedInput = ({
   );
 };
 
-export const SwipeView = ({ children, style }: { children: React.ReactNode; style?: string }) => {
+export const SwipeView = ({ children, style }: { children: React.ReactNode; style?: string; }) => {
   return (
     <div className={`w-screen h-max overflow-scroll scrollbar-none snap-y snap-mandatory  ${style ?? ""}`}>
       <div className="flex flex-col w-max h-max gap-[20px]">{children}</div>

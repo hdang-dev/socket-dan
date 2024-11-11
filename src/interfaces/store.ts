@@ -9,7 +9,10 @@ export type AppContext = {
 export type AppState = {
   you: User | null;
   room: Room | null;
-  menuVisible: boolean;
+  menu: {
+    visible: boolean;
+    name: string;
+  },
   theme: {
     background: string;
     planet: string;
@@ -37,6 +40,11 @@ type ToggleMenuAction = {
   type: "TOGGLE_MENU";
 };
 
+type ChangeMenuName = {
+  type: 'CHANGE_MENU_NAME';
+  name: string;
+};
+
 type AddUserAction = {
   type: "ADD_USER";
   user: User;
@@ -59,4 +67,4 @@ type ChangePlanet = {
 
 };
 
-export type AppAction = InitUserAction | ChangeNameAction | JoinRoomAction | ToggleMenuAction | AddUserAction | RemoveUserAction | ChangeBackground | ChangePlanet;
+export type AppAction = InitUserAction | ChangeNameAction | JoinRoomAction | ToggleMenuAction | ChangeMenuName | AddUserAction | RemoveUserAction | ChangeBackground | ChangePlanet;

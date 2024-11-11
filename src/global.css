@@ -21,6 +21,7 @@ body {
 }
 
 @keyframes meteor {
+
   0%,
   100% {
     transform: rotate(0deg);
@@ -32,6 +33,7 @@ body {
 }
 
 @keyframes meteorBounce {
+
   0%,
   100% {
     transform: translateY(0);
@@ -43,6 +45,7 @@ body {
 }
 
 @keyframes meteorZoom {
+
   0%,
   100% {
     transform: none;
@@ -53,20 +56,36 @@ body {
   }
 }
 
-@keyframes autoBLur {
+@keyframes animateScale {
   0% {
-    transform: scale(0);
+    /* transform: scale(0.5); */
   }
-  20%,
-  80% {
-    transform: scale(1);
-  }
+
   100% {
-    transform: scale(0);
+    /* transform: translateY(100%); */
+    /* opacity: 0; */
   }
 }
 
-.auto-blur {
-  animation: autoBLur ease-in-out both;
+.animate-scale {
+  animation: animateScale ease-in-out both;
+  animation-timeline: view();
+}
+
+
+@keyframes animateOpacity {
+
+  0%,
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.animate-opacity {
+  animation: animateOpacity ease-in-out both;
   animation-timeline: view();
 }

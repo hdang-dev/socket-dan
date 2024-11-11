@@ -5,7 +5,10 @@ import { appReducer } from "./reducer";
 const initialState: AppState = {
   you: null,
   room: null,
-  menuVisible: false,
+  menu: {
+    visible: false,
+    name: ''
+  },
   theme: {
     background: "/backgrounds/background3.svg",
     planet: "/planets/c.earth.svg",
