@@ -21,7 +21,6 @@ body {
 }
 
 @keyframes meteor {
-
   0%,
   100% {
     transform: rotate(0deg);
@@ -33,7 +32,6 @@ body {
 }
 
 @keyframes meteorBounce {
-
   0%,
   100% {
     transform: translateY(0);
@@ -45,7 +43,6 @@ body {
 }
 
 @keyframes meteorZoom {
-
   0%,
   100% {
     transform: none;
@@ -58,12 +55,18 @@ body {
 
 @keyframes animateScale {
   0% {
-    /* transform: scale(0.5); */
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  20%,
+  80% {
+    transform: scale(1);
+    opacity: 1;
   }
 
   100% {
-    /* transform: translateY(100%); */
-    /* opacity: 0; */
+    transform: scale(0.5);
+    opacity: 0;
   }
 }
 
@@ -72,9 +75,7 @@ body {
   animation-timeline: view();
 }
 
-
 @keyframes animateOpacity {
-
   0%,
   90% {
     opacity: 1;

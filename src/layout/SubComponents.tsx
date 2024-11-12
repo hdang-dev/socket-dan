@@ -1,12 +1,12 @@
 import { useContext } from "react";
 import { Context } from "../context";
 
-export function AppBackground({ children }: { children: React.ReactNode; }) {
+export function AppBackground({ children }: { children: React.ReactNode }) {
   const { state } = useContext(Context);
   const { menu, theme } = state;
 
   return (
-    <div className="w-full h-full overflow-hidden relative">
+    <div className="w-full h-full overflow-hidden relative bg-black">
       {/* Background */}
       <div
         className={`w-full h-full bg-cover bg-no-repeat transition-all duration-[1s] relative ${menu.visible ? "scale-105 md:scale-110" : ""}`}
@@ -30,7 +30,7 @@ export function AppBackground({ children }: { children: React.ReactNode; }) {
       </div>
 
       {/* Content */}
-      <div className="absolute inset-0 mx-auto max-w-[1200px]">{children}</div>
+      <div className="absolute inset-0 mx-auto">{children}</div>
     </div>
   );
 }

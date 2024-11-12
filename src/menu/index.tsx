@@ -1,6 +1,5 @@
-
 import { useContext, useEffect, useState } from "react";
-import { ArrowUp, Button, Card } from "../components";
+import { Button, Card } from "../components";
 import { useLocation, useNavigate } from "react-router-dom";
 import { MenuSection, ConfirmedInput, Title } from "./SubComponents";
 import { BACKGROUNDS, PLANETS, ROOM_LIST } from "./data";
@@ -10,8 +9,8 @@ import { socketService as socket } from "../socket";
 
 export function Menu() {
   const location = useLocation();
-  const menuList = ["Information", "Options", "Background", 'Planet'];
-  const [menu, setMenu] = useState(menuList[0]);
+  const menuList = ["Information", "Options", "Background", "Planet"];
+  const [menu] = useState(menuList[0]);
   const { state, dispatch } = useContext(Context);
   const { you, room, theme } = state;
   const navigate = useNavigate();
@@ -39,53 +38,54 @@ export function Menu() {
   };
 
   const createRoom = (roomType: string) => {
-    if (roomType === 'global' && room?.type === 'global') {
+    if (roomType === "global" && room?.type === "global") {
       dispatch({ type: "TOGGLE_MENU" });
       return;
     }
 
-    if (roomType === 'global') {
-      navigate('/');
-      dispatch({ type: 'JOIN_ROOM', roomType, roomId: 'global' });
+    if (roomType === "global") {
+      navigate("/");
+      dispatch({ type: "JOIN_ROOM", roomType, roomId: "global" });
     } else {
       const roomId = generateRoomId();
       navigate(`${roomType}/${roomId}`);
-      dispatch({ type: 'JOIN_ROOM', roomType, roomId });
+      dispatch({ type: "JOIN_ROOM", roomType, roomId });
     }
     dispatch({ type: "TOGGLE_MENU" });
   };
 
   return (
     <>
-      <div className="w-full h-full overflow-hidden">
+      <div className="w-full h-full overflow-scroll snap-x snap-mandatory scrollbar-none">
         <div style={{ transform: `translateX(${-100 * menuList.indexOf(menu)}%)` }} className="w-full h-full flex transition-all duration-500">
-
           {/* Information */}
           <MenuSection>
             <Title text="Change Your Name" />
             <ConfirmedInput key={you!.name} placeholder="# Enter your name" value={you!.name} buttonLabel="Save" checkDifferent onConfirm={(name) => changeName(name)} />
 
-            <Title text="Share Your Room" style="mt-[40px]" />
-            <div className="flex flex-col items-center gap-[20px]">
-              <p className="text-center w-full truncate">{roomLink} kjajsjh kuah ku hk</p>
-              <Button onClick={() => { }}>Copy</Button>
+            <Title text="Share Your Room" />
+            <div className="flex flex-col items-center gap-[15px]">
+              <span className="text-center w-full truncate">{roomLink}</span>
+              <Button onClick={() => {}}>Copy</Button>
             </div>
 
-            <Title text="All Members" style="mt-[40px]" />
+            <Title text="All Members" />
             <div className="flex flex-wrap justify-center gap-[20px] pb-[40px]">
-              {[...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users, ...room!.users].map((user, index) => (
-                <Button key={index} style="pointer-events-none w-[250px] whitespace-nowrap overflow-hidden text-ellipsis">{user.id === you!.id ? `You (${user.name})` : user.name}</Button>
+              {room!.users.map((user, index) => (
+                <Button key={index} style="pointer-events-none w-[250px] whitespace-nowrap overflow-hidden text-ellipsis">
+                  {user.id === you!.id ? `You (${user.name})` : user.name}
+                </Button>
               ))}
             </div>
           </MenuSection>
 
           {/* Options */}
-          <MenuSection >
+          <MenuSection>
             <Title text="Join A Room" />
             <ConfirmedInput placeholder="# Enter your link here" value="" buttonLabel="Join" onConfirm={(link) => joinRoom(link)} />
 
-            <Title text="Create New Room" style="mt-[40px]" />
-            <div className="flex flex-wrap justify-center gap-[20px] pb-[40px] zmd:justify-start">
+            <Title text="Create New Room" />
+            <div className="flex flex-wrap justify-center gap-[20px] pb-[40px]">
               {ROOM_LIST.map((room, index) => (
                 <Card key={index} imageUrl={room.imageUrl} onClick={() => createRoom(room.type)}>
                   {roomTypeToName(room.type)}
@@ -96,8 +96,8 @@ export function Menu() {
 
           {/* Background */}
           <MenuSection>
-            <Title text="Change Background" />
-            <div className="flex flex-wrap justify-center gap-[20px] pb-[40px] zmd:justify-start">
+            <Title text="Change Background" style="mb-[40px]" />
+            <div className="flex flex-wrap justify-center gap-[20px] pb-[40px]">
               {BACKGROUNDS.map(({ name, imageUrl }, index) => (
                 <Card key={index} style="animate-scale " imageUrl={imageUrl} onClick={() => changeBackground(imageUrl)}>
                   {name}
@@ -108,8 +108,8 @@ export function Menu() {
 
           {/* Planet */}
           <MenuSection>
-            <Title text="Change Planet" />
-            <div className="flex flex-wrap justify-center gap-[20px] pb-[40px] zmd:justify-start">
+            <Title text="Change Planet" style="mb-[40px]" />
+            <div className="flex flex-wrap justify-center gap-[20px] pb-[40px]">
               {PLANETS.map(({ imageUrl, animation }, index) => (
                 <Card key={index} style="animate-scale" imageUrl={theme.background} onClick={() => changePlanet(imageUrl, animation)}>
                   <div style={{ backgroundImage: `url(${imageUrl})` }} className="w-full h-full bg-center bg-contain bg-no-repeat"></div>
@@ -117,22 +117,26 @@ export function Menu() {
               ))}
             </div>
           </MenuSection>
-        </div >
-      </div >
+        </div>
+      </div>
 
       {/* Control Buttons */}
 
-
-      <button className={`fixed top-0 left-0 p-[20px] transition-all duration-500 md:h-full ${menuList.indexOf(menu) === 0 ? '-translate-x-full' : ''}`} onClick={() => setMenu(menuList[menuList.indexOf(menu) - 1])}>
+      {/* <button
+        className={`fixed top-0 left-0 p-[20px] transition-all duration-500 md:h-full ${menuList.indexOf(menu) === 0 ? "-translate-x-full" : ""}`}
+        onClick={() => setMenu(menuList[menuList.indexOf(menu) - 1])}>
         <div className="-rotate-90">
           <ArrowUp />
         </div>
       </button>
-      <button className={`fixed top-0 right-0 p-[20px] transition-all duration-500 md:h-full ${menuList.indexOf(menu) === menuList.length - 1 ? 'translate-x-full' : ''}`} onClick={() => setMenu(menuList[menuList.indexOf(menu) + 1])}>
+
+      <button
+        className={`fixed top-0 right-0 p-[20px] transition-all duration-500 md:h-full ${menuList.indexOf(menu) === menuList.length - 1 ? "translate-x-full" : ""}`}
+        onClick={() => setMenu(menuList[menuList.indexOf(menu) + 1])}>
         <div className="rotate-90">
           <ArrowUp />
         </div>
-      </button>
+      </button> */}
       {/* <div
         className={`fixed left-[10px] top-0 md:inset-auto md:right-[20px] md:top-[20px] transition-all duration-300 ${menuList.indexOf(menu) === 0 ? "opacity-0 translate-y-full md:translate-y-0 md:translate-x-full" : ""
           }`}>
@@ -152,4 +156,3 @@ export function Menu() {
     </>
   );
 }
-
