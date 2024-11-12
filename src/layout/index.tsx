@@ -9,7 +9,7 @@ import { roomTypeToName } from "../utils";
 
 export function AppLayout() {
   const { state, dispatch } = useContext(Context);
-  const { you, room, menuVisible } = state;
+  const { you, room, menu } = state;
   const [prevRoom, setPrevRoom] = useState<string | null>(null);
   const location = useLocation();
 
@@ -59,17 +59,17 @@ export function AppLayout() {
   return (
     <AppBackground>
       {/* Room content */}
-      <div className={`w-full h-full transition-all duration-[1s] relative  ${menuVisible ? "opacity-0 translate-y-full" : ""}`}>{you && <Outlet />}</div>
+      <div className={`w-full h-full transition-all duration-[1s] relative  ${menu.visible ? "opacity-0 translate-y-full" : ""}`}>{you && <Outlet />}</div>
 
       {/* Menu */}
-      <div className={`absolute inset-0 transition-all duration-[1s] ${menuVisible ? "" : "opacity-0 -translate-y-full"}`}>{you && room && <Menu />}</div>
+      <div className={`absolute inset-0 transition-all duration-[1s] ${menu.visible ? "" : "opacity-0 -translate-y-full"}`}>{you && room && <Menu />}</div>
 
       {/* Menu button */}
       {you && (
         <button
           className="absolute top-0 left-1/2 -translate-x-1/2 w-[160px] h-[30px] rounded-b-[16px] bg-white shadow-md transition-all duration-100 text-black active:text-[var(--bg-color)] font-bold outline-none"
           onClick={() => dispatch({ type: "TOGGLE_MENU" })}>
-          {menuVisible ? "Back to Room" : roomTypeToName(room!.type)}
+          {menu.visible ? "Back to Room" : roomTypeToName(room!.type)}
         </button>
       )}
     </AppBackground>
