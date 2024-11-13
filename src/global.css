@@ -53,7 +53,7 @@ body {
   }
 }
 
-@keyframes animateScale {
+@keyframes animateCard {
   0% {
     transform: scale(0.5);
     opacity: 0;
@@ -68,25 +68,4 @@ body {
     transform: scale(0.5);
     opacity: 0;
   }
-}
-
-.animate-scale {
-  animation: animateScale ease-in-out both;
-  animation-timeline: view();
-}
-
-@keyframes animateOpacity {
-  0%,
-  90% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-  }
-}
-
-.animate-opacity {
-  animation: animateOpacity ease-in-out both;
-  animation-timeline: view();
 }

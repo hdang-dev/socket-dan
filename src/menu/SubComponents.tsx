@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "../components";
 
-export const MenuSection = ({ children, style }: { children: React.ReactNode; style?: string }) => {
+export const MenuSection = ({ children, style }: { children: React.ReactNode; style?: string; }) => {
   return (
     <section className={`snap-center min-w-full h-full overflow-scroll scrollbar-none`}>
       <div className={`w-full h-full pt-[100px] px-[30px] flex flex-col ${style ?? ""}`}>{children}</div>
@@ -9,7 +9,7 @@ export const MenuSection = ({ children, style }: { children: React.ReactNode; st
   );
 };
 
-export const Title = ({ text, style }: { text: string; style?: string }) => {
+export const Title = ({ text, style }: { text: string; style?: string; }) => {
   return <h2 className={`[&:not(:first-child)]:mt-[50px] mb-[20px] font-bold text-center md:text-lg ${style ?? ""}`}>{text}</h2>;
 };
 
@@ -52,10 +52,21 @@ export const ConfirmedInput = ({
   );
 };
 
-export const SwipeView = ({ children, style }: { children: React.ReactNode; style?: string }) => {
+export const CardList = ({ children, style }: { children: React.ReactNode; style?: string; }) => {
   return (
-    <div className={`w-screen h-max overflow-scroll scrollbar-none snap-y snap-mandatory  ${style ?? ""}`}>
-      <div className="flex flex-col w-max h-max gap-[20px]">{children}</div>
+    <div className={`flex flex-wrap justify-center gap-[20px] pb-[40px] ${style ?? ""}`}>{children}</div>
+  );
+};
+
+
+export const Card = ({ children, imageUrl, style, onClick }: { children: React.ReactNode; imageUrl: string; style?: string; onClick?: () => void; }) => {
+  return (
+    <div className={`cursor-pointer snap-center min-w-[300px] aspect-[5/3] overflow-hidden rounded-[24px] border-[3px] border-white shadow-lg animate-[animateCard] animate-fill-both [animation-timeline:view()] ${style ?? ''}`} onClick={onClick}>
+      <div
+        style={{ backgroundImage: `url(${imageUrl})` }}
+        className={`w-full h-full bg-center bg-cover transition-all duration-300 hover:scale-110 active:scale-110 text-white active:text-[var(--bg-color)] grid place-items-center p-[20px]`}>
+        {children}
+      </div>
     </div>
   );
 };
