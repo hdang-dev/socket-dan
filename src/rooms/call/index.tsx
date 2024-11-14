@@ -55,19 +55,20 @@ export function CallRoom() {
 
   return (
     <div className="w-full h-full p-[10px] pb-[30px] flex flex-col gap-[30px]">
-      {/* <video ref={myVideo} autoPlay></video> */}
-      {/* <video ref={friendVideo} autoPlay></video> */}
-      {/* <div className="w-full h-full flex flex-wrap gap-[20px] justify-center items-center relative"> */}
-      <div className="w-full flex-1 grid grid-cols-2 gap-[10px] place-items-center">
-        {myStream && (<>
-          < Video stream={myStream} />
-          <Video stream={myStream} />
-          <Video stream={myStream} />
-          <Video stream={myStream} />
-          <Video stream={myStream} />
-          <Video stream={myStream} />
-        </>
-        )}
+      {/* <div className="w-full flex-1 flex flex-col flex-wrap gap-[20px] justify-center items-center overflow-hidden"> */}
+      <div className="w-full flex-1 grid place-items-center">
+        <div className="w-full max-h-full flex gap-[10px] flex-wrap justify-center items-center">
+          {myStream && (
+            <>
+              <Video stream={myStream} />
+              <Video stream={myStream} />
+              <Video stream={myStream} />
+              {/* <Video stream={myStream} /> */}
+              {/* <Video stream={myStream} /> */}
+              {/* <Video stream={myStream} /> */}
+            </>
+          )}
+        </div>
       </div>
 
       <div className="flex gap-[20px] justify-center">
@@ -78,12 +79,10 @@ export function CallRoom() {
   );
 }
 
-const Video = ({ stream }: { stream: MediaStream; }) => {
+const Video = ({ stream }: { stream: MediaStream }) => {
   const ref = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     ref.current!.srcObject = stream;
   }, []);
-  return (
-    <video ref={ref} className="rounded-xl object-cover w-full h-full" src="" autoPlay></video>
-  );
-};;;
+  return <video ref={ref} autoPlay className="rounded-xl border-[3px] aspect-video max-w-[600px] max-h-[400px] object-cover"></video>;
+};
