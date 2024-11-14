@@ -13,6 +13,7 @@ body {
   height: var(--doc-height);
   font-family: Menlo, Monano, Consolas, "Droid Sans Mono", monospace;
   color: var(--text-color);
+  overflow: hidden;
 }
 
 #root {

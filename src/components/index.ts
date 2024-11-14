@@ -1,5 +1,4 @@
 export * from "./ChatBubble";
-export * from "./Card";
 export * from "./Button";
 
 // Icons

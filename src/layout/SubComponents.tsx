@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Context } from "../context";
 
-export function AppBackground({ children }: { children: React.ReactNode }) {
+export function AppBackground({ children }: { children: React.ReactNode; }) {
   const { state } = useContext(Context);
   const { menu, theme } = state;
 
