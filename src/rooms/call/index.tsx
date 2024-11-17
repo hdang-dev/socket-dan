@@ -11,13 +11,19 @@ export function CallRoom() {
   const [myStream, setMyStream] = useState<MediaStream | null>(null);
   const peer = new Peer();
   // const peers: { [friendId: string]: MediaConnection; } = {};
+  const videoGridRef = useRef<HTMLDivElement>(null);
+
+  const createVideoGrid = () => {
+    console.log(123);
+  };
 
   useEffect(() => {
     // peer.on("open", (peerId) => socket.emit("join", peerId));
 
     navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
       // myVideo.current!.srcObject = stream;
-      setMyStream(stream);
+
+      // setMyStream(stream);
 
       peer.on("call", (call) => {
         console.log("Someone is calling u");
@@ -53,22 +59,37 @@ export function CallRoom() {
     });
   }, []);
 
+  useEffect(() => {
+    if (videoGridRef.current) {
+      console.log(videoGridRef.current.clientWidth);
+      console.log(videoGridRef.current.clientHeight);
+    }
+  }, []);
+
   return (
-    <div className="w-full h-full p-[10px] pb-[30px] flex flex-col gap-[30px]">
-      {/* <div className="w-full flex-1 flex flex-col flex-wrap gap-[20px] justify-center items-center overflow-hidden"> */}
-      <div className="w-full flex-1 grid place-items-center">
-        <div className="w-full max-h-full flex gap-[10px] flex-wrap justify-center items-center">
-          {myStream && (
-            <>
-              <Video stream={myStream} />
-              <Video stream={myStream} />
-              <Video stream={myStream} />
-              {/* <Video stream={myStream} /> */}
-              {/* <Video stream={myStream} /> */}
-              {/* <Video stream={myStream} /> */}
-            </>
-          )}
-        </div>
+    <div className="w-full h-full p-[20px] pt-[50px] flex flex-col gap-[20px]">
+      <div ref={videoGridRef} className="w-full flex-1 grid place-items-center grid-cols-4 gap-[20px]">
+        {/* {myStream && ( */}
+        <>
+          {/* 1 person */}
+          {/* <Video stream={myStream} /> */}
+
+          {/* 2 people */}
+          <Video stream={myStream} />
+          <Video stream={myStream} />
+          <Video stream={myStream} />
+          <Video stream={myStream} />
+          <Video stream={myStream} />
+          <Video stream={myStream} />
+          <Video stream={myStream} />
+          <Video stream={myStream} />
+          <Video stream={myStream} />
+          <Video stream={myStream} />
+          <Video stream={myStream} />
+          <Video stream={myStream} />
+          {/* <Video stream={myStream} />
+          <Video stream={myStream} /> */}
+        </>
       </div>
 
       <div className="flex gap-[20px] justify-center">
@@ -79,10 +100,11 @@ export function CallRoom() {
   );
 }
 
-const Video = ({ stream }: { stream: MediaStream }) => {
+const Video = ({ stream, style }: { stream?: MediaStream; style?: string }) => {
   const ref = useRef<HTMLVideoElement>(null);
   useEffect(() => {
-    ref.current!.srcObject = stream;
+    // ref.current!.srcObject = stream;
   }, []);
-  return <video ref={ref} autoPlay className="rounded-xl border-[3px] aspect-video max-w-[600px] max-h-[400px] object-cover"></video>;
+  return <div className={`rounded-xl border-[3px] overflow-hidden bg-black w-full h-full ${style ?? ""}`}></div>;
+  // return <video ref={ref} autoPlay className="rounded-xl border-[3px] object-cover w-full h-full max-h-[50%] md:max-h-none md:max-w-[50%] "></video>;
 };
