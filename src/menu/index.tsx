@@ -66,25 +66,35 @@ export function Menu() {
       <div ref={menuRef} className="w-full h-full overflow-scroll snap-x snap-mandatory scrollbar-none scroll-smooth">
         <div className="w-full h-full flex">
           {/* Information */}
-          <MenuSection>
-            <Title text="Change Your Name" />
-            <ConfirmedInput key={you!.name} placeholder="# Enter your name" value={you!.name} buttonLabel="Save" checkDifferent onConfirm={(name) => changeName(name)} />
+          {(room || you) && (
+            <MenuSection>
+              {you && (
+                <>
+                  <Title text="Change Your Name" />
+                  <ConfirmedInput key={you!.name} placeholder="# Enter your name" value={you!.name} buttonLabel="Save" checkDifferent onConfirm={(name) => changeName(name)} />
+                </>
+              )}
 
-            <Title text="Share Your Room" />
-            <div className="flex flex-col items-center gap-[15px]">
-              <span className="text-center w-full truncate">{roomLink}</span>
-              <Button onClick={() => { }}>Copy</Button>
-            </div>
+              {room && (
+                <>
+                  <Title text="Share Your Room" />
+                  <div className="flex flex-col items-center gap-[15px]">
+                    <span className="text-center w-full truncate">{roomLink}</span>
+                    <Button onClick={() => {}}>Copy</Button>
+                  </div>
 
-            <Title text="All Members" />
-            <div className="flex flex-wrap justify-center gap-[20px] pb-[40px]">
-              {room!.users.map((user, index) => (
-                <Button key={index} style="pointer-events-none w-[250px] whitespace-nowrap overflow-hidden text-ellipsis">
-                  {user.id === you!.id ? `You (${user.name})` : user.name}
-                </Button>
-              ))}
-            </div>
-          </MenuSection>
+                  <Title text="All Members" />
+                  <div className="flex flex-wrap justify-center gap-[20px] pb-[40px]">
+                    {room!.users.map((user, index) => (
+                      <Button key={index} style="pointer-events-none w-[250px] whitespace-nowrap overflow-hidden text-ellipsis">
+                        {user.id === you!.id ? `You (${user.name})` : user.name}
+                      </Button>
+                    ))}
+                  </div>
+                </>
+              )}
+            </MenuSection>
+          )}
 
           {/* Options */}
           <MenuSection>
@@ -128,8 +138,8 @@ export function Menu() {
       </div>
 
       {/* Control Buttons */}
-      <div className="fixed hidden md:block top-0 left-0 h-full w-[30px]" onMouseEnter={() => swipeLeft()}></div >
-      <div className="fixed hidden md:block top-0 right-0 h-full w-[30px]" onMouseEnter={() => swipeRight()}></div >
+      <div className="fixed hidden md:block top-0 left-0 h-full w-[30px]" onMouseEnter={() => swipeLeft()}></div>
+      <div className="fixed hidden md:block top-0 right-0 h-full w-[30px]" onMouseEnter={() => swipeRight()}></div>
     </>
   );
 }

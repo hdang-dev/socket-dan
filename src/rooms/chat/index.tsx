@@ -4,9 +4,10 @@ import { Message } from "../../interfaces";
 import { ChatBubble } from "../../components";
 import { getTime } from "../../utils";
 import { socketService as socket } from "../../socket";
+import { useParams } from "react-router-dom";
 
 export function ChatRoom() {
-  const { state } = useContext(Context);
+  const { state, dispatch } = useContext(Context);
   const { you, room } = state;
   const [messages, setMessages] = useState<Message[]>([]);
   const [yourText, setYourText] = useState<string>("");
@@ -54,14 +55,28 @@ export function ChatRoom() {
     socket.sendData(room!.id, "chat", message);
   };
 
-  const receiveMessage = useCallback((message: Message) => {
-    setMessages([...messages, message]);
-    scrollToBottom();
-  }, [messages]);
+  // const receiveMessage = useCallback((message: Message) => {
+  //   setMessages([...messages, message]);
+  //   scrollToBottom();
+  // }, [messages]);
+
+  const { roomId } = useParams();
 
   useEffect(() => {
-    socket.receiveData<Message>('chat', message => receiveMessage(message));
-  }, [receiveMessage]);
+    if (roomId) {
+      socket.joinRoom("");
+      dispatch({ type: "JOIN_ROOM", roomType: "chat", roomId });
+
+      socket.receiveData<Message>("chat", (message) => {
+        setMessages((prev) => [...prev, message]);
+        scrollToBottom();
+      });
+    }
+    return () => {
+      socket.leaveRoom("");
+      // dispatch({ type: "LEAVE_ROOM" });
+    };
+  }, [roomId]);
 
   return (
     <div className="w-full h-full pb-[40px] px-[10px] flex flex-col justify-end items-center gap-[25px] md:gap-[40px]">
@@ -69,7 +84,7 @@ export function ChatRoom() {
       <div ref={messageViewRef} className="pt-[30px] w-full overflow-y-auto flex flex-col gap-[10px] scrollbar-none">
         {messages.map(({ text, time, userId }, index) => {
           const user = room!.users.filter((user) => user.id === userId)[0];
-          return <ChatBubble key={index} text={text} time={time} userName={user ? user.name : 'User leaved'} end={userId === you!.id} styleBubble="md:max-w-[30%]" />;
+          return <ChatBubble key={index} text={text} time={time} userName={user ? user.name : "User leaved"} end={userId === you!.id} styleBubble="md:max-w-[30%]" />;
         })}
       </div>
 
