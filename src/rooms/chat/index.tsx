@@ -63,18 +63,17 @@ export function ChatRoom() {
   const { roomId } = useParams();
 
   useEffect(() => {
-    if (roomId) {
-      socket.joinRoom("");
-      dispatch({ type: "JOIN_ROOM", roomType: "chat", roomId });
+    socket.joinRoom(roomId ?? "global");
+    dispatch({ type: "JOIN_ROOM", roomType: roomId ? "chat" : "global", roomId: roomId ?? "global" });
 
-      socket.receiveData<Message>("chat", (message) => {
-        setMessages((prev) => [...prev, message]);
-        scrollToBottom();
-      });
-    }
+    socket.receiveData<Message>("chat", (message) => {
+      setMessages((prev) => [...prev, message]);
+      scrollToBottom();
+    });
+
     return () => {
-      socket.leaveRoom("");
-      // dispatch({ type: "LEAVE_ROOM" });
+      socket.leaveRoom(roomId ?? "global");
+      dispatch({ type: "LEAVE_ROOM" });
     };
   }, [roomId]);
 

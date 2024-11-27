@@ -15,8 +15,8 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         ...state,
         menu: {
           ...menu,
-          visible: !menu.visible
-        }
+          visible: !menu.visible,
+        },
       };
 
     case "CHANGE_MENU_NAME":
@@ -24,10 +24,9 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         ...state,
         menu: {
           ...menu,
-          name: action.name
-        }
+          name: action.name,
+        },
       };
-
 
     case "CHANGE_NAME": {
       const index = room!.users.findIndex((user) => user.id === action.user.id);
@@ -60,6 +59,12 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         },
       };
 
+    case "LEAVE_ROOM":
+      return {
+        ...state,
+        room: null,
+      };
+
     case "ADD_USER":
       return {
         ...state,
@@ -83,8 +88,8 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         ...state,
         theme: {
           ...theme,
-          background: action.background
-        }
+          background: action.background,
+        },
       };
 
     case "CHANGE_PLANET":
@@ -93,8 +98,8 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         theme: {
           ...theme,
           planet: action.planet,
-          animation: action.animation
-        }
+          animation: action.animation,
+        },
       };
 
     default:

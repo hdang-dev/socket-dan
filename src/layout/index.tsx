@@ -70,6 +70,8 @@ export function AppLayout() {
     // });
   }, [room?.id]);
 
+  console.log(room, you);
+
   return (
     <AppBackground>
       {/* Room content */}

@@ -12,7 +12,7 @@ export type AppState = {
   menu: {
     visible: boolean;
     name: string;
-  },
+  };
   theme: {
     background: string;
     planet: string;
@@ -36,12 +36,16 @@ type JoinRoomAction = {
   roomId: string;
 };
 
+type LeaveRoomAction = {
+  type: "LEAVE_ROOM";
+};
+
 type ToggleMenuAction = {
   type: "TOGGLE_MENU";
 };
 
 type ChangeMenuName = {
-  type: 'CHANGE_MENU_NAME';
+  type: "CHANGE_MENU_NAME";
   name: string;
 };
 
@@ -64,7 +68,6 @@ type ChangePlanet = {
   type: "CHANGE_PLANET";
   planet: string;
   animation: string;
-
 };
 
-export type AppAction = InitUserAction | ChangeNameAction | JoinRoomAction | ToggleMenuAction | ChangeMenuName | AddUserAction | RemoveUserAction | ChangeBackground | ChangePlanet;
+export type AppAction = InitUserAction | ChangeNameAction | JoinRoomAction | LeaveRoomAction | ToggleMenuAction | ChangeMenuName | AddUserAction | RemoveUserAction | ChangeBackground | ChangePlanet;
