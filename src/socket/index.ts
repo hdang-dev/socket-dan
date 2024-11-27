@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 const socket = io(import.meta.env.VITE_SERVER_URL);
 
 enum SocketEvent {
-  GET_ID = "GET_ID",
+  JOIN_APP = "JOIN_APP",
   USER_DISCONNECT = "USER_DISCONNECT",
   JOIN_ROOM = "JOIN_ROOM",
   LEAVE_ROOM = "LEAVE_ROOM",
@@ -11,9 +11,9 @@ enum SocketEvent {
 }
 
 export const socketService = {
-  getId(handler: (id: string) => void) {
-    socket.emit(SocketEvent.GET_ID);
-    socket.on(SocketEvent.GET_ID, handler);
+  joinApp(handler: (userId: string) => void) {
+    socket.emit(SocketEvent.JOIN_APP);
+    socket.on(SocketEvent.JOIN_APP, handler);
   },
 
   userDisconnect(handler: (userId: string) => void) {
@@ -24,8 +24,8 @@ export const socketService = {
     socket.emit(SocketEvent.JOIN_ROOM, roomId);
   },
 
-  leaveRoom(roomId: string) {
-    socket.emit(SocketEvent.LEAVE_ROOM, roomId);
+  leaveRoom() {
+    socket.emit(SocketEvent.LEAVE_ROOM);
   },
 
   sendData<T>(id: string, key: string, data: T) {
@@ -36,5 +36,6 @@ export const socketService = {
     socket.on(SocketEvent.DATA, (onKey, data) => {
       if (onKey === key) handler(data);
     });
+    socket.
   },
 };

@@ -63,8 +63,13 @@ export function ChatRoom() {
   const { roomId } = useParams();
 
   useEffect(() => {
-    socket.joinRoom(roomId ?? "global");
-    dispatch({ type: "JOIN_ROOM", roomType: roomId ? "chat" : "global", roomId: roomId ?? "global" });
+    if (roomId) {
+      socket.joinRoom(roomId);
+      dispatch({ type: "JOIN_ROOM", roomType: "chat", roomId });
+    } else {
+      socket.joinRoom("global");
+      dispatch({ type: "JOIN_ROOM", roomType: "global", roomId: "global" });
+    }
 
     socket.receiveData<Message>("chat", (message) => {
       setMessages((prev) => [...prev, message]);
@@ -72,7 +77,7 @@ export function ChatRoom() {
     });
 
     return () => {
-      socket.leaveRoom(roomId ?? "global");
+      socket.leaveRoom();
       dispatch({ type: "LEAVE_ROOM" });
     };
   }, [roomId]);
