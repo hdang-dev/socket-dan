@@ -9,25 +9,43 @@ enum SocketEvent {
   ADD_USER = "SK_ADD_USER",
   REMOVE_USER = "SK_REMOVE_USER",
   JOIN_ROOM = "SK_JOIN_ROOM",
+  ON_JOIN_ROOM = "SK_ON_JOIN_ROOM",
+  CHANGE_NAME = "SK_CHANGE_NAME",
+  ON_CHANGE_NAME = "SK_ON_CHANGE_NAME",
   LEAVE_ROOM = "SK_LEAVE_ROOM",
 }
 
 const socketService = {
-  connect(userName?: string, handler: (userId: string) => void) {
+  connect(userName?: string) {
     socket.emit(SocketEvent.CONNECT, userName);
-    socket.on(SocketEvent.CONNECT, handler);
   },
 
   joinRoom(roomType: string, roomId: string, user: User, handler: (status: boolean) => void) {
-    socket.emit(SocketEvent.JOIN_ROOM, roomType, roomId);
+    socket.emit(SocketEvent.JOIN_ROOM, roomType, roomId, user);
     socket.on(SocketEvent.JOIN_ROOM, handler);
+  },
+
+  onJoinRoom(handler:(user:User) => void){
+    socket.on(SocketEvent.ON_JOIN_ROOM, handler);
+  },
+
+  onAddUser(user: User){
+
+  },
+
+  changeName(name: string) {
+    socket.emit(SocketEvent.CHANGE_NAME, name);
+  },
+
+  onChangeName(handler:(user: User)=>void) {
+    socket.on(SocketEvent.ON_CHANGE_NAME, handler);
   },
 
   leaveRoom(roomId: string) {
     socket.emit(SocketEvent.LEAVE_ROOM, roomId);
   },
 
-  getUSers(handler: (userId: string) => void) {
+  getUsers(handler: (users: User) => void) {
 
   }
   userDisconnect(handler: (userId: string) => void) {
