@@ -5,64 +5,52 @@ const socket = io(import.meta.env.VITE_SERVER_URL);
 
 enum SocketEvent {
   CONNECT = "SK_CONNECT",
-  GET_USERS = "SK_GET_USERS",
+  JOIN_ROOM = "SK_JOIN_ROOM",
+  LEAVE_ROOM = "SK_LEAVE_ROOM",
   ADD_USER = "SK_ADD_USER",
   REMOVE_USER = "SK_REMOVE_USER",
-  JOIN_ROOM = "SK_JOIN_ROOM",
-  ON_JOIN_ROOM = "SK_ON_JOIN_ROOM",
   CHANGE_NAME = "SK_CHANGE_NAME",
   ON_CHANGE_NAME = "SK_ON_CHANGE_NAME",
-  LEAVE_ROOM = "SK_LEAVE_ROOM",
 }
 
 const socketService = {
-  connect(userName?: string) {
+  connect(userName: string | undefined = undefined, handler: (status: boolean) => void) {
     socket.emit(SocketEvent.CONNECT, userName);
+    socket.on(SocketEvent.CONNECT, handler);
   },
 
-  joinRoom(roomType: string, roomId: string, user: User, handler: (status: boolean) => void) {
+  joinRoom(roomType: string, roomId: string, user: string, handler: (status: boolean) => void) {
     socket.emit(SocketEvent.JOIN_ROOM, roomType, roomId, user);
     socket.on(SocketEvent.JOIN_ROOM, handler);
-  },
-
-  onJoinRoom(handler:(user:User) => void){
-    socket.on(SocketEvent.ON_JOIN_ROOM, handler);
-  },
-
-  onAddUser(user: User){
-
-  },
-
-  changeName(name: string) {
-    socket.emit(SocketEvent.CHANGE_NAME, name);
-  },
-
-  onChangeName(handler:(user: User)=>void) {
-    socket.on(SocketEvent.ON_CHANGE_NAME, handler);
   },
 
   leaveRoom(roomId: string) {
     socket.emit(SocketEvent.LEAVE_ROOM, roomId);
   },
 
-  getUsers(handler: (users: User) => void) {
-
-  }
-  userDisconnect(handler: (userId: string) => void) {
-    socket.on(SocketEvent.USER_DISCONNECT, handler);
+  onAddUser(handler: (user: User) => void) {
+    socket.on(SocketEvent.ADD_USER, handler);
   },
 
+  onRemoveUser(handler: (userId: string) => void) {
+    socket.on(SocketEvent.REMOVE_USER, handler);
+  },
 
-  // sendData<T>(id: string, key: string, data: T) {
-  //   socket.emit(SocketEvent.DATA, id, key, data);
-  // },
+  changeName(name: string) {
+    socket.emit(SocketEvent.CHANGE_NAME, name);
+  },
 
-  // receiveData<T>(key: string, handler: (data: T) => void) {
-  //   socket.on(SocketEvent.DATA, (onKey, data) => {
-  //     if (onKey === key) handler(data);
-  //   });
-  //   socket.
-  // },
+  onChangeName(handler: (user: User) => void) {
+    socket.on(SocketEvent.CHANGE_NAME, handler);
+  },
+
+  sendData<T>(key: string, value: T) {
+    socket.emit(key, value);
+  },
+
+  onReceiveData<T>(key: string, handler: (value: T) => void) {
+    socket.on(key, handler);
+  },
 };
 
 export { socketService as socket };
