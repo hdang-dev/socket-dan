@@ -1,5 +1,5 @@
 import AppProvider from "./context";
-import { AppLayout } from "./layout";
+import { Layout } from "./Layout";
 import { GlobalRoom, ChatRoom, CallRoom } from "./rooms";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -17,7 +17,7 @@ export default function App() {
     <AppProvider>
       <BrowserRouter>
         <Routes>
-          <Route element={<AppLayout />}>
+          <Route element={<Layout />}>
             <Route path="/" element={<GlobalRoom />} />
             <Route path="chat/:roomId" element={<ChatRoom />} />
             <Route path="call/:roomId" element={<CallRoom />} />

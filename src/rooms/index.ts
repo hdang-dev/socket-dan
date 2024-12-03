@@ -1,3 +1,3 @@
-export * from "./global";
-export * from "./chat";
-export * from "./call";
+export * from "./GlobalRoom";
+export * from "./ChatRoom";
+export * from "./CallRoom";

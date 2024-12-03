@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useContext, useEffect, useState } from "react";
-import { Context } from "../context";
-import { Menu } from "../menu";
+import { Context } from "./context";
+import { Menu } from "./menu";
 import { Outlet, useLocation } from "react-router-dom";
-import { socket } from "../socket";
-import { AppBackground } from "./SubComponents";
-import { User } from "../interfaces";
-import { roomTypeToName } from "../utils";
+import { socket } from "./socket";
+import { Background } from "./components";
+import { User } from "./interfaces";
+import { roomTypeToName } from "./utils";
 
-export function AppLayout() {
+export function Layout() {
   const { state, dispatch } = useContext(Context);
   const { you, room, menu } = state;
   // const [prevRoom, setPrevRoom] = useState<string | null>(null);
@@ -74,7 +74,7 @@ export function AppLayout() {
   console.log(room, you);
 
   return (
-    <AppBackground>
+    <Background>
       {/* Room content */}
       <div className={`w-full h-full transition-all duration-[1s] relative  ${menu.visible ? "opacity-0 translate-y-full" : ""}`}>
         <Outlet />
@@ -92,6 +92,6 @@ export function AppLayout() {
         {/* {menu.visible ? "Back to Room" : roomTypeToName(room!.type)} */}
         Menu
       </button>
-    </AppBackground>
+    </Background>
   );
 }

@@ -1,9 +1,9 @@
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { Context } from "../../context";
-import { Message } from "../../interfaces";
-import { ChatBubble } from "../../components";
-import { getTime } from "../../utils";
-import { socketService as socket } from "../../socket";
+import { useContext, useEffect, useRef, useState } from "react";
+import { Context } from "../context";
+import { Message } from "../interfaces";
+import { ChatBubble } from "../components";
+import { getTime } from "../utils";
+import { socket } from "../socket";
 import { useParams } from "react-router-dom";
 
 export function ChatRoom() {
