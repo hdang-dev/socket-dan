@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 // import Peer, { MediaConnection } from "peerjs";
 import Peer from "peerjs";
-// import { socketService as socket } from "../../socket";
+// import { socket } from "../../socket";
 // import { io } from "socket.io-client";
 
 // const socket = io(import.meta.env.VITE_SERVER_URL);

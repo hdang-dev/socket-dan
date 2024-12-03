@@ -52,7 +52,7 @@ export function ChatRoom() {
     textAreaRef.current!.value = "";
     textAreaRef.current!.focus();
     resizeTextBox();
-    socket.sendData(room!.id, "chat", message);
+    socket.sendData("CHAT_MESSAGE", message);
   };
 
   // const receiveMessage = useCallback((message: Message) => {
@@ -60,27 +60,28 @@ export function ChatRoom() {
   //   scrollToBottom();
   // }, [messages]);
 
-  const { roomId } = useParams();
+  const roomId = useParams().roomId ?? "global";
+  const roomType = useParams().roomId ? "chat" : "global";
 
   useEffect(() => {
-    if (roomId) {
-      socket.joinRoom(roomId);
-      dispatch({ type: "JOIN_ROOM", roomType: "chat", roomId });
-    } else {
-      socket.joinRoom("global");
-      dispatch({ type: "JOIN_ROOM", roomType: "global", roomId: "global" });
-    }
+    socket.joinRoom(roomType, roomId, (status) => {
+      if (status) {
+        dispatch({ type: "JOIN_ROOM", roomType, roomId });
+      } else {
+        // Over capacity
+      }
+    });
 
-    socket.receiveData<Message>("chat", (message) => {
+    socket.onReceiveData<Message>("CHAT_MESSAGE", (message) => {
       setMessages((prev) => [...prev, message]);
       scrollToBottom();
     });
 
     return () => {
-      socket.leaveRoom();
+      socket.leaveRoom(roomId);
       dispatch({ type: "LEAVE_ROOM" });
     };
-  }, [roomId]);
+  }, []);
 
   return (
     <div className="w-full h-full pb-[40px] px-[10px] flex flex-col justify-end items-center gap-[25px] md:gap-[40px]">

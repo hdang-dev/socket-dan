@@ -14,13 +14,13 @@ enum SocketEvent {
 }
 
 const socketService = {
-  connect(userName: string | undefined = undefined, handler: (status: boolean) => void) {
+  connect(userName: string | undefined = undefined, handler: (userId: string) => void) {
     socket.emit(SocketEvent.CONNECT, userName);
     socket.on(SocketEvent.CONNECT, handler);
   },
 
-  joinRoom(roomType: string, roomId: string, user: string, handler: (status: boolean) => void) {
-    socket.emit(SocketEvent.JOIN_ROOM, roomType, roomId, user);
+  joinRoom(roomType: string, roomId: string, handler: (status: boolean) => void) {
+    socket.emit(SocketEvent.JOIN_ROOM, roomType, roomId);
     socket.on(SocketEvent.JOIN_ROOM, handler);
   },
 
@@ -44,12 +44,12 @@ const socketService = {
     socket.on(SocketEvent.CHANGE_NAME, handler);
   },
 
-  sendData<T>(key: string, value: T) {
-    socket.emit(key, value);
+  sendData<T>(event: string, data: T) {
+    socket.emit(event, data);
   },
 
-  onReceiveData<T>(key: string, handler: (value: T) => void) {
-    socket.on(key, handler);
+  onReceiveData<T>(event: string, handler: (data: T) => void) {
+    socket.on(event, handler);
   },
 };
 

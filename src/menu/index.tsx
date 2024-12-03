@@ -5,7 +5,8 @@ import { MenuSection, ConfirmedInput, Title, CardList, Card } from "./SubCompone
 import { BACKGROUNDS, PLANETS, ROOM_LIST } from "./data";
 import { generateRoomId, roomTypeToName } from "../utils";
 import { Context } from "../context";
-import { socketService as socket } from "../socket";
+import { socket } from "../socket";
+import { User } from "../interfaces";
 
 export function Menu() {
   const location = useLocation();
@@ -13,6 +14,7 @@ export function Menu() {
   const { you, room, theme } = state;
   const navigate = useNavigate();
   const menuRef = useRef<HTMLDivElement>(null);
+  const [users, setUsers] = useState<User[]>([]);
 
   const swipeLeft = () => {
     menuRef.current!.scrollLeft = menuRef.current!.scrollLeft - menuRef.current!.clientWidth;
@@ -61,40 +63,56 @@ export function Menu() {
     dispatch({ type: "TOGGLE_MENU" });
   };
 
+  useEffect(() => {
+    socket.onAddUser((user) => {
+      setUsers((prev) => [...prev, user]);
+    });
+    socket.onRemoveUser((userId) => {
+      setUsers((prev) => {
+        const index = prev.findIndex((user) => user.id === userId);
+        return [...prev.slice(0, index), ...prev.slice(index)];
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    if (room === null) {
+      setUsers([]);
+    }
+  }, [room]);
+
   return (
     <>
       <div ref={menuRef} className="w-full h-full overflow-scroll snap-x snap-mandatory scrollbar-none scroll-smooth">
         <div className="w-full h-full flex">
           {/* Information */}
-          {(room || you) && (
-            <MenuSection>
-              {you && (
-                <>
-                  <Title text="Change Your Name" />
-                  <ConfirmedInput key={you!.name} placeholder="# Enter your name" value={you!.name} buttonLabel="Save" checkDifferent onConfirm={(name) => changeName(name)} />
-                </>
-              )}
+          <MenuSection>
+            {you && (
+              <>
+                <Title text="Change Your Name" />
+                <ConfirmedInput key={you!.name} placeholder="# Enter your name" value={you!.name} buttonLabel="Save" checkDifferent onConfirm={(name) => changeName(name)} />
+              </>
+            )}
 
-              {room && (
-                <>
-                  <Title text="Share Your Room" />
-                  <div className="flex flex-col items-center gap-[15px]">
-                    <span className="text-center w-full truncate">{roomLink}</span>
-                    <Button onClick={() => {}}>Copy</Button>
-                  </div>
+            {room && (
+              <>
+                <Title text="Share Your Room" />
+                <div className="flex flex-col items-center gap-[15px]">
+                  <span className="text-center w-full truncate">{roomLink}</span>
+                  <Button onClick={() => {}}>Copy</Button>
+                </div>
 
-                  <Title text="All Members" />
-                  <div className="flex flex-wrap justify-center gap-[20px] pb-[40px]">
-                    {room!.users.map((user, index) => (
-                      <Button key={index} style="pointer-events-none w-[250px] whitespace-nowrap overflow-hidden text-ellipsis">
-                        {user.id === you!.id ? `You (${user.name})` : user.name}
-                      </Button>
-                    ))}
-                  </div>
-                </>
-              )}
-            </MenuSection>
-          )}
+                <Title text="All Members" />
+                <div className="flex flex-wrap justify-center gap-[20px] pb-[40px]">
+                  {users.map((user, index) => (
+                    <Button key={index} style="pointer-events-none w-[250px] whitespace-nowrap overflow-hidden text-ellipsis">
+                      {user.id === you!.id ? `You (${user.name})` : user.name}
+                    </Button>
+                  ))}
+                </div>
+              </>
+            )}
+          </MenuSection>
 
           {/* Options */}
           <MenuSection>

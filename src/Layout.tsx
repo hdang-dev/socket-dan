@@ -15,11 +15,9 @@ export function Layout() {
   // const location = useLocation();
 
   useEffect(() => {
-    // const [roomType, roomId] = location.pathname === "/" ? ["global", "global"] : location.pathname.split("/").slice(1);
-    // socket.connect()
-    socket.getId((socketId) => {
-      dispatch({ type: "INIT_USER", you: { id: socketId, name: "User #" + socketId.slice(0, 6) } });
-      // dispatch({ type: "JOIN_ROOM", roomType, roomId });
+    const name = "dan123";
+    socket.connect(name, (userId) => {
+      dispatch({ type: "INIT_USER", you: { id: userId, name } });
     });
   }, []);
 
