@@ -70,7 +70,7 @@ export function Menu() {
     socket.onRemoveUser((userId) => {
       setUsers((prev) => {
         const index = prev.findIndex((user) => user.id === userId);
-        return [...prev.slice(0, index), ...prev.slice(index)];
+        return [...prev.slice(0, index), ...prev.slice(index + 1)];
       });
     });
   }, []);
