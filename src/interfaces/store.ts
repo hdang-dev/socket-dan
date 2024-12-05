@@ -7,7 +7,7 @@ export type AppContext = {
 };
 
 export type AppState = {
-  you: User | null;
+  you: User;
   room: Room | null;
   menu: {
     visible: boolean;
@@ -20,9 +20,9 @@ export type AppState = {
   };
 };
 
-type InitUserAction = {
-  type: "INIT_USER";
-  you: User;
+type ConnectAction = {
+  type: "CONNECT";
+  id: string;
 };
 
 type ChangeNameAction = {
@@ -70,4 +70,4 @@ type ChangePlanet = {
   animation: string;
 };
 
-export type AppAction = InitUserAction | ChangeNameAction | JoinRoomAction | LeaveRoomAction | ToggleMenuAction | ChangeMenuName | AddUserAction | RemoveUserAction | ChangeBackground | ChangePlanet;
+export type AppAction = ConnectAction | ChangeNameAction | JoinRoomAction | LeaveRoomAction | ToggleMenuAction | ChangeMenuName | AddUserAction | RemoveUserAction | ChangeBackground | ChangePlanet;

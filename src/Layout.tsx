@@ -1,23 +1,17 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { Context } from "./context";
 import { Menu } from "./menu";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { socket } from "./socket";
 import { Background } from "./components";
-import { User } from "./interfaces";
-import { roomTypeToName } from "./utils";
 
 export function Layout() {
   const { state, dispatch } = useContext(Context);
   const { you, room, menu } = state;
-  // const [prevRoom, setPrevRoom] = useState<string | null>(null);
-  // const location = useLocation();
 
   useEffect(() => {
-    const name = "dan123";
-    socket.connect(name, (userId) => {
-      dispatch({ type: "INIT_USER", you: { id: userId, name } });
+    socket.connect(you?.name, (userId) => {
+      dispatch({ type: "CONNECT", id: userId });
     });
   }, []);
 
@@ -68,8 +62,6 @@ export function Layout() {
     //   dispatch({ type: "REMOVE_USER", userId });
     // });
   }, [room?.id]);
-
-  console.log(room, you);
 
   return (
     <Background>

@@ -14,7 +14,7 @@ enum SocketEvent {
 }
 
 const socketService = {
-  connect(userName: string | undefined = undefined, handler: (userId: string) => void) {
+  connect(userName: string, handler: (userId: string) => void) {
     socket.emit(SocketEvent.CONNECT, userName);
     socket.on(SocketEvent.CONNECT, handler);
   },

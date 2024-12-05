@@ -5,10 +5,8 @@ export const getTime = () => {
   return hours + ":" + minutes;
 };
 
-export const generateRoomId = () => {
+export const randomId = (length: number) => {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  const length = 10;
-
   let id = "";
   for (let i = 0; i < length; i++) {
     id += characters.charAt(Math.floor(Math.random() * characters.length));
@@ -22,5 +20,5 @@ export const isSafariBrowser = () => {
 };
 
 export const roomTypeToName = (type: string) => {
-  return type[0].toUpperCase() + type.slice(1) + ' Room';
+  return type[0].toUpperCase() + type.slice(1) + " Room";
 };

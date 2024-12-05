@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../components";
 import { MenuSection, ConfirmedInput, Title, CardList, Card } from "./SubComponents";
 import { BACKGROUNDS, PLANETS, ROOM_LIST } from "./data";
-import { generateRoomId, roomTypeToName } from "../utils";
+import { randomId, roomTypeToName } from "../utils";
 import { Context } from "../context";
 import { socket } from "../socket";
 import { User } from "../interfaces";
@@ -56,7 +56,7 @@ export function Menu() {
       navigate("/");
       dispatch({ type: "JOIN_ROOM", roomType, roomId: "global" });
     } else {
-      const roomId = generateRoomId();
+      const roomId = randomId(10);
       navigate(`${roomType}/${roomId}`);
       dispatch({ type: "JOIN_ROOM", roomType, roomId });
     }

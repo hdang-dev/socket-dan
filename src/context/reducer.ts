@@ -4,10 +4,10 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
   const { you, room, menu, theme } = state;
   const { type } = action;
   switch (type) {
-    case "INIT_USER":
+    case "CONNECT":
       return {
         ...state,
-        you: action.you,
+        you: { ...you, id: action.id },
       };
 
     case "TOGGLE_MENU":
