@@ -5,10 +5,13 @@ import { ChatBubble } from "../components";
 import { getTime } from "../utils";
 import { socket } from "../socket";
 import { useParams } from "react-router-dom";
+import { RoomWrapper } from "./RoomWrapper";
 
 export function ChatRoom() {
-  const { state, dispatch } = useContext(Context);
+  const { state} = useContext(Context);
   const { you, room } = state;
+  const roomId = useParams().roomId ?? "global";
+  const roomType = useParams().roomId ? "chat" : "global";
   const [messages, setMessages] = useState<Message[]>([]);
   const [yourText, setYourText] = useState<string>("");
   const messageViewRef = useRef<HTMLDivElement>(null);
@@ -55,36 +58,15 @@ export function ChatRoom() {
     socket.sendData("CHAT_MESSAGE", message);
   };
 
-  // const receiveMessage = useCallback((message: Message) => {
-  //   setMessages([...messages, message]);
-  //   scrollToBottom();
-  // }, [messages]);
-
-  const roomId = useParams().roomId ?? "global";
-  const roomType = useParams().roomId ? "chat" : "global";
-
   useEffect(() => {
-    socket.joinRoom(roomType, roomId, (status) => {
-      if (status) {
-        dispatch({ type: "JOIN_ROOM", roomType, roomId });
-      } else {
-        // Over capacity
-      }
-    });
-
     socket.onReceiveData<Message>("CHAT_MESSAGE", (message) => {
       setMessages((prev) => [...prev, message]);
       scrollToBottom();
     });
-
-    return () => {
-      socket.leaveRoom(roomId);
-      dispatch({ type: "LEAVE_ROOM" });
-    };
   }, []);
 
   return (
-    room && (
+    <RoomWrapper roomType={roomType} roomId={roomId}>
       <div className="w-full h-full pb-[40px] px-[10px] flex flex-col justify-end items-center gap-[25px] md:gap-[40px]">
         {/* Messages */}
         <div ref={messageViewRef} className="pt-[30px] w-full overflow-y-auto flex flex-col gap-[10px] scrollbar-none">
@@ -112,6 +94,6 @@ export function ChatRoom() {
           </button>
         </div>
       </div>
-    )
+    </RoomWrapper>
   );
 }

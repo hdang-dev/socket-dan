@@ -94,20 +94,24 @@ export function Menu() {
             <Title text="Change Your Name" />
             <ConfirmedInput key={you.name} placeholder="# Enter your name" value={you.name} buttonLabel="Save" checkDifferent onConfirm={(name) => changeYourName(name)} />
 
-            <Title text="Share Your Room" />
-            <div className="flex flex-col items-center gap-[15px]">
-              <span className="text-center w-full truncate">{roomLink}</span>
-              <Button onClick={() => {}}>Copy</Button>
-            </div>
+            {room && (
+              <>
+                <Title text="Share Your Room" />
+                <div className="flex flex-col items-center gap-[15px]">
+                  <span className="text-center w-full truncate">{roomLink}</span>
+                  <Button onClick={() => {}}>Copy</Button>
+                </div>
 
-            <Title text="All Members" />
-            <div className="flex flex-wrap justify-center gap-[20px] pb-[40px]">
-              {users.map((user, index) => (
-                <Button key={index} style="pointer-events-none w-[250px] whitespace-nowrap overflow-hidden text-ellipsis">
-                  {user.id === you.id || user.id === undefined ? "You" : user.name}
-                </Button>
-              ))}
-            </div>
+                <Title text="All Members" />
+                <div className="flex flex-wrap justify-center gap-[20px] pb-[40px]">
+                  {users.map((user, index) => (
+                    <Button key={index} style="pointer-events-none w-[250px] whitespace-nowrap overflow-hidden text-ellipsis">
+                      {user.id === you.id || user.id === undefined ? "You" : user.name}
+                    </Button>
+                  ))}
+                </div>
+              </>
+            )}
           </MenuSection>
 
           {/* Options */}

@@ -7,7 +7,7 @@ import { Background } from "./components";
 
 export function Layout() {
   const { state, dispatch } = useContext(Context);
-  const { you, room, menu } = state;
+  const { you, menu } = state;
 
   useEffect(() => {
     socket.connect(you.name, (userId) => {
@@ -66,10 +66,12 @@ export function Layout() {
   return (
     <Background>
       {/* Room content */}
-      {you.id && (
+      {you.id ? (
         <div className={`w-full h-full transition-all duration-[1s] relative  ${menu.visible ? "opacity-0 translate-y-full" : ""}`}>
           <Outlet />
         </div>
+      ) : (
+        <div className="w-full h-full p-[20px] text-center font-bold grid place-items-center">Connecting...</div>
       )}
 
       {/* Menu */}
