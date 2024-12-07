@@ -14,7 +14,7 @@ export function Menu() {
   const { you, room, theme } = state;
   const navigate = useNavigate();
   const menuRef = useRef<HTMLDivElement>(null);
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<User[]>([you]);
 
   const swipeLeft = () => {
     menuRef.current!.scrollLeft = menuRef.current!.scrollLeft - menuRef.current!.clientWidth;
@@ -29,9 +29,11 @@ export function Menu() {
     setRoomLink(window.location.href);
   }, [location]);
 
-  const changeName = (name: string) => {
-    dispatch({ type: "CHANGE_NAME", user: { ...you!, name } });
-    socket.sendData(room!.id, "change-name", { ...you!, name });
+  const changeYourName = (name: string) => {
+    dispatch({ type: "CHANGE_NAME", name });
+    if (you.id) {
+      socket.changeName(name);
+    }
   };
 
   const changeBackground = (imageUrl: string) => {
@@ -64,22 +66,24 @@ export function Menu() {
   };
 
   useEffect(() => {
-    socket.onAddUser((user) => {
-      setUsers((prev) => [...prev, user]);
+    socket.onAddUser((users) => {
+      setUsers((prev) => [...prev, ...users]);
     });
+
     socket.onRemoveUser((userId) => {
       setUsers((prev) => {
         const index = prev.findIndex((user) => user.id === userId);
         return [...prev.slice(0, index), ...prev.slice(index + 1)];
       });
     });
-  }, []);
 
-  useEffect(() => {
-    if (room === null) {
-      setUsers([]);
-    }
-  }, [room]);
+    socket.onChangeName((user) => {
+      setUsers((prev) => {
+        const index = prev.findIndex((oldUser) => oldUser.id === user.id);
+        return [...prev.slice(0, index), user, ...prev.slice(index + 1)];
+      });
+    });
+  }, []);
 
   return (
     <>
@@ -87,31 +91,23 @@ export function Menu() {
         <div className="w-full h-full flex">
           {/* Information */}
           <MenuSection>
-            {you && (
-              <>
-                <Title text="Change Your Name" />
-                <ConfirmedInput key={you!.name} placeholder="# Enter your name" value={you!.name} buttonLabel="Save" checkDifferent onConfirm={(name) => changeName(name)} />
-              </>
-            )}
+            <Title text="Change Your Name" />
+            <ConfirmedInput key={you.name} placeholder="# Enter your name" value={you.name} buttonLabel="Save" checkDifferent onConfirm={(name) => changeYourName(name)} />
 
-            {room && (
-              <>
-                <Title text="Share Your Room" />
-                <div className="flex flex-col items-center gap-[15px]">
-                  <span className="text-center w-full truncate">{roomLink}</span>
-                  <Button onClick={() => {}}>Copy</Button>
-                </div>
+            <Title text="Share Your Room" />
+            <div className="flex flex-col items-center gap-[15px]">
+              <span className="text-center w-full truncate">{roomLink}</span>
+              <Button onClick={() => {}}>Copy</Button>
+            </div>
 
-                <Title text="All Members" />
-                <div className="flex flex-wrap justify-center gap-[20px] pb-[40px]">
-                  {users.map((user, index) => (
-                    <Button key={index} style="pointer-events-none w-[250px] whitespace-nowrap overflow-hidden text-ellipsis">
-                      {user.id === you!.id ? `You (${user.name})` : user.name}
-                    </Button>
-                  ))}
-                </div>
-              </>
-            )}
+            <Title text="All Members" />
+            <div className="flex flex-wrap justify-center gap-[20px] pb-[40px]">
+              {users.map((user, index) => (
+                <Button key={index} style="pointer-events-none w-[250px] whitespace-nowrap overflow-hidden text-ellipsis">
+                  {user.id === you.id || user.id === undefined ? "You" : user.name}
+                </Button>
+              ))}
+            </div>
           </MenuSection>
 
           {/* Options */}

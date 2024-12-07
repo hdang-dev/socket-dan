@@ -10,7 +10,6 @@ enum SocketEvent {
   ADD_USER = "SK_ADD_USER",
   REMOVE_USER = "SK_REMOVE_USER",
   CHANGE_NAME = "SK_CHANGE_NAME",
-  ON_CHANGE_NAME = "SK_ON_CHANGE_NAME",
 }
 
 const socketService = {
@@ -28,7 +27,7 @@ const socketService = {
     socket.emit(SocketEvent.LEAVE_ROOM, roomId);
   },
 
-  onAddUser(handler: (user: User) => void) {
+  onAddUser(handler: (users: User[]) => void) {
     socket.on(SocketEvent.ADD_USER, handler);
   },
 

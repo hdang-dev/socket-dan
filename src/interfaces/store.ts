@@ -27,7 +27,7 @@ type ConnectAction = {
 
 type ChangeNameAction = {
   type: "CHANGE_NAME";
-  user: User;
+  name: string;
 };
 
 type JoinRoomAction = {

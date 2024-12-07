@@ -10,7 +10,7 @@ export function Layout() {
   const { you, room, menu } = state;
 
   useEffect(() => {
-    socket.connect(you?.name, (userId) => {
+    socket.connect(you.name, (userId) => {
       dispatch({ type: "CONNECT", id: userId });
     });
   }, []);
@@ -36,39 +36,41 @@ export function Layout() {
   //   }
   // }, [you?.id]);
 
-  useEffect(() => {
-    // if (room?.id && you) {
-    //   if (prevRoom) {
-    //     socket.sendData(prevRoom, "user-leave", you);
-    //     socket.leaveRoom(prevRoom);
-    //   }
-    //   dispatch({ type: "ADD_USER", user: you });
-    //   socket.joinRoom(room.id);
-    //   socket.sendData(room.id, "new-user", you);
-    //   setPrevRoom(room.id);
-    // }
-    // Are u sure ????????????????????????????????????????
-    // socket.receiveData<User>("new-user", (user) => {
-    //   dispatch({ type: "ADD_USER", user });
-    //   socket.sendData(user.id, "old-user", you);
-    // });
-    // socket.receiveData<User>("old-user", (user) => {
-    //   dispatch({ type: "ADD_USER", user });
-    // });
-    // socket.receiveData<User>("user-leave", (user) => {
-    //   dispatch({ type: "REMOVE_USER", userId: user.id });
-    // });
-    // socket.userDisconnect((userId) => {
-    //   dispatch({ type: "REMOVE_USER", userId });
-    // });
-  }, [room?.id]);
+  // useEffect(() => {
+  // if (room?.id && you) {
+  //   if (prevRoom) {
+  //     socket.sendData(prevRoom, "user-leave", you);
+  //     socket.leaveRoom(prevRoom);
+  //   }
+  //   dispatch({ type: "ADD_USER", user: you });
+  //   socket.joinRoom(room.id);
+  //   socket.sendData(room.id, "new-user", you);
+  //   setPrevRoom(room.id);
+  // }
+  // Are u sure ????????????????????????????????????????
+  // socket.receiveData<User>("new-user", (user) => {
+  //   dispatch({ type: "ADD_USER", user });
+  //   socket.sendData(user.id, "old-user", you);
+  // });
+  // socket.receiveData<User>("old-user", (user) => {
+  //   dispatch({ type: "ADD_USER", user });
+  // });
+  // socket.receiveData<User>("user-leave", (user) => {
+  //   dispatch({ type: "REMOVE_USER", userId: user.id });
+  // });
+  // socket.userDisconnect((userId) => {
+  //   dispatch({ type: "REMOVE_USER", userId });
+  // });
+  // }, [room?.id]);
 
   return (
     <Background>
       {/* Room content */}
-      <div className={`w-full h-full transition-all duration-[1s] relative  ${menu.visible ? "opacity-0 translate-y-full" : ""}`}>
-        <Outlet />
-      </div>
+      {you.id && (
+        <div className={`w-full h-full transition-all duration-[1s] relative  ${menu.visible ? "opacity-0 translate-y-full" : ""}`}>
+          <Outlet />
+        </div>
+      )}
 
       {/* Menu */}
       <div className={`absolute inset-0 transition-all duration-[1s] ${menu.visible ? "" : "opacity-0 -translate-y-full"}`}>

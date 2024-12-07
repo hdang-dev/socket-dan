@@ -5,7 +5,7 @@ import { randomId } from "../utils";
 
 const initialState: AppState = {
   you: {
-    name: "#User" + randomId(6),
+    name: "User #" + randomId(6),
   },
   room: null,
   menu: {

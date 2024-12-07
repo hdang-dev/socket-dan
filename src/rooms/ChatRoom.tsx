@@ -45,7 +45,7 @@ export function ChatRoom() {
   };
 
   const sendMessage = () => {
-    const message: Message = { text: yourText, time: getTime(), userId: you!.id };
+    const message: Message = { text: yourText, time: getTime(), userId: you.id! };
     setMessages([...messages, message]);
     setYourText("");
     scrollToBottom();
@@ -65,7 +65,6 @@ export function ChatRoom() {
 
   useEffect(() => {
     socket.joinRoom(roomType, roomId, (status) => {
-      console.log(123321, "join status = ", status);
       if (status) {
         dispatch({ type: "JOIN_ROOM", roomType, roomId });
       } else {
