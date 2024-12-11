@@ -19,21 +19,23 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         },
       };
 
-    case "CHANGE_MENU_NAME":
-      return {
-        ...state,
-        menu: {
-          ...menu,
-          name: action.name,
-        },
-      };
-
-    case "CHANGE_NAME": {
+    case "CHANGE_YOUR_NAME": {
       return {
         ...state,
         you: {
           ...you,
           name: action.name,
+        },
+      };
+    }
+
+    case "CHANGE_OTHER_NAME": {
+      const index = room!.users.findIndex((user) => user.id === action.user.id);
+      return {
+        ...state,
+        room: {
+          ...room!,
+          users: [...room!.users.slice(0, index), action.user, ...room!.users.slice(index + 1)],
         },
       };
     }
@@ -44,7 +46,7 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         room: {
           type: action.roomType,
           id: action.roomId,
-          users: [],
+          users: [you],
         },
       };
 
@@ -54,12 +56,12 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         room: null,
       };
 
-    case "ADD_USER":
+    case "ADD_USERS":
       return {
         ...state,
         room: {
           ...room!,
-          users: [...room!.users, action.user],
+          users: [...room!.users, ...action.users],
         },
       };
 

@@ -6,7 +6,6 @@ import { BACKGROUNDS, PLANETS, ROOM_LIST } from "./data";
 import { randomId, roomTypeToName } from "../utils";
 import { Context } from "../context";
 import { socket } from "../socket";
-import { User } from "../interfaces";
 
 export function Menu() {
   const location = useLocation();
@@ -14,7 +13,7 @@ export function Menu() {
   const { you, room, theme } = state;
   const navigate = useNavigate();
   const menuRef = useRef<HTMLDivElement>(null);
-  const [users, setUsers] = useState<User[]>([you]);
+  // const [users, setUsers] = useState<User[]>([]);
 
   const swipeLeft = () => {
     menuRef.current!.scrollLeft = menuRef.current!.scrollLeft - menuRef.current!.clientWidth;
@@ -30,7 +29,7 @@ export function Menu() {
   }, [location]);
 
   const changeYourName = (name: string) => {
-    dispatch({ type: "CHANGE_NAME", name });
+    dispatch({ type: "CHANGE_YOUR_NAME", name });
     if (you.id) {
       socket.changeName(name);
     }
@@ -66,22 +65,32 @@ export function Menu() {
   };
 
   useEffect(() => {
+    console.log("test = ", room?.users);
+  }, [room?.users]);
+
+  useEffect(() => {
     socket.onAddUser((users) => {
-      setUsers((prev) => [...prev, ...users]);
+      console.log(123321, room);
+      console.log(123321, users);
+
+      dispatch({ type: "ADD_USERS", users });
+      // setUsers((prev) => [...prev, ...users]);
     });
 
     socket.onRemoveUser((userId) => {
-      setUsers((prev) => {
-        const index = prev.findIndex((user) => user.id === userId);
-        return [...prev.slice(0, index), ...prev.slice(index + 1)];
-      });
+      dispatch({ type: "REMOVE_USER", userId });
+      // setUsers((prev) => {
+      //   const index = prev.findIndex((user) => user.id === userId);
+      //   return [...prev.slice(0, index), ...prev.slice(index + 1)];
+      // });
     });
 
     socket.onChangeName((user) => {
-      setUsers((prev) => {
-        const index = prev.findIndex((oldUser) => oldUser.id === user.id);
-        return [...prev.slice(0, index), user, ...prev.slice(index + 1)];
-      });
+      dispatch({ type: "CHANGE_OTHER_NAME", user });
+      // setUsers((prev) => {
+      //   const index = prev.findIndex((oldUser) => oldUser.id === user.id);
+      //   return [...prev.slice(0, index), user, ...prev.slice(index + 1)];
+      // });
     });
   }, []);
 
@@ -104,9 +113,9 @@ export function Menu() {
 
                 <Title text="All Members" />
                 <div className="flex flex-wrap justify-center gap-[20px] pb-[40px]">
-                  {users.map((user, index) => (
+                  {room.users.map((user, index) => (
                     <Button key={index} style="pointer-events-none w-[250px] whitespace-nowrap overflow-hidden text-ellipsis">
-                      {user.id === you.id || user.id === undefined ? "You" : user.name}
+                      {user.id === you.id ? "You" : user.name}
                     </Button>
                   ))}
                 </div>

@@ -25,9 +25,14 @@ type ConnectAction = {
   id: string;
 };
 
-type ChangeNameAction = {
-  type: "CHANGE_NAME";
+type ChangeYourNameAction = {
+  type: "CHANGE_YOUR_NAME";
   name: string;
+};
+
+type ChangeOtherNameAction = {
+  type: "CHANGE_OTHER_NAME";
+  user: User;
 };
 
 type JoinRoomAction = {
@@ -49,9 +54,9 @@ type ChangeMenuName = {
   name: string;
 };
 
-type AddUserAction = {
-  type: "ADD_USER";
-  user: User;
+type AddUsersAction = {
+  type: "ADD_USERS";
+  users: User[];
 };
 
 type RemoveUserAction = {
@@ -70,4 +75,15 @@ type ChangePlanet = {
   animation: string;
 };
 
-export type AppAction = ConnectAction | ChangeNameAction | JoinRoomAction | LeaveRoomAction | ToggleMenuAction | ChangeMenuName | AddUserAction | RemoveUserAction | ChangeBackground | ChangePlanet;
+export type AppAction =
+  | ConnectAction
+  | JoinRoomAction
+  | LeaveRoomAction
+  | ChangeYourNameAction
+  | ChangeOtherNameAction
+  | ChangeMenuName
+  | ToggleMenuAction
+  | AddUsersAction
+  | RemoveUserAction
+  | ChangeBackground
+  | ChangePlanet;
