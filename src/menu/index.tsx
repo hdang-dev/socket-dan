@@ -65,32 +65,28 @@ export function Menu() {
   };
 
   useEffect(() => {
-    console.log("test = ", room?.users);
-  }, [room?.users]);
+    console.log('room id changed = ', room?.id);
+
+    if (room?.id) {
+      const offAddUsers = socket.onAddUsers((users) => {
+        dispatch({ type: "ADD_USERS", users });
+      });
+
+      const offRemoveUser = socket.onRemoveUser((userId) => {
+        dispatch({ type: "REMOVE_USER", userId });
+      });
+
+      return () => {
+        offAddUsers();
+        offRemoveUser();
+      };
+    }
+  }, [room?.id]);
 
   useEffect(() => {
-    socket.onAddUser((users) => {
-      console.log(123321, room);
-      console.log(123321, users);
-
-      dispatch({ type: "ADD_USERS", users });
-      // setUsers((prev) => [...prev, ...users]);
-    });
-
-    socket.onRemoveUser((userId) => {
-      dispatch({ type: "REMOVE_USER", userId });
-      // setUsers((prev) => {
-      //   const index = prev.findIndex((user) => user.id === userId);
-      //   return [...prev.slice(0, index), ...prev.slice(index + 1)];
-      // });
-    });
 
     socket.onChangeName((user) => {
       dispatch({ type: "CHANGE_OTHER_NAME", user });
-      // setUsers((prev) => {
-      //   const index = prev.findIndex((oldUser) => oldUser.id === user.id);
-      //   return [...prev.slice(0, index), user, ...prev.slice(index + 1)];
-      // });
     });
   }, []);
 
@@ -108,7 +104,7 @@ export function Menu() {
                 <Title text="Share Your Room" />
                 <div className="flex flex-col items-center gap-[15px]">
                   <span className="text-center w-full truncate">{roomLink}</span>
-                  <Button onClick={() => {}}>Copy</Button>
+                  <Button onClick={() => { }}>Copy</Button>
                 </div>
 
                 <Title text="All Members" />

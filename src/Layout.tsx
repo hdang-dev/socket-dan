@@ -15,54 +15,6 @@ export function Layout() {
     });
   }, []);
 
-  // useEffect(() => {
-  //   if (you?.id) {
-  //     socket.receiveData<User>("new-user", (user) => {
-  //       dispatch({ type: "ADD_USER", user });
-  //       socket.sendData(user.id, "old-user", you);
-  //     });
-
-  //     socket.receiveData<User>("old-user", (user) => {
-  //       dispatch({ type: "ADD_USER", user });
-  //     });
-
-  //     socket.receiveData<User>("user-leave", (user) => {
-  //       dispatch({ type: "REMOVE_USER", userId: user.id });
-  //     });
-
-  //     socket.userDisconnect((userId) => {
-  //       dispatch({ type: "REMOVE_USER", userId });
-  //     });
-  //   }
-  // }, [you?.id]);
-
-  // useEffect(() => {
-  // if (room?.id && you) {
-  //   if (prevRoom) {
-  //     socket.sendData(prevRoom, "user-leave", you);
-  //     socket.leaveRoom(prevRoom);
-  //   }
-  //   dispatch({ type: "ADD_USER", user: you });
-  //   socket.joinRoom(room.id);
-  //   socket.sendData(room.id, "new-user", you);
-  //   setPrevRoom(room.id);
-  // }
-  // Are u sure ????????????????????????????????????????
-  // socket.receiveData<User>("new-user", (user) => {
-  //   dispatch({ type: "ADD_USER", user });
-  //   socket.sendData(user.id, "old-user", you);
-  // });
-  // socket.receiveData<User>("old-user", (user) => {
-  //   dispatch({ type: "ADD_USER", user });
-  // });
-  // socket.receiveData<User>("user-leave", (user) => {
-  //   dispatch({ type: "REMOVE_USER", userId: user.id });
-  // });
-  // socket.userDisconnect((userId) => {
-  //   dispatch({ type: "REMOVE_USER", userId });
-  // });
-  // }, [room?.id]);
-
   return (
     <Background>
       {/* Room content */}

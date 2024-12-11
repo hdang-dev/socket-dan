@@ -27,12 +27,14 @@ const socketService = {
     socket.emit(SocketEvent.LEAVE_ROOM, roomId);
   },
 
-  onAddUser(handler: (users: User[]) => void) {
+  onAddUsers(handler: (users: User[]) => void) {
     socket.on(SocketEvent.ADD_USER, handler);
+    return () => socket.off(SocketEvent.ADD_USER);
   },
 
   onRemoveUser(handler: (userId: string) => void) {
     socket.on(SocketEvent.REMOVE_USER, handler);
+    return () => socket.off(SocketEvent.REMOVE_USER);
   },
 
   changeName(name: string) {
