@@ -16,7 +16,7 @@ export function RoomWrapper({ roomType, roomId, children }: RoomWrapperProps) {
   useEffect(() => {
     socket.joinRoom(roomType, roomId, (status) => {
       if (status) {
-        dispatch({ type: "JOIN_ROOM", roomType, roomId });
+        dispatch({ type: "JOIN_ROOM", roomType, roomId }); 
         return () => {
           socket.leaveRoom(roomId);
           dispatch({ type: "LEAVE_ROOM" });

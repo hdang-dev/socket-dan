@@ -18,10 +18,12 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<Layout />}>
-            <Route path="/" element={<GlobalRoom />} />
-            <Route path="chat/:roomId" element={<ChatRoom />} />
-            <Route path="call/:roomId" element={<CallRoom />} />
-            <Route path="/*" element={<Navigate to="/" />} />
+            <Route element={}>
+              <Route path="/" element={<GlobalRoom />} />
+              <Route path="chat/:roomId" element={<ChatRoom />} />
+              <Route path="call/:roomId" element={<CallRoom />} />
+              <Route path="/*" element={<Navigate to="/" />} />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>

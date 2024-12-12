@@ -65,25 +65,22 @@ export function Menu() {
   };
 
   useEffect(() => {
-    console.log('room id changed = ', room?.id);
-
     if (room?.id) {
-      const offAddUsers = socket.onAddUsers((users) => {
-        dispatch({ type: "ADD_USERS", users });
+      socket.getUsers(room.id, (users) => {
+        const otherUsers = users.filter((user) => user.id !== you.id);
+        dispatch({ type: "ADD_USERS", users: otherUsers });
       });
-
-      const offRemoveUser = socket.onRemoveUser((userId) => {
-        dispatch({ type: "REMOVE_USER", userId });
-      });
-
-      return () => {
-        offAddUsers();
-        offRemoveUser();
-      };
     }
   }, [room?.id]);
 
   useEffect(() => {
+    socket.onUserJoin((user) => {
+      dispatch({ type: "ADD_USERS", users: [user] });
+    });
+
+    socket.onUserLeave((userId) => {
+      dispatch({ type: "REMOVE_USER", userId });
+    });
 
     socket.onChangeName((user) => {
       dispatch({ type: "CHANGE_OTHER_NAME", user });
@@ -104,7 +101,7 @@ export function Menu() {
                 <Title text="Share Your Room" />
                 <div className="flex flex-col items-center gap-[15px]">
                   <span className="text-center w-full truncate">{roomLink}</span>
-                  <Button onClick={() => { }}>Copy</Button>
+                  <Button onClick={() => {}}>Copy</Button>
                 </div>
 
                 <Title text="All Members" />
