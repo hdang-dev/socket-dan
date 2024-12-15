@@ -1,7 +1,7 @@
 import { io } from "socket.io-client";
 import { User } from "../interfaces";
 
-const socket = io(import.meta.env.VITE_SERVER_URL);
+const socket = io(import.meta.env.VITE_SERVER_URL, { autoConnect: false });
 
 enum SocketEvent {
   CONNECT = "SK_CONNECT",
@@ -23,11 +23,13 @@ const socketService = {
   },
 
   joinRoom(roomType: string, roomId: string, handler: (status: boolean) => void) {
-    socket.emit(SocketEvent.JOIN_ROOM, roomType, roomId);
-    socket.on(SocketEvent.JOIN_ROOM, (status: boolean) => {
-      handler(status);
-      socket.off(SocketEvent.JOIN_ROOM);
-    });
+    handler(true);
+
+    // socket.emit(SocketEvent.JOIN_ROOM, roomType, roomId);
+    // socket.on(SocketEvent.JOIN_ROOM, (status: boolean) => {
+    //   handler(status);
+    //   socket.off(SocketEvent.JOIN_ROOM);
+    // });
   },
 
   leaveRoom(roomId: string) {

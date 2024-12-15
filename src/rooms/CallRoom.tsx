@@ -2,6 +2,8 @@
 import { useEffect, useRef, useState } from "react";
 // import Peer, { MediaConnection } from "peerjs";
 import Peer from "peerjs";
+import { RoomWrapper } from "./RoomWrapper";
+import { useRoomEvents } from "../useRoomEvents";
 // import { socket } from "../../socket";
 // import { io } from "socket.io-client";
 
@@ -58,6 +60,8 @@ export function CallRoom() {
       // });
     });
   }, []);
+
+useRoomEvents('call', 'testid')
 
   useEffect(() => {
     if (videoGridRef.current) {

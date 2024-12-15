@@ -7,7 +7,10 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
     case "CONNECT":
       return {
         ...state,
-        you: { ...you, id: action.id },
+        you: {
+          ...you,
+          id: action.id,
+        },
       };
 
     case "TOGGLE_MENU":
@@ -46,7 +49,7 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
         room: {
           type: action.roomType,
           id: action.roomId,
-          users: [you],
+          users: [you!],
         },
       };
 

@@ -13,7 +13,6 @@ export function Menu() {
   const { you, room, theme } = state;
   const navigate = useNavigate();
   const menuRef = useRef<HTMLDivElement>(null);
-  // const [users, setUsers] = useState<User[]>([]);
 
   const swipeLeft = () => {
     menuRef.current!.scrollLeft = menuRef.current!.scrollLeft - menuRef.current!.clientWidth;
@@ -66,25 +65,23 @@ export function Menu() {
 
   useEffect(() => {
     if (room?.id) {
-      socket.getUsers(room.id, (users) => {
-        const otherUsers = users.filter((user) => user.id !== you.id);
-        dispatch({ type: "ADD_USERS", users: otherUsers });
-      });
+      // socket.getUsers(room.id, (users) => {
+      //   const otherUsers = users.filter((user) => user.id !== you.id);
+      //   dispatch({ type: "ADD_USERS", users: otherUsers });
+      // });
     }
   }, [room?.id]);
 
   useEffect(() => {
-    socket.onUserJoin((user) => {
-      dispatch({ type: "ADD_USERS", users: [user] });
-    });
-
-    socket.onUserLeave((userId) => {
-      dispatch({ type: "REMOVE_USER", userId });
-    });
-
-    socket.onChangeName((user) => {
-      dispatch({ type: "CHANGE_OTHER_NAME", user });
-    });
+    // socket.onUserJoin((user) => {
+    //   dispatch({ type: "ADD_USERS", users: [user] });
+    // });
+    // socket.onUserLeave((userId) => {
+    //   dispatch({ type: "REMOVE_USER", userId });
+    // });
+    // socket.onChangeName((user) => {
+    //   dispatch({ type: "CHANGE_OTHER_NAME", user });
+    // });
   }, []);
 
   return (
@@ -93,8 +90,10 @@ export function Menu() {
         <div className="w-full h-full flex">
           {/* Information */}
           <MenuSection>
-            <Title text="Change Your Name" />
-            <ConfirmedInput key={you.name} placeholder="# Enter your name" value={you.name} buttonLabel="Save" checkDifferent onConfirm={(name) => changeYourName(name)} />
+            <>
+              <Title text="Change Your Name" />
+              <ConfirmedInput key={you.name} placeholder="# Enter your name" value={you.name} buttonLabel="Save" checkDifferent onConfirm={(name) => changeYourName(name)} />
+            </>
 
             {room && (
               <>

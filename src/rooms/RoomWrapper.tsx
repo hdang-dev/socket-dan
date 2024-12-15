@@ -1,31 +1,20 @@
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../context";
 import { socket } from "../socket";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface RoomWrapperProps {
   roomType: string;
-  roomId: string;
   children: React.ReactNode;
 }
 
-export function RoomWrapper({ roomType, roomId, children }: RoomWrapperProps) {
+export function RoomWrapper({ roomType, children }: RoomWrapperProps) {
   const { state, dispatch } = useContext(Context);
-  const { room } = state;
-  const [message, setMessage] = useState("Connecting...");
+  const { you } = state;
+  const roomId = useParams().roomId!;
+  const [processText, setProcessText] = useState("Requesting to join room ...");
 
-  useEffect(() => {
-    socket.joinRoom(roomType, roomId, (status) => {
-      if (status) {
-        dispatch({ type: "JOIN_ROOM", roomType, roomId }); 
-        return () => {
-          socket.leaveRoom(roomId);
-          dispatch({ type: "LEAVE_ROOM" });
-        };
-      } else {
-        setMessage("This room is at capacity. Please create or join another one.");
-      }
-    });
-  }, []);
+  useEffect(() => {}, []);
 
-  return room ? <>{children}</> : <div className="w-full h-full p-[20px] text-center font-bold grid place-items-center">{message}</div>;
+  return <>{children}</>;
 }
