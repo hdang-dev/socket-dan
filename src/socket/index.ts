@@ -15,6 +15,9 @@ enum SocketEvent {
 
 const socketService = {
   connect(userName: string, handler: (userId: string) => void) {
+    console.log('socket connect');
+    handler('test id');
+
     socket.emit(SocketEvent.CONNECT, userName);
     socket.on(SocketEvent.CONNECT, (userId: string) => {
       handler(userId);
@@ -23,6 +26,7 @@ const socketService = {
   },
 
   joinRoom(roomType: string, roomId: string, handler: (status: boolean) => void) {
+    console.log('socket join ', roomType, roomId);
     handler(true);
 
     // socket.emit(SocketEvent.JOIN_ROOM, roomType, roomId);
@@ -33,6 +37,7 @@ const socketService = {
   },
 
   leaveRoom(roomId: string) {
+    console.log('socket leave ', roomId);
     socket.emit(SocketEvent.LEAVE_ROOM, roomId);
   },
 

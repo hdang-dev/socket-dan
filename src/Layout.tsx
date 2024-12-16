@@ -8,6 +8,7 @@ import { socket } from "./socket";
 export function Layout() {
   const { state, dispatch } = useContext(Context);
   const { you, menu } = state;
+  const [ready, setReady] = useState(false);
 
   const setupMobileLayout = () => {
     const calculateDocHeight = () => {
@@ -21,7 +22,9 @@ export function Layout() {
     setupMobileLayout();
 
     socket.connect(you.name, (yourId) => {
+
       dispatch({ type: "CONNECT", id: yourId });
+      setReady(true);
     });
   }, []);
 
@@ -29,7 +32,7 @@ export function Layout() {
     <Background>
       {/* Room content */}
       <div className={`w-full h-full transition-all duration-[1s] relative  ${menu.visible ? "opacity-0 translate-y-full" : ""}`}>
-        <Outlet />
+        {ready && <Outlet />}
       </div>
 
       {/* Menu content */}

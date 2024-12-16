@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 // import Peer, { MediaConnection } from "peerjs";
 import Peer from "peerjs";
 import { RoomWrapper } from "./RoomWrapper";
-import { useRoomEvents } from "../useRoomEvents";
 // import { socket } from "../../socket";
 // import { io } from "socket.io-client";
 
@@ -61,8 +60,6 @@ export function CallRoom() {
     });
   }, []);
 
-useRoomEvents('call', 'testid')
-
   useEffect(() => {
     if (videoGridRef.current) {
       console.log(videoGridRef.current.clientWidth);
@@ -71,40 +68,42 @@ useRoomEvents('call', 'testid')
   }, []);
 
   return (
-    <div className="w-full h-full p-[20px] pt-[50px] flex flex-col gap-[20px]">
-      <div ref={videoGridRef} className="w-full flex-1 grid place-items-center grid-cols-4 gap-[20px]">
-        {/* {myStream && ( */}
-        <>
-          {/* 1 person */}
-          {/* <Video stream={myStream} /> */}
+    <RoomWrapper roomType="call">
+      <div className="w-full h-full p-[20px] pt-[50px] flex flex-col gap-[20px]">
+        <div ref={videoGridRef} className="w-full flex-1 grid place-items-center grid-cols-4 gap-[20px]">
+          {/* {myStream && ( */}
+          <>
+            {/* 1 person */}
+            {/* <Video stream={myStream} /> */}
 
-          {/* 2 people */}
-          <Video stream={myStream} />
-          <Video stream={myStream} />
-          <Video stream={myStream} />
-          <Video stream={myStream} />
-          <Video stream={myStream} />
-          <Video stream={myStream} />
-          <Video stream={myStream} />
-          <Video stream={myStream} />
-          <Video stream={myStream} />
-          <Video stream={myStream} />
-          <Video stream={myStream} />
-          <Video stream={myStream} />
-          {/* <Video stream={myStream} />
+            {/* 2 people */}
+            <Video stream={myStream} />
+            <Video stream={myStream} />
+            <Video stream={myStream} />
+            <Video stream={myStream} />
+            <Video stream={myStream} />
+            <Video stream={myStream} />
+            <Video stream={myStream} />
+            <Video stream={myStream} />
+            <Video stream={myStream} />
+            <Video stream={myStream} />
+            <Video stream={myStream} />
+            <Video stream={myStream} />
+            {/* <Video stream={myStream} />
           <Video stream={myStream} /> */}
-        </>
-      </div>
+          </>
+        </div>
 
-      <div className="flex gap-[20px] justify-center">
-        <button className="w-[50px] aspect-square rounded-full bg-sky-500">A</button>
-        <button className="w-[50px] aspect-square rounded-full bg-sky-500">X</button>
+        <div className="flex gap-[20px] justify-center">
+          <button className="w-[50px] aspect-square rounded-full bg-sky-500">A</button>
+          <button className="w-[50px] aspect-square rounded-full bg-sky-500">X</button>
+        </div>
       </div>
-    </div>
+    </RoomWrapper>
   );
 }
 
-const Video = ({ stream, style }: { stream?: MediaStream; style?: string }) => {
+const Video = ({ stream, style }: { stream?: MediaStream; style?: string; }) => {
   const ref = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     // ref.current!.srcObject = stream;
