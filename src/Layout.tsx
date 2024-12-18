@@ -22,7 +22,6 @@ export function Layout() {
     setupMobileLayout();
 
     socket.connect(you.name, (yourId) => {
-
       dispatch({ type: "CONNECT", id: yourId });
       setReady(true);
     });
@@ -32,7 +31,7 @@ export function Layout() {
     <Background>
       {/* Room content */}
       <div className={`w-full h-full transition-all duration-[1s] relative  ${menu.visible ? "opacity-0 translate-y-full" : ""}`}>
-        {ready && <Outlet />}
+        {ready ? <Outlet /> : <div className="w-full h-full grid place-items-center">Connecting to server ...</div>}
       </div>
 
       {/* Menu content */}

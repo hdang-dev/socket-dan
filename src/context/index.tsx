@@ -1,5 +1,5 @@
 import { createContext, useReducer } from "react";
-import { AppContext, AppState } from "../interfaces";
+import { AppContext, AppState } from "../types";
 import { appReducer } from "./reducer";
 import { randomId } from "../utils";
 
@@ -21,10 +21,10 @@ const initialState: AppState = {
 
 export const Context = createContext<AppContext>({
   state: initialState,
-  dispatch: () => {},
+  dispatch: () => { },
 });
 
-export default function AppProvider({ children }: { children: React.ReactNode }) {
+export default function AppProvider({ children }: { children: React.ReactNode; }) {
   const [state, dispatch] = useReducer(appReducer, initialState);
   return <Context.Provider value={{ state, dispatch }}>{children}</Context.Provider>;
 }

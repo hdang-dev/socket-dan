@@ -1,4 +1,4 @@
-import { AppAction, AppState } from "../interfaces";
+import { AppAction, AppState } from "../types";
 
 export const appReducer = (state: AppState, action: AppAction): AppState => {
   const { you, room, menu, theme } = state;
@@ -34,6 +34,10 @@ export const appReducer = (state: AppState, action: AppAction): AppState => {
 
     case "CHANGE_OTHER_NAME": {
       const index = room!.users.findIndex((user) => user.id === action.user.id);
+      console.log(123321, room?.users);
+      console.log(123321, [...room!.users.slice(0, index), action.user, ...room!.users.slice(index + 1)]);
+
+
       return {
         ...state,
         room: {
