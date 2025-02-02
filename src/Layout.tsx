@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Context } from "./context";
 import { Menu } from "./menu";
-import { Outlet, useParams, useSearchParams } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { Background } from "./components";
 import { socket } from "./socket";
 

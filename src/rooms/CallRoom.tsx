@@ -8,14 +8,14 @@ import Peer from "peerjs";
 // const socket = io(import.meta.env.VITE_SERVER_URL);
 
 export function CallRoom() {
-  const [myStream, setMyStream] = useState<MediaStream | null>(null);
+  const [myStream] = useState<MediaStream | undefined>();
   const peer = new Peer();
   // const peers: { [friendId: string]: MediaConnection; } = {};
   const videoGridRef = useRef<HTMLDivElement>(null);
 
-  const createVideoGrid = () => {
-    console.log(123);
-  };
+  // const createVideoGrid = () => {
+  //   console.log(123);
+  // };
 
   useEffect(() => {
     // peer.on("open", (peerId) => socket.emit("join", peerId));
@@ -100,10 +100,11 @@ export function CallRoom() {
   );
 }
 
-const Video = ({ stream, style }: { stream?: MediaStream; style?: string; }) => {
-  const ref = useRef<HTMLVideoElement>(null);
+const Video = ({ stream, style }: { stream?: MediaStream; style?: string }) => {
+  // const ref = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     // ref.current!.srcObject = stream;
+    console.log(stream);
   }, []);
   return <div className={`rounded-xl border-[3px] overflow-hidden bg-black w-full h-full ${style ?? ""}`}></div>;
   // return <video ref={ref} autoPlay className="rounded-xl border-[3px] object-cover w-full h-full max-h-[50%] md:max-h-none md:max-w-[50%] "></video>;
