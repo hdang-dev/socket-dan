@@ -10,16 +10,10 @@ export function Layout() {
   const { you, menu } = state;
   const [ready, setReady] = useState(false);
 
-  const setupMobileLayout = () => {
-    const calculateDocHeight = () => {
-      document.documentElement.style.setProperty("--doc-height", `${window.innerHeight}px`);
-    };
-    calculateDocHeight();
-    window.addEventListener("resize", () => calculateDocHeight());
-  };
-
   useEffect(() => {
-    setupMobileLayout();
+    window.addEventListener("resize", () => {
+      document.documentElement.style.setProperty("--doc-height", `${window.innerHeight}px`);
+    });
 
     socket.connect(you.name, (yourId) => {
       dispatch({ type: "CONNECT", id: yourId });
@@ -30,12 +24,13 @@ export function Layout() {
   return (
     <Background>
       {/* Room content */}
-      <div className={`w-full h-full transition-all duration-[1s] relative  ${menu.visible ? "opacity-0 translate-y-full" : ""}`}>
-        {ready ? <Outlet /> : <div className="w-full h-full grid place-items-center">Connecting to server ...</div>}
+      <div className={`w-full h-full transition-all duration-[1s] relative  ${menu.visible ? "opacity-0 translate-x-full" : ""}`}>
+        <Outlet />
+        {/* {ready ? <Outlet /> : <div className="w-full h-full grid place-items-center">Connecting to server ...</div>} */}
       </div>
 
       {/* Menu content */}
-      <div className={`absolute inset-0 transition-all duration-[1s] ${menu.visible ? "" : "opacity-0 -translate-y-full"}`}>
+      <div className={`absolute inset-0 transition-all duration-[1s] ${menu.visible ? "" : "opacity-0 -translate-x-full"}`}>
         <Menu />
       </div>
 
