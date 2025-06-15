@@ -1,13 +1,13 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { Context } from "../context";
+import { Context } from "../store";
 import { Message } from "../types";
 import { ChatBubble } from "../components";
 import { getTime } from "../utils";
 import { socket } from "../socket";
 
 export function ChatRoom() {
-  const { state } = useContext(Context);
-  const { you, room } = state;
+  // const { state } = useContext(Context);
+  // const { you, room } = state;
   const [messages, setMessages] = useState<Message[]>([]);
   const [yourText, setYourText] = useState<string>("");
   const messageViewRef = useRef<HTMLDivElement>(null);
@@ -44,32 +44,31 @@ export function ChatRoom() {
   };
 
   const sendMessage = () => {
-    const message: Message = { text: yourText, time: getTime(), userId: you!.id! };
-    setMessages([...messages, message]);
-    setYourText("");
-    scrollToBottom();
-    textAreaRef.current!.value = "";
-    textAreaRef.current!.focus();
-    resizeTextBox();
-    socket.sendData("CHAT_MESSAGE", message);
+    // const message: Message = { text: yourText, time: getTime(), userId: you!.id! };
+    // setMessages([...messages, message]);
+    // setYourText("");
+    // scrollToBottom();
+    // textAreaRef.current!.value = "";
+    // textAreaRef.current!.focus();
+    // resizeTextBox();
+    // socket.sendData("CHAT_MESSAGE", message);
   };
 
   useEffect(() => {
-    socket.onReceiveData<Message>("CHAT_MESSAGE", (message) => {
-      setMessages((prev) => [...prev, message]);
-      scrollToBottom();
-    });
-
+    // socket.onReceiveData<Message>("CHAT_MESSAGE", (message) => {
+    //   setMessages((prev) => [...prev, message]);
+    //   scrollToBottom();
+    // });
   }, []);
 
   return (
     <div className="w-full h-full pb-[40px] px-[10px] flex flex-col justify-end items-center gap-[25px] md:gap-[40px]">
       {/* Messages */}
       <div ref={messageViewRef} className="pt-[30px] w-full overflow-y-auto flex flex-col gap-[10px] scrollbar-none">
-        {messages.map(({ text, time, userId }, index) => {
+        {/* {messages.map(({ text, time, userId }, index) => {
           const user = room!.users.filter((user) => user.id === userId)[0];
           return <ChatBubble key={index} text={text} time={time} userName={user ? user.name : "User leaved"} end={userId === you!.id} styleBubble="md:max-w-[30%]" />;
-        })}
+        })} */}
       </div>
 
       {/* Typing */}

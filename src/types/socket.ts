@@ -1,3 +1,4 @@
+import { Socket } from "socket.io-client";
 import { User } from "./common";
 
 export enum SocketEvent {
@@ -24,4 +25,11 @@ export type SocketServiceInterface = {
     onChangeOtherName(handler: (user: User) => void): offEventCallback,
     sendData<T>(event: string, data: T): void,
     onReceiveData<T>(event: string, handler: (data: T) => void): offEventCallback;
+};
+
+
+export type SocketContextType = {
+  socket: Socket | null;
+  isConnected: boolean;
+  isLoading: boolean;
 };

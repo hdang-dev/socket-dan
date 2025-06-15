@@ -4,13 +4,16 @@ import { Button } from "../components";
 import { MenuSection, ConfirmedInput, Title, CardList, Card } from "./SubComponents";
 import { BACKGROUNDS, PLANETS, ROOM_LIST } from "./data";
 import { randomId, roomTypeToName } from "../utils";
-import { Context } from "../context";
-import { socket } from "../socket";
+import { useRoom, useTheme, useUser } from "../store";
+// import { StoreContext } from "../store";
+// import { socket } from "../socket";
 
 export function Menu() {
   const location = useLocation();
-  const { state, dispatch } = useContext(Context);
-  const { you, room, theme } = state;
+  // const { user } = useUser();
+  const user = { id: "111", name: "ahaha" };
+  const { room } = useRoom();
+  const { theme } = useTheme();
   const navigate = useNavigate();
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -28,18 +31,18 @@ export function Menu() {
   }, [location]);
 
   const changeYourName = (name: string) => {
-    dispatch({ type: "CHANGE_YOUR_NAME", name });
-    if (you.id) {
-      socket.changeYourName(name);
-    }
+    // dispatch({ type: "CHANGE_YOUR_NAME", name });
+    // if (user.id) {
+    // socket.changeYourName(name);
+    // }
   };
 
   const changeBackground = (imageUrl: string) => {
-    dispatch({ type: "CHANGE_BACKGROUND", background: imageUrl });
+    // dispatch({ type: "CHANGE_BACKGROUND", background: imageUrl });
   };
 
   const changePlanet = (imageUrl: string, animation: string) => {
-    dispatch({ type: "CHANGE_PLANET", planet: imageUrl, animation });
+    // dispatch({ type: "CHANGE_PLANET", planet: imageUrl, animation });
   };
 
   const joinRoom = (link: string) => {
@@ -48,19 +51,19 @@ export function Menu() {
 
   const createRoom = (roomType: string) => {
     if (roomType === "global" && room?.type === "global") {
-      dispatch({ type: "TOGGLE_MENU" });
+      // dispatch({ type: "TOGGLE_MENU" });
       return;
     }
 
     if (roomType === "global") {
       navigate("/");
-      dispatch({ type: "JOIN_ROOM", roomType, roomId: "global" });
+      // dispatch({ type: "JOIN_ROOM", roomType, roomId: "global" });
     } else {
       const roomId = randomId(10);
       navigate(`${roomType}/${roomId}`);
-      dispatch({ type: "JOIN_ROOM", roomType, roomId });
+      // dispatch({ type: "JOIN_ROOM", roomType, roomId });
     }
-    dispatch({ type: "TOGGLE_MENU" });
+    // dispatch({ type: "TOGGLE_MENU" });
   };
 
   return (
@@ -71,7 +74,7 @@ export function Menu() {
           <MenuSection>
             <>
               <Title text="Change Your Name" />
-              <ConfirmedInput key={you.name} placeholder="# Enter your name" value={you.name} buttonLabel="Save" checkDifferent onConfirm={(name) => changeYourName(name)} />
+              <ConfirmedInput key={user.name} placeholder="# Enter your name" value={user.name} buttonLabel="Save" checkDifferent onConfirm={(name) => changeYourName(name)} />
             </>
 
             {room && (
@@ -79,14 +82,14 @@ export function Menu() {
                 <Title text="Share Your Room" />
                 <div className="flex flex-col items-center gap-[15px]">
                   <span className="text-center w-full truncate">{roomLink}</span>
-                  <Button onClick={() => { }}>Copy</Button>
+                  <Button onClick={() => {}}>Copy</Button>
                 </div>
 
                 <Title text="All Members" />
                 <div className="flex flex-wrap justify-center gap-[20px] pb-[40px]">
                   {room.users.map((user, index) => (
                     <Button key={index} style="pointer-events-none w-[250px] whitespace-nowrap overflow-hidden text-ellipsis">
-                      {user.id === you.id ? "You" : user.name}
+                      {user.id === user.id ? "You" : user.name}
                     </Button>
                   ))}
                 </div>
