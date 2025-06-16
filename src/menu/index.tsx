@@ -15,15 +15,15 @@ export function Menu() {
   const { room } = useRoom();
   const { theme } = useTheme();
   const navigate = useNavigate();
-  const menuRef = useRef<HTMLDivElement>(null);
+  // const menuRef = useRef<HTMLDivElement>(null);
 
-  const swipeLeft = () => {
-    menuRef.current!.scrollLeft = menuRef.current!.scrollLeft - menuRef.current!.clientWidth;
-  };
+  // const swipeLeft = () => {
+  //   menuRef.current!.scrollLeft = menuRef.current!.scrollLeft - menuRef.current!.clientWidth;
+  // };
 
-  const swipeRight = () => {
-    menuRef.current!.scrollLeft = menuRef.current!.scrollLeft + menuRef.current!.clientWidth;
-  };
+  // const swipeRight = () => {
+  //   menuRef.current!.scrollLeft = menuRef.current!.scrollLeft + menuRef.current!.clientWidth;
+  // };
 
   const [roomLink, setRoomLink] = useState<string>(window.location.href);
   useEffect(() => {
@@ -67,80 +67,18 @@ export function Menu() {
   };
 
   return (
-    <>
-      <div ref={menuRef} className="w-full h-full overflow-scroll snap-x snap-mandatory scrollbar-none scroll-smooth">
-        <div className="w-full h-full flex">
-          {/* Information */}
-          <MenuSection>
-            <>
-              <Title text="Change Your Name" />
-              <ConfirmedInput key={user.name} placeholder="# Enter your name" value={user.name} buttonLabel="Save" checkDifferent onConfirm={(name) => changeYourName(name)} />
-            </>
-
-            {room && (
-              <>
-                <Title text="Share Your Room" />
-                <div className="flex flex-col items-center gap-[15px]">
-                  <span className="text-center w-full truncate">{roomLink}</span>
-                  <Button onClick={() => {}}>Copy</Button>
-                </div>
-
-                <Title text="All Members" />
-                <div className="flex flex-wrap justify-center gap-[20px] pb-[40px]">
-                  {room.users.map((user, index) => (
-                    <Button key={index} style="pointer-events-none w-[250px] whitespace-nowrap overflow-hidden text-ellipsis">
-                      {user.id === user.id ? "You" : user.name}
-                    </Button>
-                  ))}
-                </div>
-              </>
-            )}
-          </MenuSection>
-
-          {/* Options */}
-          <MenuSection>
-            <Title text="Join A Room" />
-            <ConfirmedInput placeholder="# Enter your link here" value="" buttonLabel="Join" onConfirm={(link) => joinRoom(link)} />
-
-            <Title text="Create New Room" style="mb-[30px]" />
-            <CardList>
-              {ROOM_LIST.map((room, index) => (
-                <Card key={index} imageUrl={room.imageUrl} onClick={() => createRoom(room.type)}>
-                  {roomTypeToName(room.type)}
-                </Card>
-              ))}
-            </CardList>
-          </MenuSection>
-
-          {/* Background */}
-          <MenuSection>
-            <Title text="Change Background" style="mb-[30px]" />
-            <CardList>
-              {BACKGROUNDS.map(({ name, imageUrl }, index) => (
-                <Card key={index} imageUrl={imageUrl} onClick={() => changeBackground(imageUrl)}>
-                  {name}
-                </Card>
-              ))}
-            </CardList>
-          </MenuSection>
-
-          {/* Planet */}
-          <MenuSection>
-            <Title text="Change Planet" style="mb-[30px]" />
-            <CardList>
-              {PLANETS.map(({ imageUrl, animation }, index) => (
-                <Card key={index} imageUrl={theme.background} onClick={() => changePlanet(imageUrl, animation)}>
-                  <div style={{ backgroundImage: `url(${imageUrl})` }} className="w-full h-full bg-center bg-contain bg-no-repeat"></div>
-                </Card>
-              ))}
-            </CardList>
-          </MenuSection>
+    <div className="w-full h-full overflow-y-scroll">
+      <div className="flex flex-col items-center pt-[50px] md:pt-[80px] gap-5">
+        <div className="flex flex-col md:flex-row w-full max-w-[600px]">
+          <span className="font-bold text-center md:text-lg">Your Name</span>
+          <div className="flex-1 border-b-[1px]"></div>
+          <input type="text" placeholder="# Enter your name" className="bg-transparent outline-none w-f text-center" />
+        </div>
+        <div className="flex flex-col md:flex-row w-full max-w-[600px]">
+          <span className="font-bold text-center md:text-lg">Your Name</span>
+          <input type="text" placeholder="# Enter your name" className="flex-1 bg-transparent outline-none border-b-2 pl-6 text-end placeholder:text-end" />
         </div>
       </div>
-
-      {/* Control Buttons */}
-      <div className="fixed hidden md:block top-0 left-0 h-full w-[30px]" onMouseEnter={() => swipeLeft()}></div>
-      <div className="fixed hidden md:block top-0 right-0 h-full w-[30px]" onMouseEnter={() => swipeRight()}></div>
-    </>
+    </div>
   );
 }

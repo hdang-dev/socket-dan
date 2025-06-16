@@ -54,14 +54,16 @@ export const ConfirmedInput = ({
 
 export const CardList = ({ children, style }: { children: React.ReactNode; style?: string; }) => {
   return (
-    <div className={`flex flex-wrap justify-center gap-[20px] pb-[40px] ${style ?? ""}`}>{children}</div>
+    <div className="w-full h-fit relative after:absolute after:right-0 after:top-0 after:w-[50px] after:h-full after:bg-lime-300">
+      <div className={`w-full overflow-x-scroll flex gap-[20px] snap-x ${style ?? ""}`}>{children}</div>
+    </div>
   );
 };
 
 
 export const Card = ({ children, imageUrl, style, onClick }: { children: React.ReactNode; imageUrl: string; style?: string; onClick?: () => void; }) => {
   return (
-    <div className={`cursor-pointer snap-center min-w-[300px] aspect-[5/3] overflow-hidden rounded-[24px] border-[3px] border-white shadow-lg animate-[animateCard] animate-fill-both [animation-timeline:view()] ${style ?? ''}`} onClick={onClick}>
+    <div className={`cursor-pointer snap-end min-w-[280px] aspect-[5/3] overflow-hidden rounded-[24px] border-[3px] border-white shadow-lg animate-[animateCard] animate-fill-both [animation-timeline:view()] ${style ?? ''}`} onClick={onClick}>
       <div
         style={{ backgroundImage: `url(${imageUrl})` }}
         className={`w-full h-full bg-center bg-cover transition-all duration-300 hover:scale-110 active:scale-110 text-white active:text-[var(--bg-color)] grid place-items-center p-[20px]`}>
