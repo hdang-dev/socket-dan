@@ -1,29 +1,27 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../components";
-import { MenuSection, ConfirmedInput, Title, CardList } from "./SubComponents";
+import { MenuSection, ConfirmedInput, Title, CardList, Card } from "./SubComponents";
 import { BACKGROUNDS, PLANETS, ROOM_LIST } from "./data";
 import { randomId, roomTypeToName } from "../utils";
-import { useRoom, useTheme, useUser } from "../store";
-// import { StoreContext } from "../store";
+import { StoreContext } from "../store";
 // import { socket } from "../socket";
 
 export function Menu() {
   const location = useLocation();
-  // const { user } = useUser();
-  const user = { id: "111", name: "ahaha" };
-  const { room } = useRoom();
-  const { theme } = useTheme();
+  const { state, dispatch } = useContext(StoreContext);
+  const { room, theme } = state;
+  const user = { id: '11', name: 'aha' };
   const navigate = useNavigate();
-  // const menuRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
-  // const swipeLeft = () => {
-  //   menuRef.current!.scrollLeft = menuRef.current!.scrollLeft - menuRef.current!.clientWidth;
-  // };
+  const swipeLeft = () => {
+    menuRef.current!.scrollLeft = menuRef.current!.scrollLeft - menuRef.current!.clientWidth;
+  };
 
-  // const swipeRight = () => {
-  //   menuRef.current!.scrollLeft = menuRef.current!.scrollLeft + menuRef.current!.clientWidth;
-  // };
+  const swipeRight = () => {
+    menuRef.current!.scrollLeft = menuRef.current!.scrollLeft + menuRef.current!.clientWidth;
+  };
 
   const [roomLink, setRoomLink] = useState<string>(window.location.href);
   useEffect(() => {
@@ -32,8 +30,8 @@ export function Menu() {
 
   const changeYourName = (name: string) => {
     // dispatch({ type: "CHANGE_YOUR_NAME", name });
-    // if (user.id) {
-    // socket.changeYourName(name);
+    // if (user!.id) {
+    //   socket.changeYourName(name);
     // }
   };
 
@@ -50,72 +48,105 @@ export function Menu() {
   };
 
   const createRoom = (roomType: string) => {
-    if (roomType === "global" && room?.type === "global") {
-      // dispatch({ type: "TOGGLE_MENU" });
-      return;
-    }
+    // if (roomType === "global" && room?.type === "global") {
+    //   dispatch({ type: "TOGGLE_MENU" });
+    //   return;
+    // }
 
-    if (roomType === "global") {
-      navigate("/");
-      // dispatch({ type: "JOIN_ROOM", roomType, roomId: "global" });
-    } else {
-      const roomId = randomId(10);
-      navigate(`${roomType}/${roomId}`);
-      // dispatch({ type: "JOIN_ROOM", roomType, roomId });
-    }
+    // if (roomType === "global") {
+    //   navigate("/");
+    //   dispatch({ type: "JOIN_ROOM", roomType, roomId: "global" });
+    // } else {
+    //   const roomId = randomId(10);
+    //   navigate(`${roomType}/${roomId}`);
+    //   dispatch({ type: "JOIN_ROOM", roomType, roomId });
+    // }
     // dispatch({ type: "TOGGLE_MENU" });
   };
 
   return (
-    <div className="w-full h-full overflow-y-scroll">
-      <div className="flex flex-col items-center pt-[50px] md:pt-[80px] gap-12">
-        {/*  */}
-        <div className="w-full max-w-[800px] flex items-center gap-3">
-          <span className="font-bold text-center md:text-lg text-[var(--primary)]">Your Name</span>
-          <input type="text" placeholder="# Enter name" className="focus:border-b-[0.5px] flex-1 bg-transparent outline-none px-5 text-center placeholder:text-center" />
-          <button className="min-w-[100px] px-2.5 py-1 rounded-xl border border-white bg-[rgba(0,0,0,.2)] hover:font-bold active:scale-105">Save</button>
-        </div>
-        {/*  */}
-        <div className="w-full max-w-[800px] flex items-center gap-3">
-          <span className="font-bold text-center md:text-lg text-[var(--primary)]">Invite Friend</span>
-          <span className="focus:border-b-[0.5px] flex-1 px-5 text-center">{roomLink}</span>
-          <button className="min-w-[100px] px-2.5 py-1 rounded-xl border border-white bg-[rgba(0,0,0,.2)] hover:border-2">Copy</button>
-        </div>
-        {/*  */}
-        <div className="w-full max-w-[800px] flex items-center gap-3">
-          <span className="font-bold text-center md:text-lg text-[var(--primary)]">Join Room</span>
-          <input type="text" placeholder="# Enter " className="focus:border-b-[0.5px] flex-1 bg-transparent outline-none px-5 text-center placeholder:text-center" />
-          <button className="min-w-[100px] px-2.5 py-1 rounded-xl border border-white bg-[rgba(0,0,0,.2)] hover:font-bold active:scale-105">Join</button>
-        </div>
-        {/*  */}
-        <div className="w-full flex flex-col items-center">
-          <div className="w-full max-w-[800px]">
-            <span className="font-bold text-center md:text-lg text-[var(--primary)]">Create Room</span>
-          </div>
-          <div className="w-full overflow-x-scrol ">
-            <div className="flex w-max gap-3 px-14">
+    <>
+      <div ref={menuRef} className="w-full h-full overflow-scroll snap-x snap-mandatory scrollbar-none scroll-smooth">
+        <div className="w-full h-full flex">
+          {/* Information */}
+          <MenuSection>
+            <>
+              <Title text="Change Your Name" />
+              <ConfirmedInput key={user!.name} placeholder="# Enter your name" value={user!.name} buttonLabel="Save" checkDifferent onConfirm={(name) => changeYourName(name)} />
+            </>
+
+            {room && (
+              <>
+                <Title text="Share Your Room" />
+                <div className="flex flex-col items-center gap-[15px]">
+                  <span className="text-center w-full truncate">{roomLink}</span>
+                  <Button onClick={() => { }}>Copy</Button>
+                </div>
+
+                <Title text="All Members" />
+                <div className="flex flex-wrap justify-center gap-[20px] pb-[40px]">
+                  {room.users.map((user, index) => (
+                    <Button key={index} style="pointer-events-none w-[250px] whitespace-nowrap overflow-hidden text-ellipsis">
+                      {user.id === user!.id ? "You" : user.name}
+                    </Button>
+                  ))}
+                </div>
+              </>
+            )}
+
+            <div className="absolute top-4 right-5 p-2 md:top-1/2 md:-translate-y-1/2 cursor-pointer" onClick={() => swipeRight()}>
+              <div className="w-5 md:w-8 aspect-square border-l-4 border-t-4 border-white rounded-tl-md rotate-[135deg]"></div>
+            </div>
+          </MenuSection>
+
+          {/* Options */}
+          <MenuSection>
+            <Title text="Join A Room" />
+            <ConfirmedInput placeholder="# Enter your link here" value="" buttonLabel="Join" onConfirm={(link) => joinRoom(link)} />
+
+            <Title text="Create New Room" style="mb-[30px]" />
+            <CardList>
               {ROOM_LIST.map((room, index) => (
                 <Card key={index} imageUrl={room.imageUrl} onClick={() => createRoom(room.type)}>
                   {roomTypeToName(room.type)}
                 </Card>
               ))}
-            </div>
-          </div>
-        </div>
+            </CardList>
+          </MenuSection>
 
+          {/* Background */}
+          <MenuSection>
+            <Title text="Change Background" style="mb-[30px]" />
+            <CardList>
+              {BACKGROUNDS.map(({ name, imageUrl }, index) => (
+                <Card key={index} imageUrl={imageUrl} onClick={() => changeBackground(imageUrl)}>
+                  {name}
+                </Card>
+              ))}
+            </CardList>
+          </MenuSection>
+
+          {/* Planet */}
+          <MenuSection>
+            <Title text="Change Planet" style="mb-[30px]" />
+            <CardList>
+              {PLANETS.map(({ imageUrl, animation }, index) => (
+                <Card key={index} imageUrl={theme.background} onClick={() => changePlanet(imageUrl, animation)}>
+                  <div style={{ backgroundImage: `url(${imageUrl})` }} className="w-full h-full bg-center bg-contain bg-no-repeat"></div>
+                </Card>
+              ))}
+            </CardList>
+          </MenuSection>
+        </div>
       </div>
-    </div>
+
+      {/* Arrow Buttons */}
+      <div className="absolute top-4 left-5 p-2 md:top-1/2 md:-translate-y-1/2 cursor-pointer" onClick={() => swipeLeft()}>
+        <div className="w-5 md:w-8 aspect-square border-l-4 border-t-4 border-white rounded-tl-md -rotate-45"></div>
+      </div>
+      <div className="absolute top-4 right-5 p-2 md:top-1/2 md:-translate-y-1/2 cursor-pointer" onClick={() => swipeRight()}>
+        <div className="w-5 md:w-8 aspect-square border-l-4 border-t-4 border-white rounded-tl-md rotate-[135deg]"></div>
+      </div>
+    </>
   );
 }
-
-const Card = ({ children, imageUrl, style, onClick }: { children: React.ReactNode; imageUrl: string; style?: string; onClick?: () => void; }) => {
-  return (
-    <div className={`cursor-pointer snap-end min-w-[280px] aspect-[5/3] overflow-hidden rounded-[24px] border-[3px] border-white shadow-lg animate-[animateCard] animate-fill-both [animation-timeline:view()] ${style ?? ''}`} onClick={onClick}>
-      <div
-        style={{ backgroundImage: `url(${imageUrl})` }}
-        className={`w-full h-full bg-center bg-cover transition-all duration-300 hover:scale-110 active:scale-110 text-white active:text-[var(--bg-color)] grid place-items-center p-[20px]`}>
-        {children}
-      </div>
-    </div>
-  );
-};

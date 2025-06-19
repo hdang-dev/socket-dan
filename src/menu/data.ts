@@ -1,13 +1,13 @@
 export const ROOM_LIST = [
   { type: "global", imageUrl: "/others/room.png" },
   { type: "chat", imageUrl: "/others/room.png" },
-  // { type: "call", imageUrl: "/others/room.png" },
-  // { type: "call", imageUrl: "/others/room.png" },
-  // { type: "call", imageUrl: "/others/room.png" },
-  // { type: "call", imageUrl: "/others/room.png" },
-  // { type: "call", imageUrl: "/others/room.png" },
-  // { type: "call", imageUrl: "/others/room.png" },
-  // { type: "call", imageUrl: "/others/room.png" },
+  { type: "call", imageUrl: "/others/room.png" },
+  { type: "call", imageUrl: "/others/room.png" },
+  { type: "call", imageUrl: "/others/room.png" },
+  { type: "call", imageUrl: "/others/room.png" },
+  { type: "call", imageUrl: "/others/room.png" },
+  { type: "call", imageUrl: "/others/room.png" },
+  { type: "call", imageUrl: "/others/room.png" },
 ];
 
 export const THEME_COLORS = [

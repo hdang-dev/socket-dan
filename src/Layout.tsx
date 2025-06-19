@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "./store";
 import { Outlet } from "react-router-dom";
-import { Menu } from "./menu";
+import { Menu } from "./menu/index";
 
 export function Layout() {
   const [isMenuOpened, setIsMenusOpened] = useState(false);
@@ -21,13 +21,13 @@ export function Layout() {
   return (
     <Background>
       {/* Room content */}
-      <div className={`w-full h-full transition-all duration-[1s] relative  ${isMenuOpened ? "opacity-0 translate-x-full" : ""}`}>
+      <div className={`w-full h-full transition-all duration-[1s] relative  ${isMenuOpened ? "opacity-0" : ""}`}>
         <Outlet />
         {/* {ready ? <Outlet /> : <div className="w-full h-full grid place-items-center">Connecting to server ...</div>} */}
       </div>
 
       {/* Menu content */}
-      <div className={`absolute inset-0 transition-all duration-[1s] ${isMenuOpened ? "" : "opacity-0 -translate-x-full"}`}>
+      <div className={`absolute inset-0 transition-all duration-[1s] ${isMenuOpened ? "" : "opacity-0"}`}>
         <Menu />
       </div>
 
