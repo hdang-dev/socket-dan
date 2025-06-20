@@ -13,7 +13,9 @@ export function Menu() {
   const { room, theme } = state;
   const user = { id: '11', name: 'aha' };
   const navigate = useNavigate();
+
   const menuRef = useRef<HTMLDivElement>(null);
+  const [menuOffset, setMenuOffset] = useState(0);
 
   const swipeLeft = () => {
     menuRef.current!.scrollLeft = menuRef.current!.scrollLeft - menuRef.current!.clientWidth;
@@ -21,6 +23,10 @@ export function Menu() {
 
   const swipeRight = () => {
     menuRef.current!.scrollLeft = menuRef.current!.scrollLeft + menuRef.current!.clientWidth;
+  };
+
+  const handleScroll = () => {
+    setMenuOffset(menuRef.current!.scrollLeft);
   };
 
   const [roomLink, setRoomLink] = useState<string>(window.location.href);
@@ -64,9 +70,11 @@ export function Menu() {
     // dispatch({ type: "TOGGLE_MENU" });
   };
 
+
+
   return (
     <>
-      <div ref={menuRef} className="w-full h-full overflow-scroll snap-x snap-mandatory scrollbar-none scroll-smooth">
+      <div ref={menuRef} onScroll={() => handleScroll()} className="w-full h-full overflow-scroll snap-x snap-mandatory scrollbar-none scroll-smooth">
         <div className="w-full h-full flex">
           {/* Information */}
           <MenuSection>
@@ -93,10 +101,6 @@ export function Menu() {
                 </div>
               </>
             )}
-
-            <div className="absolute top-4 right-5 p-2 md:top-1/2 md:-translate-y-1/2 cursor-pointer" onClick={() => swipeRight()}>
-              <div className="w-5 md:w-8 aspect-square border-l-4 border-t-4 border-white rounded-tl-md rotate-[135deg]"></div>
-            </div>
           </MenuSection>
 
           {/* Options */}
@@ -141,12 +145,14 @@ export function Menu() {
       </div>
 
       {/* Arrow Buttons */}
-      <div className="absolute top-4 left-5 p-2 md:top-1/2 md:-translate-y-1/2 cursor-pointer" onClick={() => swipeLeft()}>
-        <div className="w-5 md:w-8 aspect-square border-l-4 border-t-4 border-white rounded-tl-md -rotate-45"></div>
-      </div>
-      <div className="absolute top-4 right-5 p-2 md:top-1/2 md:-translate-y-1/2 cursor-pointer" onClick={() => swipeRight()}>
-        <div className="w-5 md:w-8 aspect-square border-l-4 border-t-4 border-white rounded-tl-md rotate-[135deg]"></div>
-      </div>
+      {menuRef.current && (<>
+        <div className={`absolute top-4 left-5 p-2 md:top-1/2 md:-translate-y-1/2 cursor-pointer transition-all duration-100  ${menuOffset < menuRef.current.clientWidth ? 'hidden' : ''}`} onClick={() => swipeLeft()}>
+          <div className="w-5 md:w-8 aspect-square border-l-4 border-t-4 border-white rounded-tl-md -rotate-45"></div>
+        </div>
+        <div className={`absolute top-4 right-5 p-2 md:top-1/2 md:-translate-y-1/2 cursor-pointer transition-all duration-100 ${menuOffset > menuRef.current.scrollWidth - menuRef.current.clientWidth * 2 ? 'hidden' : ''}`} onClick={() => swipeRight()}>
+          <div className="w-5 md:w-8 aspect-square border-l-4 border-t-4 border-white rounded-tl-md rotate-[135deg]"></div>
+        </div>
+      </>)}
     </>
   );
 }

@@ -21,19 +21,19 @@ export function Layout() {
   return (
     <Background>
       {/* Room content */}
-      <div className={`w-full h-full transition-all duration-[1s] relative  ${isMenuOpened ? "opacity-0" : ""}`}>
+      <div className={`w-full h-full transition-all duration-[1s] relative  ${isMenuOpened ? "opacity-0" : "z-10"}`}>
         <Outlet />
         {/* {ready ? <Outlet /> : <div className="w-full h-full grid place-items-center">Connecting to server ...</div>} */}
       </div>
 
       {/* Menu content */}
-      <div className={`absolute inset-0 transition-all duration-[1s] ${isMenuOpened ? "" : "opacity-0"}`}>
+      <div className={`absolute inset-0 transition-all duration-[1s] ${isMenuOpened ? "z-10" : "opacity-0"}`}>
         <Menu />
       </div>
 
       {/* Menu button */}
       <button
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[160px] h-[30px] rounded-b-[16px] bg-white shadow-md transition-all duration-100 text-black active:text-[var(--bg-color)] font-bold outline-none"
+        className="z-20 absolute top-0 left-1/2 -translate-x-1/2 w-[160px] h-[30px] rounded-b-[16px] bg-white shadow-md transition-all duration-100 text-black active:text-[var(--bg-color)] font-bold outline-none"
         onClick={() => toggleMenu()}>
         {isMenuOpened ? "Return" : "Menu"}
       </button>
