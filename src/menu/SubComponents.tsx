@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button } from "../components";
 
-export const MenuSection = ({ children, style }: { children: React.ReactNode; style?: string; }) => {
+export const MenuSection = ({ children, style }: { children: React.ReactNode; style?: string }) => {
   return (
-    <section className={`snap-center min-w-full h-full overflow-scroll scrollbar-none relative`}>
-      <div className={`w-full h-full pt-[100px] px-[50px] flex flex-col ${style ?? ""}`}>{children}</div>
+    <section className={`size-full overflow-y-scroll scrollbar-none ${style ?? ""}`}>
+      <div className="w-full h-max pt-[100px] px-[50px] md:px-[80px] flex flex-col">{children}</div>
     </section>
   );
 };
 
-export const Title = ({ text, style }: { text: string; style?: string; }) => {
+export const Title = ({ text, style }: { text: string; style?: string }) => {
   return <h2 className={`[&:not(:first-child)]:mt-[50px] mb-[20px] font-bold text-center md:text-lg ${style ?? ""}`}>{text}</h2>;
 };
 
@@ -36,7 +36,7 @@ export const ConfirmedInput = ({
         type="text"
         placeholder={placeholder}
         value={input}
-        className={`w-full h-full max-w-[600px] bg-transparent border-b border-[var(--text-color)] rounded-none outline-none text-center pb-[3px] placeholder:text-[var(--text-color)] placeholder:opacity-50`}
+        className={`size-full max-w-[600px] bg-transparent border-b border-[var(--text-color)] rounded-none outline-none text-center pb-[3px] placeholder:text-[var(--text-color)] placeholder:opacity-50`}
         onChange={(e) => setInput(e.target.value.trimStart())}
       />
       <Button
@@ -52,19 +52,16 @@ export const ConfirmedInput = ({
   );
 };
 
-export const CardList = ({ children, style }: { children: React.ReactNode; style?: string; }) => {
-  return (
-    <div className={`flex flex-wrap justify-center gap-[20px] pb-[40px] ${style ?? ""}`}>{children}</div>
-  );
+export const CardList = ({ children, style }: { children: React.ReactNode; style?: string }) => {
+  return <div className={`flex flex-wrap justify-center gap-[20px] pb-[40px] ${style ?? ""}`}>{children}</div>;
 };
 
-
-export const Card = ({ children, imageUrl, style, onClick }: { children: React.ReactNode; imageUrl: string; style?: string; onClick?: () => void; }) => {
+export const Card = ({ children, imageUrl, style, onClick }: { children?: React.ReactNode; imageUrl?: string; style?: string; onClick?: () => void }) => {
   return (
-    <div className={`cursor-pointer snap-center min-w-[300px] aspect-[5/3] overflow-hidden rounded-[24px] border-[3px] border-white shadow-lg xanimate-[animateCard] xanimate-fill-both x[animation-timeline:view()] ${style ?? ''}`} onClick={onClick}>
+    <div className={`cursor-pointer snap-center min-w-[300px] aspect-[5/3] overflow-hidden rounded-[24px] border-[3px] border-white shadow-lg  ${style ?? ""}`} onClick={onClick}>
       <div
         style={{ backgroundImage: `url(${imageUrl})` }}
-        className={`w-full h-full bg-center bg-cover transition-all duration-300 hover:scale-110 active:scale-110 text-white active:text-[var(--bg-color)] grid place-items-center p-[20px]`}>
+        className={`size-full bg-center bg-cover transition-all duration-300 hover:scale-110 active:scale-110 text-white grid place-items-center p-[20px]`}>
         {children}
       </div>
     </div>

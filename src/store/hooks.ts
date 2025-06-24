@@ -19,11 +19,19 @@ const useTheme = () => {
   const { state, dispatch } = useContext(StoreContext);
   const { theme } = state;
 
-  const setThemeZoom = (zoom: boolean) => {
-    dispatch({ type: "CHANGE_THEME", theme: { ...theme, zoom } });
+  const setThemeActive = (active: boolean) => {
+    dispatch({ type: "CHANGE_THEME", theme: { ...theme, active } });
   };
 
-  return { theme, setThemeZoom };
+  const setBackground = (background: string) => {
+    dispatch({ type: "CHANGE_THEME", theme: { ...theme, background } });
+  };
+
+  const setPlanet = (planet: string, animation: string) => {
+    dispatch({ type: "CHANGE_THEME", theme: { ...theme, planet, animation } });
+  };
+
+  return { theme, setThemeActive, setBackground, setPlanet };
 };
 
 export { useUser, useRoom, useTheme };

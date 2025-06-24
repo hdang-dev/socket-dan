@@ -4,12 +4,12 @@ import { storeReducer } from "./reducer";
 
 const initialStoreState: TStoreState = {
   user: null,
-  room: null,
+  inRoomInfo: null,
   theme: {
     background: "/backgrounds/background3.svg",
     planet: "/planets/c.earth.svg",
     animation: "spin",
-    zoom: false,
+    active: false,
   },
 };
 

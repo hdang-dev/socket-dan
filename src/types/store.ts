@@ -1,32 +1,17 @@
 import { Dispatch } from "react";
-
-export type TUser = {
-  id: string;
-  name: string;
-};
-
-export type TRoom = {
-  type: string;
-  id: string;
-  users: TUser[];
-};
+import { TInRoomInfo, TUser } from "./common";
 
 export type TTheme = {
   background: string;
   planet: string;
   animation: string;
-  zoom: boolean;
+  active: boolean;
 };
 
 export type TStoreState = {
   user: TUser | null;
-  room: TRoom | null;
-  theme: {
-    background: string;
-    planet: string;
-    animation: string;
-    zoom: boolean;
-  };
+  inRoomInfo: TInRoomInfo | null;
+  theme: TTheme;
 };
 
 type TInitUser = {
@@ -41,7 +26,7 @@ type TChangeName = {
 
 type TJoinRoom = {
   type: "JOIN_ROOM";
-  room: TRoom;
+  room: TInRoomInfo;
 };
 
 type TAddUser = {
@@ -63,15 +48,6 @@ type TChangeTheme = {
   type: "CHANGE_THEME";
   theme: TTheme;
 };
-// type TChangeBackground = {
-//   type: "CHANGE_BACKGROUND";
-//   background: string;
-// };
-
-// type TChangePlanet = {
-//   type: "CHANGE_PLANET";
-//   planet: string;
-// };
 
 export type TStoreAction = TInitUser | TChangeName | TJoinRoom | TAddUser | TRemoveUser | TLeavenRoom | TChangeTheme;
 

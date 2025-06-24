@@ -1,6 +1,6 @@
-import { io, Socket } from "socket.io-client";
-import { SocketContextType } from "../types";
-import { createContext, useEffect, useState } from "react";
+import { Socket } from "socket.io-client";
+import { TSocketContext } from "../types";
+import { createContext, useState } from "react";
 
 // export class SocketService implements SocketServiceInterface {
 //   private socket: Socket;
@@ -66,56 +66,53 @@ import { createContext, useEffect, useState } from "react";
 //   }
 // }
 
-export const SocketContext = createContext<SocketContextType>({
+export const SocketContext = createContext<TSocketContext>({
   socket: null,
-  isConnected: false,
-  isLoading: true,
+  setSocket: () => {},
 });
 
 export function SocketProvider({ children }: { children: React.ReactNode }) {
   const [socket, setSocket] = useState<Socket | null>(null);
-  const [isConnected, setIsConnected] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  // const connectSocket = (fake: boolean) => {
+  //   setSocket(io(import.meta.env.VITE_SERVER_URL));
+  // }
 
-  useEffect(() => {
-    const newSocket = io(import.meta.env.VITE_SERVER_URL, { autoConnect: false });
+  // useEffect(() => {
+  //   const newSocket = io(import.meta.env.VITE_SERVER_URL, { autoConnect: false });
 
-    // Handles the socket connection event
-    const handleConnect = () => {
-      console.log("Socket connected", newSocket.id);
+  //   const handleConnect = () => {
+  //     console.log("Socket connected", newSocket.id);
 
-      setSocket(newSocket);
-      setIsConnected(true);
-      setIsLoading(false);
-    };
+  //     setSocket(newSocket);
+  //     setIsConnected(true);
+  //     setIsLoading(false);
+  //   };
 
-    // Handles the socket disconnection event, i.e. if the connection is lost
-    const handleDisconnect = () => {
-      console.log("Socket disconnected");
+  //   const handleDisconnect = () => {
+  //     console.log("Socket disconnected");
 
-      setIsConnected(false);
-      setIsLoading(false);
-    };
+  //     setIsConnected(false);
+  //     setIsLoading(false);
+  //   };
 
-    // Handles the socket connection error event, e.g. the server is down
-    const handleConnectError = (error: Error) => {
-      console.error("Socket connection error", error);
+  //   const handleConnectError = (error: Error) => {
+  //     console.error("Socket connection error", error);
 
-      setIsLoading(false);
-    };
+  //     setIsLoading(false);
+  //   };
 
-    newSocket.on("connect", handleConnect);
-    newSocket.on("disconnect", handleDisconnect);
-    newSocket.on("connect_error", handleConnectError);
-    newSocket.connect();
+  //   newSocket.on("connect", handleConnect);
+  //   newSocket.on("disconnect", handleDisconnect);
+  //   newSocket.on("connect_error", handleConnectError);
+  //   newSocket.connect();
 
-    return () => {
-      newSocket.off("connect", handleConnect);
-      newSocket.off("disconnect", handleDisconnect);
-      newSocket.off("connect_error", handleConnectError);
-      newSocket.disconnect();
-    };
-  }, []);
+  //   return () => {
+  //     newSocket.off("connect", handleConnect);
+  //     newSocket.off("disconnect", handleDisconnect);
+  //     newSocket.off("connect_error", handleConnectError);
+  //     newSocket.disconnect();
+  //   };
+  // }, []);
 
-  return <SocketContext.Provider value={{ socket, isConnected, isLoading }}>{children}</SocketContext.Provider>;
+  return <SocketContext.Provider value={{ socket, setSocket }}>{children}</SocketContext.Provider>;
 }
