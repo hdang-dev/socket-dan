@@ -1,29 +1,57 @@
 import { useContext, useState } from "react";
 import { SocketContext } from "./provider";
 import { io } from "socket.io-client";
+import { handler } from "tailwindcss-animated";
+
+const a = new WebSocket('');
+
+
+a.addEventListener('sk-connect', () => {
+
+});
 
 const useSocket = () => {
   const { socket, setSocket } = useContext(SocketContext);
-  const [isFake, setIsFake] = useState(false);
   const [roomId, setRoomId] = useState<string | null>(null);
+  const isSocketConnected = false;
+  // const isSocketConnected = isFake ? true : socket !== null;
 
-  const isSocketConnected = isFake ? true : socket !== null;
-  console.log("fake = ", isSocketConnected, socket);
+  const connectSocket = (handler: () => void, isFake?: boolean) => {
 
-  const connectSocket = async (isFake?: boolean): Promise<void> =>
-    new Promise((res) => {
-      if (isFake) {
-        setTimeout(() => {
-          setIsFake(true);
-          console.log("FakeSocket::connect");
-          res();
-        }, 2_000);
-        return;
-      }
+    if (isFake) {
+      console.log("FakeSocket::connect");
+      setSocket(a);
+    } else {
+      console.log("Socket::connect");
+      const newSocket = io(import.meta.env.VITE_SERVER_URL);
+      setSocket(newSocket);
 
-      setSocket(io(import.meta.env.VITE_SERVER_URL));
-      res();
-    });
+    }
+
+
+
+
+    // const newSocket = io(import.meta.env.VITE_SERVER_URL);
+    // setSocket(newSocket);
+    // newSocket.on('sk-connect', handler);
+    // newSocket.emit('sk-connect');
+    // newSocket.off('sk-connect');
+  };
+
+  // const connectSocket = async (isFake?: boolean): Promise<void> =>
+  //   new Promise((res) => {
+  //     if (isFake) {
+  //       setTimeout(() => {
+  //         setIsFake(true);
+  //         console.log("FakeSocket::connect");
+  //         res();
+  //       }, 2_000);
+  //       return;
+  //     }
+
+  //     setSocket(io(import.meta.env.VITE_SERVER_URL));
+  //     res();
+  //   });
 
   const joinSocketRoom = (handler: () => void) => {
     if (isFake) {
@@ -39,7 +67,7 @@ const useSocket = () => {
     }
   };
 
-  return { isSocketConnected, roomId, connectSocket, joinSocketRoom };
+  return { isSocketConnected, roomId, setFakeSocket, connectSocket, joinSocketRoom };
 };
 
 export { useSocket };

@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import { useSocket } from "../socket";
 
-export function ProtectedRoom({ children }: { children: React.ReactNode }) {
-  const { isSocketConnected, roomId, connectSocket, joinSocketRoom } = useSocket();
+export function ProtectedRoom({ children }: { children: React.ReactNode; }) {
+  const { isSocketConnected, roomId, setFakeSocket, connectSocket, joinSocketRoom } = useSocket();
 
   useEffect(() => {
-    connectSocket(true).then(() => {
-      joinSocketRoom(() => {});
+    setFakeSocket(true);
+    connectSocket(() => {
+      joinSocketRoom(() => { });
     });
   }, []);
 
