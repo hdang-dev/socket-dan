@@ -1,16 +1,14 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../components";
 import { MenuSection, ConfirmedInput, Title, CardList, Card } from "./SubComponents";
 import { BACKGROUNDS, PLANETS, ROOM_LIST } from "./data";
 import { randomId, roomTypeToName } from "../utils";
-import { useRoom, useTheme } from "../store";
+import { useStore } from "../store";
 
 export function Menu() {
   const location = useLocation();
-  const { theme, setThemeActive, setBackground, setPlanet } = useTheme();
-  const { room } = useRoom();
-  const user = { id: "11", name: "aha" };
+  const { profile, room, theme, setThemeActive, setBackground, setPlanet } = useStore();
   const navigate = useNavigate();
   const [menuTab, setMenuTab] = useState(0);
 
@@ -29,7 +27,7 @@ export function Menu() {
 
   const changeYourName = (name: string) => {
     // dispatch({ type: "CHANGE_YOUR_NAME", name });
-    // if (user!.id) {
+    // if (profile.id) {
     //   socket.changeYourName(name);
     // }
   };
@@ -56,10 +54,12 @@ export function Menu() {
       {/* Information */}
       {menuTab === 0 && (
         <MenuSection>
-          <>
-            <Title text="Change Your Name" />
-            <ConfirmedInput key={user!.name} placeholder="# Enter your name" value={user!.name} buttonLabel="Save" checkDifferent onConfirm={(name) => changeYourName(name)} />
-          </>
+          {profile && (
+            <>
+              <Title text="Change Your Name" />
+              <ConfirmedInput key={profile.name} placeholder="# Enter your name" value={profile.name} buttonLabel="Save" checkDifferent onConfirm={(name) => changeYourName(name)} />
+            </>
+          )}
 
           {room && (
             <>
@@ -73,7 +73,7 @@ export function Menu() {
               <div className="flex flex-wrap justify-center gap-[20px] pb-[40px]">
                 {room.users.map((user, index) => (
                   <Button key={index} style="pointer-events-none w-[250px] whitespace-nowrap overflow-hidden text-ellipsis">
-                    {user.id === user!.id ? "You" : user.name}
+                    {user.name}
                   </Button>
                 ))}
               </div>

@@ -14,14 +14,14 @@ export default function App() {
               <Route
                 path="chat/:roomId"
                 element={
-                  <ProtectedRoom>
+                  <ProtectedRoom roomType="chat">
                     <ChatRoom />
                   </ProtectedRoom>
                 }></Route>
               <Route
                 path="call/:roomId"
                 element={
-                  <ProtectedRoom>
+                  <ProtectedRoom roomType="call">
                     <CallRoom />
                   </ProtectedRoom>
                 }></Route>

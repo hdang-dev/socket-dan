@@ -6,9 +6,12 @@ export type TUser = {
 export type TRoom = {
   id: string;
   type: string;
+  users: TUser[];
 };
 
-export type TInRoomInfo = {
-  room: TRoom;
-  users: TUser[];
+export type TTheme = {
+  background: string;
+  planet: string;
+  animation: string;
+  active: boolean;
 };

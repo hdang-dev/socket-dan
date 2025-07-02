@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
-import { useTheme } from "./store";
+import { useEffect } from "react";
+import { useStore } from "./store";
 import { Outlet } from "react-router-dom";
 import { Menu } from "./menu/index";
 
 export function Layout() {
-  const { theme, setThemeActive } = useTheme();
-  const [a, setA] = useState(false);
+  const { theme, setThemeActive } = useStore();
 
   const toggleMenu = () => {
     setThemeActive(!theme.active);
@@ -41,7 +40,7 @@ export function Layout() {
 }
 
 const Background = ({ children }: { children: React.ReactNode }) => {
-  const { theme } = useTheme();
+  const { theme } = useStore();
   return (
     <div className="size-full overflow-hidden relative bg-black">
       {/* Background */}

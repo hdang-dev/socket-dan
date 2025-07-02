@@ -1,10 +1,9 @@
-import { createContext, useReducer } from "react";
+import { createContext, useState } from "react";
 import { TStoreContext, TStoreState } from "../types";
-import { storeReducer } from "./reducer";
 
 const initialStoreState: TStoreState = {
-  user: null,
-  inRoomInfo: null,
+  profile: null,
+  room: null,
   theme: {
     background: "/backgrounds/background3.svg",
     planet: "/planets/c.earth.svg",
@@ -15,10 +14,10 @@ const initialStoreState: TStoreState = {
 
 export const StoreContext = createContext<TStoreContext>({
   state: initialStoreState,
-  dispatch: () => {},
+  setState: () => {},
 });
 
 export function StoreProvider({ children }: { children: React.ReactNode }) {
-  const [state, dispatch] = useReducer(storeReducer, initialStoreState);
-  return <StoreContext.Provider value={{ state, dispatch }}>{children}</StoreContext.Provider>;
+  const [state, setState] = useState<TStoreState>(initialStoreState);
+  return <StoreContext.Provider value={{ state, setState }}>{children}</StoreContext.Provider>;
 }
